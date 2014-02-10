@@ -4,5 +4,4 @@ class User < ActiveRecord::Base
   validates :phone, uniqueness: true
   validates :admin, inclusion: { in: [true, false] }
 
-
 end
