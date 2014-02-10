@@ -1,4 +1,15 @@
 Ppatch::Application.routes.draw do
+  get "posts/index"
+  get "posts/show"
+  get "posts/new"
+  get "tools/new"
+  get "tools/index"
+  get "welcome/home"
+  get "events/new"
+  get "events/index"
+  get "events/show"
+  get "users/show"
+  get "users/new"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
