@@ -12,4 +12,6 @@ Ppatch::Application.routes.draw do
   get "users/new"
 
   get "/auth/twitter/callback", to: "sessions#create"
+
+  root "welcome#home"
 end
