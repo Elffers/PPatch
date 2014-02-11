@@ -59,9 +59,29 @@ describe EventsController do
           post :create, event: create(:event).attributes 
           expect(response).to redirect_to event_path(assigns(:event).id) 
         end
+
+        it 'sets flash message' do
+          post :create, event: create(:event).attributes 
+          expect(flash[:notice]).to eq "Event added!"
+        end
+
+        it 'increases user event count by 1' do
+          expect { post :create, event: build(:event).attributes }.to change(user.events, :count).by(1)
+        end
+
+        it 'changes event count by 1' do
+          expect {post :create, event: build(:event).attributes }.to change(Event, :count).by(1)
+        end
+
       end
 
       context 'with invalid fields' do
+        let(:invalid_attributes) { {name: nil, user_id: nil} }
+
+        it 'renders new' do
+          post :create, event: invalid_attributes
+          expect(response).to render_template :new
+        end
       end
 
     end
@@ -77,6 +97,7 @@ describe EventsController do
         expect(flash[:notice]).to eq "You must be signed in."
       end
     end
+
   end
 
 

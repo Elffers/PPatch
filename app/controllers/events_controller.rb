@@ -13,6 +13,7 @@ class EventsController < ApplicationController
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
     else
+      p "invalid fields"
       flash[:notice] = "There was a problem saving your event."
       render :new
     end
