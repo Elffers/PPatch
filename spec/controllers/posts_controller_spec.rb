@@ -72,11 +72,43 @@ describe PostsController do
   end
 
 
-
-
   describe "POST create" do
-  end
+    context "if admin" do
+      before(:each) do
+        user.update(admin: true)
+        session[:user_id] = user.id
+      end
 
+     context "with valid attributes" do
+          let(:valid_attributes) { {title: "a post", body: "here is the body of the post", user_id: user.id} }
+          it "is a redirect" do
+            post :create, post: valid_attributes
+            expect(response.status).to eq 302 # This is a redirect
+          end
+
+          it "changes post count by 1" do
+            expect { post :create, post: valid_attributes }.to change(Post, :count).by(1)
+          end
+
+          it "sets a flash message" do
+            post :create, post: valid_attributes
+            expect(flash[:notice]).to_not be_blank
+          end
+        end
+
+        context "with invalid attributes" do
+          it "renders the new template" do
+            post :create, post: {title: nil}
+            expect(response).to render_template :new
+          end
+
+          it "does not create a post" do
+            expect { post :create, post: {title: nil } }.to change(Post, :count).by(0)
+          end
+        end
+
+  end
+end
 
 
 
