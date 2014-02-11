@@ -12,6 +12,7 @@ class PostsController < ApplicationController
   def new
    require_login
    require_admin
+   @post = Post.new
   end
 
 

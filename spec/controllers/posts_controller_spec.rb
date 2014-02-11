@@ -30,7 +30,9 @@ describe PostsController do
     describe "GET 'new'" do
      it "returns http success" do
        get 'new'
-       response.should be_success
+
+      response.should be_success
+      expect(assigns(:post)).to be_an_instance_of(Post)
      end
     end
 end
