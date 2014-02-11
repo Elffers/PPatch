@@ -30,19 +30,14 @@ class ToolsController < ApplicationController
         redirect_to tools_path
       else
         flash[:notice] = "There was a problem saving the tool."
-        render :back
+       redirect_to tools_path
       end
     end
 
     def destroy
       @tool.destroy
-      if @tool.destroy
-        flash[:notice] = "Tool has been successfully deleted."
-        redirect_to tools_path
-      else
-        flash[:notice] = "There was a problem deleting the tool."
-        redirect :back
-      end
+      flash[:notice] = "Tool has been successfully deleted."
+      redirect_to tools_path
     end
 
   private

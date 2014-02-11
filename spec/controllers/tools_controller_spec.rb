@@ -121,6 +121,12 @@ end
           patch :update, id: tool.id, tool: tool.attributes
           expect(flash[:notice]).to_not be_blank
        end
+
+        it "sets flash message on failure" do
+          tool.update(name: nil, description: "the rake is broken")
+          patch :update, id: tool.id, tool: tool.attributes
+          expect(flash[:notice]).to eq "There was a problem saving the tool."
+       end
      end
   end
 
