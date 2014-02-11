@@ -22,8 +22,12 @@ describe Post do
       post2.valid?
       expect(post2.errors[:title]).to include 'has already been taken'
     end
-
-
   end
 
+  describe 'associations' do
+    it "belongs to user" do
+      expect(post.user).to be_an_instance_of(User)
+    end
+
+  end
 end
