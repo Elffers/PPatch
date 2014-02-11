@@ -11,6 +11,8 @@ Ppatch::Application.routes.draw do
   get "users/show"
   get "users/new"
 
+  get "/signout" => "sessions#destroy", as: :sign_out
+
   get "/auth/twitter/callback", to: "sessions#create"
 
   root "welcome#home"
