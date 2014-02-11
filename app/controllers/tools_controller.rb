@@ -1,14 +1,14 @@
 class ToolsController < ApplicationController
   before_action :current_user
-  before_action :require_login, only: [:new]
-  before_action :set_tool, only: [:update]
+  before_action :require_login, only: [:new, :destroy]
+  before_action :require_admin, only: [:new, :destroy]
+  before_action :set_tool, only: [:update, :destroy]
 
   def index
     @tools = Tool.all
   end
 
   def new
-    require_admin
    @tool = Tool.new
   end
 
@@ -36,7 +36,11 @@ class ToolsController < ApplicationController
 
     def destroy
       @tool.destroy
-      redirect_to tools_path
+      if @tool.destroy
+        redirect_to tools_path
+      else
+        redirect_to tools_path
+      end
     end
 
   private

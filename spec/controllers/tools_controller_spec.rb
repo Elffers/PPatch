@@ -124,21 +124,28 @@ end
      end
   end
 
-  describe "DELETE destroy" do
+    describe "DELETE destroy" do
       let(:tool) { create(:tool) }
-        context "if admin" do
-          before(:each) do
-            user.update(admin: true)
-            session[:user_id] = user.id
-          end
+      context "if admin" do
+        before(:each) do
+          user.update(admin: true)
+          session[:user_id] = user.id
+        end
 
-      it "deletes a tool" do
-        expect { delete :destroy, id: tool.id }.to change(Tool, :count).by(1)
+        it "deletes a tool" do
+          expect { delete :destroy, id: tool.id }.to change(Tool, :count).by(-1)
+        end
       end
 
+      context "if not admin" do
+        before(:each) do
+          session[:user_id] = user.id
+        end
+
+        it "does not delete the tool" do
+           expect { delete :destroy, id: tool.id }.to change(Tool, :count).by(0)
+        end
+      end
     end
-  end
-
-
 
 end
