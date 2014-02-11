@@ -73,6 +73,11 @@ describe EventsController do
           expect {post :create, event: build(:event).attributes }.to change(Event, :count).by(1)
         end
 
+        it 'assigns event to current user' do
+          post :create, event: build(:event).attributes 
+          expect(assigns(:event).user_id).to eq user.id
+        end
+
       end
 
       context 'with invalid fields' do
