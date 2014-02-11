@@ -115,8 +115,13 @@ end
           tool.update(name: "this is a rake", description: "the rake is broken")
           expect { patch :update, id: tool.id, tool: tool.attributes }.to change(Tool, :count).by(0)
         end
-      end
-  end
 
+        it "redirects to tools path" do
+          tool.update(name: "this is a rake", description: "the rake is broken")
+          patch :update, id: tool.id, tool: tool.attributes
+          expect(flash[:notice]).to_not be_blank
+       end
+     end
+  end
 
 end

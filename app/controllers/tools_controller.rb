@@ -26,8 +26,10 @@ class ToolsController < ApplicationController
 def update
       @tool.update(tool_params)
       if @tool.save
+        flash[:notice] = "Tool has been successfully updated."
         redirect_to tools_path
       else
+        flash[:notice] = "There was a problem saving the tool."
         render :back
       end
     end
