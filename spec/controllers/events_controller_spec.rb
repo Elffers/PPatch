@@ -137,6 +137,7 @@ describe EventsController do
           expect(assigns(:event)).to_not be_nil
         end
       end
+
       context 'if invalid user' do
         before(:each) do
           session[:user_id] = 1
@@ -145,6 +146,11 @@ describe EventsController do
         it 'redirects to index' do
           get :edit, id: event.id
           expect(response).to redirect_to events_path
+        end
+
+        it 'sets flash notice' do
+          get :edit, id: event.id
+          expect(flash[:notice]).to eq "You are not authorized to edit this list!" 
         end
       end
 
@@ -162,6 +168,63 @@ describe EventsController do
       end
     end
   end # end GET edit
+
+  describe "PATCH 'update'" do
+    let(:event){create(:event, user_id: user.id) }
+
+    context 'if logged in' do
+      context 'if valid user' do
+        before(:each) do
+          session[:user_id] = user.id
+        end
+        context 'with valid fields' do
+          let(:valid_attributes){ build(:event).attributes }
+          
+          it 'redirects to event show page' do
+            patch :update, id: event.id, event: valid_attributes
+            expect(response).to redirect_to event_path(event)
+          end
+
+          it 'adds event to database' do
+            expect {patch :update, id: event.id, event: valid_attributes }.to change(Event, :count).by(1)
+          end
+
+        end
+        context 'with invalid fields' do
+          let(:invalid_attributes){ build(:event, venue: nil).attributes }
+
+          it 'renders edit' do
+            patch :update, id: event.id, event: invalid_attributes
+            expect(response).to render_template :edit
+          end
+
+          it 'does not add event' do
+            expect { patch :update, id: event.id, event: invalid_attributes }.to change(Event, :count).by(0)
+          end
+
+        end
+      end
+
+      context 'if invalid user' do
+        before(:each) do
+          session[:user_id] = 1
+        end
+      end
+    end
+
+    context 'if not logged in' do
+      it "redirects to sign in" do
+        get :edit, id: event.id
+        expect(response).to redirect_to sign_in_path
+      end
+
+      it 'sets flash message' do
+        get :edit, id: event.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+    end
+
+  end
 
 
 end

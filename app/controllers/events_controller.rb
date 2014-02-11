@@ -21,7 +21,6 @@ class EventsController < ApplicationController
     end
   end
 
-
   def index
     @events = Event.all
   end
@@ -33,6 +32,14 @@ class EventsController < ApplicationController
   end
 
   def update
+    if @event.update(event_params)
+      flash[:notice] = "Event successfully updated!"
+      redirect_to event_path(@event)
+    else
+      p "PROBLEM"
+      flash[:notice] = "There was a problem updating your event!"
+      render :edit
+    end
   end
 
   def destroy
@@ -58,7 +65,7 @@ class EventsController < ApplicationController
 
   def require_admin
     unless session[:user_id] == @event.user.id
-      p "HELLO"
+      # p "HELLO"
       flash[:notice] = "You are not authorized to edit this list!" 
       redirect_to events_path
     end
