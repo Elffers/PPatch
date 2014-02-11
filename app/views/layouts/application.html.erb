@@ -8,6 +8,13 @@
 </head>
 <body>
 
+  <div class='navbar'>
+    <% if current_user %>
+    Welcome, <%= current_user.name%>!
+    <%=link_to "Sign out", sign_out_path %>
+    <% end %>
+  </div>
+
 <%= yield %>
 
 </body>
