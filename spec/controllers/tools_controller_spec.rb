@@ -73,7 +73,7 @@ describe ToolsController do
       end
 
      context "with valid attributes" do
-          let(:valid_attributes) { {name: "a tool", description: "this is a rake", checkedin: true, user_id: user.id} }
+          let(:valid_attributes) { {name: "a tool", description: "this is a rake", checkedin: true} }
           it "is a redirect" do
             post :create, tool: valid_attributes
             expect(response.status).to eq 302 # This is a redirect
