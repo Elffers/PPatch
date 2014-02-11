@@ -15,8 +15,6 @@ class PostsController < ApplicationController
    @post = Post.new
   end
 
-
-
   private
     def require_login
       redirect_to sign_in_path, notice: "You must be signed in." if session[:user_id].nil?
