@@ -1,9 +1,8 @@
 Ppatch::Application.routes.draw do
-  get "posts/index"
-  get "posts/show"
+  get "blog" => "posts#index", as: :posts
+  get "posts/show" => "posts#show", as: :post
   get "posts/new"
-  get "tools/new"
-  get "tools/index"
+  post "posts/new" => "posts#create", as: :create_post
   get "welcome/home"
   get "events/new"
   get "events/index"
@@ -11,7 +10,10 @@ Ppatch::Application.routes.draw do
   get "users/show"
   get "users/new"
 
+  resources :tools
+
   get "/signout" => "sessions#destroy", as: :sign_out
+  get "/signin" => "sessions#create", as: :sign_in
 
   get "/auth/twitter/callback", to: "sessions#create"
 
