@@ -25,14 +25,13 @@ describe Post do
   end
 
   describe 'associations' do
-    let(:user) { create(:user, admin: true) }
-    let(:post) { create(:post, user_id: user.id) }
+
     it "belongs to user" do
       expect(post.user).to be_an_instance_of(User)
     end
 
     it "belongs to admin" do
-      expect(post.user.admin).to eq true
+      expect(post.user.admin).to eq false
     end
 
   end
