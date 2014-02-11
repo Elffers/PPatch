@@ -20,7 +20,7 @@ class PostsController < ApplicationController
   private
     def require_login
       unless session[:user_id]
-        flash[:notice] = "You must be signed in"
+        flash[:notice] = "You must be signed in."
         redirect_to sign_in_path
       end
     end
