@@ -49,5 +49,43 @@ describe EventsController do
     end
   end
 
+  describe "POST 'create'" do
+    context 'if logged in' do
+      before(:each) do
+        session[:user_id] = user.id
+      end
+      context 'with valid fields' do
+        let(:valid_attributes){ { venue: "venue", 
+                                  time: Time.now, 
+                                  description: "description", 
+                                  name: "name",
+                                  user_id: session[:user_id]
+                                } 
+                              }
+        it 'redirects to event show' do
+          post :create, event: valid_attributes
+
+          expect(response).to redirect_to event_path(Event.last.id) #kind of a hack
+        end
+      end
+
+      context 'with invalid fields' do
+      end
+
+    end
+
+    context 'if not logged in' do
+      it "redirects to home" do
+        get :new
+        expect(response).to redirect_to sign_in_path
+      end
+
+      it 'sets flash message' do
+        get :new
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+    end
+  end
+
 
 end

@@ -46,7 +46,11 @@ class EventsController < ApplicationController
   end
 
   def require_login
-    redirect_to sign_in_path, notice: "You must be signed in." if session[:user_id].nil?
+    unless session[:user_id]
+      p "sign in"
+      flash[:notice] = "You must be signed in." 
+      redirect_to sign_in_path
+    end
   end
 
 end
