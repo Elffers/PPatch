@@ -31,7 +31,7 @@ class ToolsController < ApplicationController
     def require_admin
       unless User.find(session[:user_id]).admin == true
         flash[:notice] = "You must be an admin."
-        redirect_to posts_path
+        redirect_to tools_path
       end
     end
 

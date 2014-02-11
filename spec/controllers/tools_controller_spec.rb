@@ -13,13 +13,6 @@ describe ToolsController do
     end
   end
 
-  describe "GET 'show'" do
-    it "returns http success" do
-      get 'show'
-      response.should be_success
-    end
-  end
-
   context "if logged in" do
       before(:each) do
         session[:user_id] = user.id
@@ -48,7 +41,7 @@ describe ToolsController do
           get :new
 
           expect(flash[:notice]).to eq "You must be an admin."
-          expect(response).to redirect_to tool_path
+          expect(response).to redirect_to tools_path
         end
       end
 
