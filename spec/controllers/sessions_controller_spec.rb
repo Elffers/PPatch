@@ -8,7 +8,7 @@ describe SessionsController do
 
     context 'if user exists' do
     let!(:user) { User.find_or_create_from_omniauth(OmniAuth.config.mock_auth[:twitter]) }
-      
+
       it 'assigns user to current user' do
         get :create
         expect(session[:user_id]).to eq assigns(:user).id
@@ -32,7 +32,7 @@ describe SessionsController do
 
 
       context "fails on twitter" do
-        before(:each) do 
+        before(:each) do
           request.env["omniauth.auth"] = {"uid" => nil, "info" => {} }
         end
 
@@ -44,18 +44,16 @@ describe SessionsController do
       end
 
       context "when failing to save the user" do
-        before { 
-          request.env["omniauth.auth"] = {:uid => "", 
-                                          :info => {name:"hello", image: "blah"}, 
+        before {
+          request.env["omniauth.auth"] = {:uid => "",
+                                          :info => {name:"hello", image: "blah"},
                                           :credentials => {secret:"", token: ""}
                                           }
         }
-        
+
         it "redirect to home with flash error" do
           create(:user, name:"UNIQ")
-          p User.last
           get :create
-          p "should be 'hello", assigns(:user)
           expect(response).to redirect_to root_path
           expect(flash[:notice]).to eq "Failed to save the user"
         end

@@ -1,5 +1,29 @@
 require 'spec_helper'
 
 describe Post do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:post){ create(:post) }
+  describe 'validations' do
+    it 'is valid' do
+      expect(post).to be_valid
+    end
+
+    it 'must have a title' do
+      post.title = nil
+      expect(post).to be_invalid
+    end
+
+    it 'must have a body' do
+      post.body = nil
+      expect(post).to be_invalid
+    end
+
+    it 'must have unique title' do
+      post2 = build(:post, title: post.title)
+      post2.valid?
+      expect(post2.errors[:title]).to include 'has already been taken'
+    end
+
+
+  end
+
 end
