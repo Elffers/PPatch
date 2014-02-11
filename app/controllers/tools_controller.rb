@@ -1,6 +1,7 @@
 class ToolsController < ApplicationController
   before_action :current_user
   before_action :require_login, only: [:new]
+  before_action :set_tool, only: [:update]
 
   def index
     @tools = Tool.all
@@ -22,6 +23,14 @@ class ToolsController < ApplicationController
     end
   end
 
+def update
+      @tool.update(tool_params)
+      if @tool.save
+        redirect_to tools_path
+      else
+        render :back
+      end
+    end
 
   private
     def require_login
@@ -39,4 +48,7 @@ class ToolsController < ApplicationController
       params.require(:tool).permit(:name, :description)
     end
 
+    def set_tool
+      @tool = Tool.find(params[:id])
+    end
 end

@@ -103,4 +103,20 @@ describe ToolsController do
   end
 end
 
+  describe "PATCH update" do
+    let(:tool) { create(:tool) }
+      context "if admin" do
+        before(:each) do
+          user.update(admin: true)
+          session[:user_id] = user.id
+        end
+
+        it "does not create a new tool" do
+          tool.update(name: "this is a rake", description: "the rake is broken")
+          expect { patch :update, id: tool.id, tool: tool.attributes }.to change(Tool, :count).by(0)
+        end
+      end
+  end
+
+
 end
