@@ -7,7 +7,7 @@ Ppatch::Application.routes.draw do
   
   get "tools/new"
   get "tools/index"
-  get "welcome/home"
+  
   
   get "events/new"    => "events#new",        as: :new_event
   get "events"        => "events#index",      as: :events
@@ -24,6 +24,7 @@ Ppatch::Application.routes.draw do
 
   get "/signout"      => "sessions#destroy",  as: :sign_out
   get "/signin"       => "sessions#create",   as: :sign_in
+  resources :tools
 
   get "/auth/twitter/callback", to: "sessions#create"
 
