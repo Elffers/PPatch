@@ -1,3 +1,5 @@
+<H1>Create an Event!</H1>
+
 <%= form_for @event do |f| %>
   <% if @event.errors.any? %>
     <h2>Form is invalid</h2>
@@ -19,16 +21,13 @@
     <%= f.label :venue %>
     <%= f.text_field :venue %>
   </div>
-  <div class = 'field'>
-    <%= f.label :type %>
-    <%= f.text_field :type %>
-  </div>
+ 
   <div class = 'field'>
     <%= f.label :description %>
     <%= f.text_field :description %>
   </div>
 
   <%= f.submit "Add event!" %>
-  
+
 <% end %>  
 

@@ -7,6 +7,5 @@ FactoryGirl.define do
     description "MyText"
     name "MyString"
     user_id 1
-    type "massacre"
   end
 end
