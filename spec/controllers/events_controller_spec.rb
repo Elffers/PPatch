@@ -55,17 +55,9 @@ describe EventsController do
         session[:user_id] = user.id
       end
       context 'with valid fields' do
-        let(:valid_attributes){ { venue: "venue", 
-                                  time: Time.now, 
-                                  description: "description", 
-                                  name: "name",
-                                  user_id: session[:user_id]
-                                } 
-                              }
         it 'redirects to event show' do
-          post :create, event: valid_attributes
-
-          expect(response).to redirect_to event_path(Event.last.id) #kind of a hack
+          post :create, event: create(:event).attributes 
+          expect(response).to redirect_to event_path(assigns(:event).id) 
         end
       end
 
