@@ -37,9 +37,11 @@ class ToolsController < ApplicationController
     def destroy
       @tool.destroy
       if @tool.destroy
+        flash[:notice] = "Tool has been successfully deleted."
         redirect_to tools_path
       else
-        redirect_to tools_path
+        flash[:notice] = "There was a problem deleting the tool."
+        redirect :back
       end
     end
 

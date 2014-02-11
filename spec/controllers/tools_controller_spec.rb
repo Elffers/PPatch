@@ -125,7 +125,7 @@ end
   end
 
     describe "DELETE destroy" do
-      let(:tool) { create(:tool) }
+      let!(:tool) { create(:tool) }
       context "if admin" do
         before(:each) do
           user.update(admin: true)
@@ -140,6 +140,7 @@ end
       context "if not admin" do
         before(:each) do
           session[:user_id] = user.id
+          user.update(admin: false)
         end
 
         it "does not delete the tool" do
