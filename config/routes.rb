@@ -1,7 +1,8 @@
 Ppatch::Application.routes.draw do
   get "blog" => "posts#index", as: :posts
-  get "posts/show"
+  get "posts/show" => "posts#show", as: :post
   get "posts/new"
+  post "posts/new" => "posts#create", as: :create_post
   get "tools/new"
   get "tools/index"
   get "welcome/home"
