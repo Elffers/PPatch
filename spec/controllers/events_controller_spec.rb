@@ -87,6 +87,10 @@ describe EventsController do
           post :create, event: invalid_attributes
           expect(response).to render_template :new
         end
+
+        it 'does not add event' do
+          expect {post :create, event: invalid_attributes }.to change(Event, :count).by(0)
+        end
       end
 
     end
@@ -100,6 +104,10 @@ describe EventsController do
       it 'sets flash message' do
         get :new
         expect(flash[:notice]).to eq "You must be signed in."
+      end
+
+      it 'does not add event' do
+        expect {post :create, event: build(:event).attributes }.to change(Event, :count).by(0)
       end
     end
 
