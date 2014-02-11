@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :current_user
+  before_action :require_login, only: [:new]
 
 
   def index
@@ -10,7 +11,6 @@ class PostsController < ApplicationController
   end
 
   def new
-   require_login
    require_admin
    @post = Post.new
   end
@@ -19,10 +19,7 @@ class PostsController < ApplicationController
 
   private
     def require_login
-      unless session[:user_id]
-        flash[:notice] = "You must be signed in."
-        redirect_to sign_in_path
-      end
+      redirect_to sign_in_path, notice: "You must be signed in." if session[:user_id].nil?
     end
 
     def require_admin

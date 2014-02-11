@@ -64,7 +64,7 @@ describe PostsController do
       it "redirects to index" do
         get :new
 
-        expect(flash[:notice]).to eq "You must be signed in"
+        expect(flash[:notice]).to eq "You must be signed in."
         expect(response).to redirect_to sign_in_path
       end
     end
