@@ -9,7 +9,7 @@ describe ToolsController do
       get 'index'
 
       response.should be_success
-      expect(assigns(:tool)).to eq ([tool])
+      expect(assigns(:tools)).to eq ([tool])
     end
   end
 
