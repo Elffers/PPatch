@@ -23,7 +23,7 @@ class ToolsController < ApplicationController
     end
   end
 
-def update
+  def update
       @tool.update(tool_params)
       if @tool.save
         flash[:notice] = "Tool has been successfully updated."
@@ -32,6 +32,11 @@ def update
         flash[:notice] = "There was a problem saving the tool."
         render :back
       end
+    end
+
+    def destroy
+      @tool.destroy
+      redirect_to tools_path
     end
 
   private
