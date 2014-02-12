@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :current_user
   before_action :require_login, only: [:new]
+  before_action :require_admin, only: [:new, :update, :destroy]
   before_action :set_post, only: [:show, :update, :destroy, :edit]
 
 
