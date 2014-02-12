@@ -15,7 +15,8 @@ describe PostsController do
 
   describe "GET 'show'" do
     it "returns http success" do
-      get 'show'
+      post = create(:post)
+      get :show, id: post.id
       response.should be_success
     end
   end

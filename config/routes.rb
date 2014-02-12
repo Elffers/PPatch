@@ -5,7 +5,7 @@ Ppatch::Application.routes.draw do
   post "blog"            => "posts#create", as: :create_post
   get "blog/:id/edit"  => "posts#edit", as: :edit_post
   patch "blog/:id"      => "posts#update"
-  delete "blog/:id"     => "posts#delete"
+  delete "blog/:id"     => "posts#destroy"
 
 
   get "welcome/home"
