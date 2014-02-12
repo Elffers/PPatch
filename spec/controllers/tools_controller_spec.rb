@@ -73,7 +73,7 @@ describe ToolsController do
       end
 
      context "with valid attributes" do
-          let(:valid_attributes) { {name: "a tool", description: "this is a rake", checkedin: true, user_id: user.id} }
+          let(:valid_attributes) { {name: "a tool", description: "this is a rake", checkedin: true} }
           it "is a redirect" do
             post :create, tool: valid_attributes
             expect(response.status).to eq 302 # This is a redirect
@@ -102,5 +102,57 @@ describe ToolsController do
 
   end
 end
+
+  describe "PATCH update" do
+    let(:tool) { create(:tool) }
+      context "if admin" do
+        before(:each) do
+          user.update(admin: true)
+          session[:user_id] = user.id
+        end
+
+        it "does not create a new tool" do
+          tool.update(name: "this is a rake", description: "the rake is broken")
+          expect { patch :update, id: tool.id, tool: tool.attributes }.to change(Tool, :count).by(0)
+        end
+
+        it "redirects to tools path" do
+          tool.update(name: "this is a rake", description: "the rake is broken")
+          patch :update, id: tool.id, tool: tool.attributes
+          expect(flash[:notice]).to_not be_blank
+       end
+
+        it "sets flash message on failure" do
+          tool.update(name: nil, description: "the rake is broken")
+          patch :update, id: tool.id, tool: tool.attributes
+          expect(flash[:notice]).to eq "There was a problem saving the tool."
+       end
+     end
+  end
+
+    describe "DELETE destroy" do
+      let!(:tool) { create(:tool) }
+      context "if admin" do
+        before(:each) do
+          user.update(admin: true)
+          session[:user_id] = user.id
+        end
+
+        it "deletes a tool" do
+          expect { delete :destroy, id: tool.id }.to change(Tool, :count).by(-1)
+        end
+      end
+
+      context "if not admin" do
+        before(:each) do
+          session[:user_id] = user.id
+          user.update(admin: false)
+        end
+
+        it "does not delete the tool" do
+           expect { delete :destroy, id: tool.id }.to change(Tool, :count).by(0)
+        end
+      end
+    end
 
 end

@@ -1,13 +1,14 @@
 class ToolsController < ApplicationController
   before_action :current_user
-  before_action :require_login, only: [:new]
+  before_action :require_login, only: [:new, :destroy]
+  before_action :require_admin, only: [:new, :destroy]
+  before_action :set_tool, only: [:update, :destroy]
 
   def index
     @tools = Tool.all
   end
 
   def new
-    require_admin
    @tool = Tool.new
   end
 
@@ -22,6 +23,22 @@ class ToolsController < ApplicationController
     end
   end
 
+  def update
+      @tool.update(tool_params)
+      if @tool.save
+        flash[:notice] = "Tool has been successfully updated."
+        redirect_to tools_path
+      else
+        flash[:notice] = "There was a problem saving the tool."
+       redirect_to tools_path
+      end
+    end
+
+    def destroy
+      @tool.destroy
+      flash[:notice] = "Tool has been successfully deleted."
+      redirect_to tools_path
+    end
 
   private
     def require_login
@@ -39,4 +56,7 @@ class ToolsController < ApplicationController
       params.require(:tool).permit(:name, :description)
     end
 
+    def set_tool
+      @tool = Tool.find(params[:id])
+    end
 end

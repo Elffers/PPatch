@@ -1,3 +1,5 @@
+require 'simplecov'
+SimpleCov.start
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
@@ -16,17 +18,17 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
-    # Once you have enabled test mode, all requests 
+    # Once you have enabled test mode, all requests
     # to OmniAuth will be short circuited
-    # to use the mock authentication hash. 
-    # A request to /auth/provider will redirect 
+    # to use the mock authentication hash.
+    # A request to /auth/provider will redirect
     # immediately to /auth/provider/callback.
 
     OmniAuth.config.test_mode = true
 
     OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
-      :provider => 'twitter', 
-      :uid => '123545', 
+      :provider => 'twitter',
+      :uid => '123545',
       info: { nickname: "Bookis", image: "some_url" },
       credentials: {secret: "keepitsecret", token: "keepitsafe"}
     })
