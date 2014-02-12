@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :require_login, except: [:show, :index]
-  before_action :require_admin, only: [:edit, :update, :destroy]
+  before_action :valid_user, only: [:edit, :update, :destroy]
 
 
   def new
@@ -37,6 +37,7 @@ class EventsController < ApplicationController
       redirect_to event_path(@event)
     else
       p "PROBLEM"
+      # p Event.last
       flash[:notice] = "There was a problem updating your event!"
       render :edit
     end
@@ -48,7 +49,7 @@ class EventsController < ApplicationController
   private 
 
   def event_params
-    params.require(:event).permit(:venue, :time, :description, :name, :user_id)
+    params.require(:event).permit(:venue, :time, :description, :name, :user_id, :created_at, :updated_at)
   end
 
   def set_event
@@ -63,7 +64,7 @@ class EventsController < ApplicationController
     end
   end
 
-  def require_admin
+  def valid_user
     unless session[:user_id] == @event.user.id
       # p "HELLO"
       flash[:notice] = "You are not authorized to edit this list!" 

@@ -170,29 +170,30 @@ describe EventsController do
   end # end GET edit
 
   describe "PATCH 'update'" do
-    let(:event){create(:event, user_id: user.id) }
+    let!(:event){create(:event, user_id: user.id) }
 
     context 'if logged in' do
       context 'if valid user' do
         before(:each) do
           session[:user_id] = user.id
         end
+
         context 'with valid fields' do
-          let(:valid_attributes){ build(:event).attributes }
+          let!(:valid_attributes){ { venue:"New Venue" } }
           
           it 'redirects to event show page' do
             patch :update, id: event.id, event: valid_attributes
             expect(response).to redirect_to event_path(event)
           end
 
-          it 'adds event to database' do
-            expect {patch :update, id: event.id, event: valid_attributes }.to change(Event, :count).by(1)
+          it 'does not add event to database' do
+            expect {patch :update, id: event.id, event: valid_attributes }.to change(Event, :count).by(0)
           end
 
         end
-        context 'with invalid fields' do
-          let(:invalid_attributes){ build(:event, venue: nil).attributes }
 
+        context 'with invalid fields' do
+          let(:invalid_attributes){ { venue: "", description: ""} }
           it 'renders edit' do
             patch :update, id: event.id, event: invalid_attributes
             expect(response).to render_template :edit
@@ -209,6 +210,16 @@ describe EventsController do
         before(:each) do
           session[:user_id] = 1
         end
+
+         it 'is redirects to event show' do
+          patch :update, id: event.id
+          expect(response).to redirect_to events_path
+        end
+
+        it 'sets flash message' do
+          patch :update, id: event.id
+          expect(flash[:notice]).to eq "You are not authorized to edit this list!" 
+        end
       end
     end
 
@@ -224,6 +235,9 @@ describe EventsController do
       end
     end
 
+  end #end patch update
+
+  describe 'DELETE destroy' do
   end
 
 
