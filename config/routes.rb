@@ -1,8 +1,13 @@
 Ppatch::Application.routes.draw do
-  get "blog" => "posts#index", as: :posts
-  get "posts/show" => "posts#show", as: :post
-  get "posts/new"
-  post "posts/new" => "posts#create", as: :create_post
+  get "blog"              => "posts#index", as: :posts
+  get "blog/:id"         => "posts#show", as: :post
+  get "blog/new"       => "posts#new", as: :new_post
+  post "blog"            => "posts#create", as: :create_post
+  get "blog/:id/edit"  => "posts#edit", as: :edit_post
+  patch "blog/:id"      => "posts#update"
+  delete "blog/:id"     => "posts#destroy"
+
+
   get "welcome/home"
   get "events/new"
   get "events/index"
