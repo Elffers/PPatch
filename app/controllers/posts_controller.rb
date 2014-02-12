@@ -24,7 +24,7 @@ class PostsController < ApplicationController
     user = User.find(session[:user_id])
     if user.posts << @post
       flash[:notice] = "Post has been successfully created."
-      redirect_to post_path
+      redirect_to post_path(@post)
     else
       flash[:notice] = "There was a problem saving the post."
       render :new
@@ -35,10 +35,10 @@ def update
       @post.update(post_params)
       if @post.save
         flash[:notice] = "Post has been successfully updated."
-        redirect_to posts_path
+        redirect_to post_path(@post)
       else
         flash[:notice] = "There was a problem saving the post."
-       redirect_to posts_path
+       redirect_to post_path(@post)
       end
     end
 
