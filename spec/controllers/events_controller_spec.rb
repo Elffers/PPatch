@@ -238,6 +238,55 @@ describe EventsController do
   end #end patch update
 
   describe 'DELETE destroy' do
+    let!(:event){ create(:event, user_id: user.id) }
+
+    context 'if logged in' do
+      context 'if valid user' do
+        before(:each) do
+          session[:user_id] = user.id
+        end
+
+        it 'removes event from db' do
+          expect {delete :destroy, id: event.id}.to change(Event, :count).by(-1)
+        end
+
+        it 'redirects to events page' do
+          delete :destroy, id: event.id
+          expect(response).to redirect_to events_path
+        end
+      end
+
+      context 'if invalid user' do
+        before(:each) do
+          session[:user_id] = 1
+        end
+
+        it 'does not remove event from db' do
+          expect {delete :destroy, id: event.id}.to change(Event, :count).by(0)
+        end
+
+        it 'sets flash message' do
+          delete :destroy, id: event.id
+          expect(flash[:notice]). to eq "You are not authorized to edit this list!" 
+        end
+      end
+    end
+
+    context 'if not logged in' do
+      before(:each) do
+        session[:user_id] = nil
+      end
+
+      it "redirects to sign in" do
+        delete :destroy, id: event.id
+        expect(response).to redirect_to sign_in_path
+      end
+
+      it 'sets flash message' do
+        delete :destroy, id: event.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+    end
   end
 
 
