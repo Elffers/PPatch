@@ -69,7 +69,7 @@ class EventsController < ApplicationController
   def valid_user
     unless session[:user_id] == @event.user.id
       # p "HELLO"
-      flash[:notice] = "You are not authorized to edit this list!" 
+      flash[:notice] = "You are not authorized to edit this event!" 
       redirect_to events_path
     end
   end
