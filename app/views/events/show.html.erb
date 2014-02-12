@@ -1,1 +1,17 @@
-<%= render 'form' %> 
+<h1>
+  <%= @event.name %> 
+</h1>
+<h3>
+  Organized by: <%= @event.user.name %>
+</h3>
+<div>
+  <ul>
+  <li><%= @event.date %></li>
+  <li><%= @event.time %></li>
+  <li><%= @event.venue %></li>
+  <li><%= @event.description %></li>
+</div>
+
+<% if @event.user == current_user %>
+  <%= link_to "Edit event", edit_event_path(@event) %>
+<% end %>
