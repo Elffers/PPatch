@@ -15,7 +15,6 @@ class EventsController < ApplicationController
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
     else
-      # p "invalid fields"
       flash[:notice] = "There was a problem saving your event."
       render :new
     end
@@ -36,8 +35,6 @@ class EventsController < ApplicationController
       flash[:notice] = "Event successfully updated!"
       redirect_to event_path(@event)
     else
-      p "PROBLEM"
-      # p Event.last
       flash[:notice] = "There was a problem updating your event!"
       render :edit
     end
@@ -60,7 +57,6 @@ class EventsController < ApplicationController
 
   def require_login
     unless session[:user_id]
-      # p "sign in"
       flash[:notice] = "You must be signed in." 
       redirect_to sign_in_path
     end
@@ -68,7 +64,6 @@ class EventsController < ApplicationController
 
   def valid_user
     unless session[:user_id] == @event.user.id
-      # p "HELLO"
       flash[:notice] = "You are not authorized to edit this event!" 
       redirect_to events_path
     end
