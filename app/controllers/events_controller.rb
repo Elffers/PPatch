@@ -22,6 +22,8 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.all
+    @events_by_date = @events.group_by(&:date)
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
   end
 
   def show
@@ -48,7 +50,7 @@ class EventsController < ApplicationController
   private 
 
   def event_params
-    params.require(:event).permit(:venue, :time, :description, :name, :user_id, :created_at, :updated_at)
+    params.require(:event).permit(:venue, :time, :description, :name, :user_id, :date)
   end
 
   def set_event
