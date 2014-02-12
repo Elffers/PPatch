@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   validates :phone, uniqueness: true
   validates :admin, inclusion: { in: [true, false] }
   has_many :posts
+  has_many :events
+
 
   def self.find_or_create_from_omniauth(auth_hash)
     User.find_by(uid: auth_hash[:uid]) || User.create_from_omniauth(auth_hash)

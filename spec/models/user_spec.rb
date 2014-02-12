@@ -36,5 +36,20 @@ describe User do
       expect(user).to_not be_valid
     end
   end
-  
+
+  describe 'create from omniauth hash' do
+    let(:user) { User.find_or_create_from_omniauth(OmniAuth.config.mock_auth[:twitter]) }
+
+    it "creates a valid user" do
+      expect(user).to be_valid
+    end
+
+    context "when it's invalid" do
+      it "returns nil" do
+        user = User.find_or_create_from_omniauth({uid: nil, info: {}, credentials: {}})
+        expect(user).to be_nil
+      end
+    end
+  end
+
 end

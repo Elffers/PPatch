@@ -31,34 +31,47 @@ describe SessionsController do
     end
 
 
-      context "fails on twitter" do
-        before(:each) do
-          request.env["omniauth.auth"] = {"uid" => nil, "info" => {} }
-        end
-
-        it "redirect to home with flash error" do
-          get :create
-          expect(response).to redirect_to root_path
-          expect(flash[:notice]).to eq "You do not exist!"
-        end
+    context "fails on twitter" do
+      before(:each) do
+        request.env["omniauth.auth"] = {"uid" => nil, "info" => {} }
       end
 
-      context "when failing to save the user" do
-        before {
-          request.env["omniauth.auth"] = {:uid => "",
-                                          :info => {name:"hello", image: "blah"},
-                                          :credentials => {secret:"", token: ""}
-                                          }
-        }
-
-        it "redirect to home with flash error" do
-          create(:user, name:"UNIQ")
-          get :create
-          expect(response).to redirect_to root_path
-          expect(flash[:notice]).to eq "Failed to save the user"
-        end
+      it "redirect to home with flash error" do
+        get :create
+        expect(response).to redirect_to root_path
+        expect(flash[:notice]).to eq "You do not exist!"
       end
+    end
+
+    context "when failing to save the user" do
+      before {
+        request.env["omniauth.auth"] = {:uid => "",
+                                        :info => {name:"hello", image: "blah"},
+                                        :credentials => {secret:"", token: ""}
+                                        }
+      }
+
+      it "redirect to home with flash error" do
+        create(:user, name:"UNIQ")
+        get :create
+        expect(response).to redirect_to root_path
+        expect(flash[:notice]).to eq "Failed to save the user"
+      end
+    end
+  end
+
+  describe 'sign out process' do
+    it 'sets session user id to nil' do
+      delete :destroy
+      expect(session[:user_id]).to be_nil
+    end
+
+    it 'redirects to home' do
+      delete :destroy
+      expect(response).to redirect_to root_path
+    end
 
   end
+
 
 end
