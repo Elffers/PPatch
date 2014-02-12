@@ -17,6 +17,7 @@
 </div>
 
 <div>
+  <%= link_to "Add event!", new_event_path %>
   <% @events.each do |event| %>
     <%= event.inspect %>
   <% end %>
