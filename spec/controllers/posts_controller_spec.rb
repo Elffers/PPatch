@@ -15,7 +15,8 @@ describe PostsController do
 
   describe "GET 'show'" do
     it "returns http success" do
-      get 'show'
+      post = create(:post)
+      get :show, id: post.id
       response.should be_success
     end
   end
@@ -109,5 +110,57 @@ describe PostsController do
 
   end
 end
+
+  describe "PATCH update" do
+    let(:post) { create(:post) }
+      context "if admin" do
+        before(:each) do
+          user.update(admin: true)
+          session[:user_id] = user.id
+        end
+
+        it "does not create a new post" do
+          post.update(title: "updated post", body: "here's some things to read", user_id: user.id)
+          expect { patch :update, id: post.id, post: post.attributes }.to change(Post, :count).by(0)
+        end
+
+        it "redirects to post path" do
+          post.update(title: "updated post", body: "here's some things to read", user_id: user.id)
+          patch :update, id: post.id, post: post.attributes
+          expect(flash[:notice]).to_not be_blank
+       end
+
+        it "sets flash message on failure" do
+          post.update(title: nil, body: "here's some things to read", user_id: user.id)
+          patch :update, id: post.id, post: post.attributes
+          expect(flash[:notice]).to eq "There was a problem saving the post."
+       end
+     end
+  end
+
+    describe "DELETE destroy" do
+      let!(:post) { create(:post) }
+      context "if admin" do
+        before(:each) do
+          user.update(admin: true)
+          session[:user_id] = user.id
+        end
+
+        it "deletes a post" do
+          expect { delete :destroy, id: post.id }.to change(Post, :count).by(-1)
+        end
+      end
+
+      context "if not admin" do
+        before(:each) do
+          session[:user_id] = user.id
+          user.update(admin: false)
+        end
+
+        it "does not delete the post" do
+           expect { delete :destroy, id: post.id }.to change(Post, :count).by(0)
+        end
+      end
+    end
 
 end
