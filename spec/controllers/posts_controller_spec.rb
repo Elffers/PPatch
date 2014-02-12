@@ -131,7 +131,7 @@ end
        end
 
         it "sets flash message on failure" do
-          post.update(title: "updated post", body: "here's some things to read", user_id: user.id)
+          post.update(title: nil, body: "here's some things to read", user_id: user.id)
           patch :update, id: post.id, post: post.attributes
           expect(flash[:notice]).to eq "There was a problem saving the post."
        end
