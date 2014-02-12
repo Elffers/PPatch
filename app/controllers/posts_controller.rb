@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :current_user
   before_action :require_login, only: [:new]
+  before_action :set_post, only: [:show, :update, :destroy]
 
 
   def index
@@ -8,6 +9,9 @@ class PostsController < ApplicationController
   end
 
   def show
+  end
+
+  def edit
   end
 
   def new
@@ -27,6 +31,22 @@ class PostsController < ApplicationController
     end
   end
 
+def update
+      @post.update(post_params)
+      if @post.save
+        flash[:notice] = "Post has been successfully updated."
+        redirect_to posts_path
+      else
+        flash[:notice] = "There was a problem saving the post."
+       redirect_to posts_path
+      end
+    end
+
+    def destroy
+      @post.destroy
+      flash[:notice] = "Post has been successfully deleted."
+      redirect_to posts_path
+    end
 
   private
     def require_login
@@ -38,6 +58,10 @@ class PostsController < ApplicationController
         flash[:notice] = "You must be an admin."
         redirect_to posts_path
       end
+    end
+
+    def set_post
+      @post = Post.find(params[:id])
     end
 
     def post_params
