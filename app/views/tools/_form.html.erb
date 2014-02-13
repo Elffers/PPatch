@@ -1,0 +1,25 @@
+<H1>Create an Event!</H1>
+
+<%= form_for @tool do |f| %>
+  <% if @tool.errors.any? %>
+    <h2>Form is invalid</h2>
+    <ul>
+      <% for message in @tool.errors.full_messages %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class = 'field'>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class = 'field'>
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <%= f.submit "Add tool!" %>
+
+<% end %>  

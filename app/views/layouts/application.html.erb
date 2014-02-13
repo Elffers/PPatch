@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD
   <title>The Wormhole</title>
   <%= stylesheet_link_tag    "application" %>
+=======
+  <title>Ppatch</title>
+  
+  <%= stylesheet_link_tag "application" %>
+>>>>>>> master
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,7 +35,18 @@
 <body>
   <div class="content">
 
+<<<<<<< HEAD
     <%= flash[:notice] %>
+=======
+  <div class='navbar'>
+    <% if current_user %>
+      Welcome, <%= link_to "#{current_user.name}", user_path(current_user) %>!
+      <%=link_to "Sign out", sign_out_path %>
+      <% else %>
+        <%= link_to "Sign in!", "/auth/twitter" %> <!-- can add icon -->
+    <% end %>
+  </div>
+>>>>>>> master
 
     <%= yield %>
 

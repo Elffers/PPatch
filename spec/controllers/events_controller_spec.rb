@@ -10,14 +10,14 @@ describe EventsController do
     end
 
     it "shows all events" do
-      event = create(:event)
+      event = create(:event, host_id: user.id)
       get 'index'
       expect(assigns(:events)).to eq([event])
     end
   end #end GET index
 
   describe "GET 'show'" do
-    let(:event){ create(:event)}
+    let(:event){ create(:event, host_id: user.id)}
     it "returns http success" do
       get 'show', id: event.id
       response.should be_success
@@ -45,7 +45,7 @@ describe EventsController do
     context 'if not logged in' do
       it "redirects to sign in" do
         get :new
-        expect(response).to redirect_to sign_in_path
+        expect(response).to redirect_to root_path
       end
 
       it 'sets flash message' do
@@ -60,34 +60,41 @@ describe EventsController do
       before(:each) do
         session[:user_id] = user.id
       end
+      let(:valid_attributes){ build(:event).attributes }
+
       context 'with valid fields' do
         it 'redirects to event show' do
-          post :create, event: create(:event).attributes 
+          post :create, event: create(:event, host_id: user.id).attributes 
           expect(response).to redirect_to event_path(assigns(:event).id) 
         end
 
         it 'sets flash message' do
-          post :create, event: create(:event).attributes 
+          post :create, event: create(:event, host_id: user.id).attributes 
           expect(flash[:notice]).to eq "Event added!"
         end
 
-        it 'increases user event count by 1' do
-          expect { post :create, event: build(:event).attributes }.to change(user.events, :count).by(1)
-        end
+        # it 'increases user event count by 1' do
+        #   expect { post :create, event: build(:event).attributes }.to change(user.events, :count).by(1)
+        # end
 
         it 'changes event count by 1' do
-          expect {post :create, event: build(:event).attributes }.to change(Event, :count).by(1)
+          expect {post :create, event: build(:event, host_id: user.id).attributes }.to change(Event, :count).by(1)
         end
 
-        it 'assigns event to current user' do
-          post :create, event: build(:event).attributes 
-          expect(assigns(:event).user_id).to eq user.id
+        it 'assigns current user as event host' do
+          post :create, event: build(:event, host_id: user.id).attributes 
+          expect(assigns(:event).host_id).to eq session[:user_id]
+        end
+
+        it "adds event to current user's events" do
+          post :create, event: valid_attributes
+          expect(user.events).to include assigns(:event) 
         end
 
       end
 
       context 'with invalid fields' do
-        let(:invalid_attributes) { {name: nil, user_id: nil} }
+        let(:invalid_attributes) { {name: ""} }
 
         it 'renders new' do
           post :create, event: invalid_attributes
@@ -104,7 +111,7 @@ describe EventsController do
     context 'if not logged in' do
       it "redirects to sign in" do
         get :new
-        expect(response).to redirect_to sign_in_path
+        expect(response).to redirect_to root_path
       end
 
       it 'sets flash message' do
@@ -119,7 +126,7 @@ describe EventsController do
   end #end POST create
 
   describe "GET 'edit'" do
-    let(:event){create(:event, user_id: user.id) }
+    let(:event){create(:event, host_id: user.id) }
 
     context 'if logged in' do
       context 'if valid user' do
@@ -150,7 +157,7 @@ describe EventsController do
 
         it 'sets flash notice' do
           get :edit, id: event.id
-          expect(flash[:notice]).to eq "You are not authorized to edit this list!" 
+          expect(flash[:notice]).to eq "You are not authorized to edit this event!" 
         end
       end
 
@@ -159,7 +166,7 @@ describe EventsController do
     context 'if not logged in' do
       it "redirects to sign in" do
         get :edit, id: event.id
-        expect(response).to redirect_to sign_in_path
+        expect(response).to redirect_to root_path
       end
 
       it 'sets flash message' do
@@ -170,7 +177,7 @@ describe EventsController do
   end # end GET edit
 
   describe "PATCH 'update'" do
-    let!(:event){create(:event, user_id: user.id) }
+    let!(:event){create(:event, host_id: user.id) }
 
     context 'if logged in' do
       context 'if valid user' do
@@ -218,7 +225,7 @@ describe EventsController do
 
         it 'sets flash message' do
           patch :update, id: event.id
-          expect(flash[:notice]).to eq "You are not authorized to edit this list!" 
+          expect(flash[:notice]).to eq "You are not authorized to edit this event!" 
         end
       end
     end
@@ -226,7 +233,7 @@ describe EventsController do
     context 'if not logged in' do
       it "redirects to sign in" do
         get :edit, id: event.id
-        expect(response).to redirect_to sign_in_path
+        expect(response).to redirect_to root_path
       end
 
       it 'sets flash message' do
@@ -238,7 +245,7 @@ describe EventsController do
   end #end patch update
 
   describe 'DELETE destroy' do
-    let!(:event){ create(:event, user_id: user.id) }
+    let!(:event){ create(:event, host_id: user.id) }
 
     context 'if logged in' do
       context 'if valid user' do
@@ -267,7 +274,7 @@ describe EventsController do
 
         it 'sets flash message' do
           delete :destroy, id: event.id
-          expect(flash[:notice]). to eq "You are not authorized to edit this list!" 
+          expect(flash[:notice]). to eq "You are not authorized to edit this event!" 
         end
       end
     end
@@ -279,7 +286,7 @@ describe EventsController do
 
       it "redirects to sign in" do
         delete :destroy, id: event.id
-        expect(response).to redirect_to sign_in_path
+        expect(response).to redirect_to root_path
       end
 
       it 'sets flash message' do
@@ -289,5 +296,59 @@ describe EventsController do
     end
   end
 
+  describe 'GET rsvp' do
+    let!(:event){ create(:event, host_id: user.id) }
 
+    context 'if not logged in' do
+      before(:each) do
+        session[:user_id] = nil
+      end
+
+      it "redirects to sign in" do
+        get :rsvp, id: event.id
+        expect(response).to redirect_to root_path
+      end
+
+      it 'sets flash message' do
+        get :rsvp, id: event.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+
+      it 'does not add event to user' do
+        expect { get :rsvp, id: event.id }.to change(user.events, :count).by(0)
+      end
+    end
+
+    context 'if logged in' do
+      before(:each) do
+        session[:user_id] = user.id
+      end
+
+      it 'redirects to event page' do
+        get :rsvp, id: event.id
+        expect(response).to redirect_to event_path(event)
+      end
+
+      it 'sets flash message' do
+        get :rsvp, id: event.id
+        expect(flash[:notice]).to eq "You have successfully RSVPd for this event!"
+      end
+
+      it "adds event to user's events" do
+        get :rsvp, id: event.id
+        p user.events
+        expect(user.events).to include event
+      end
+
+      it 'adds rsvp to db' do
+        expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(1)
+      end
+
+      it 'adds user to event rsvps' do
+        get :rsvp, id: event.id
+        expect(event.users).to include user
+      end
+    end
+  end
+    
 end

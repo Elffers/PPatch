@@ -6,7 +6,7 @@ FactoryGirl.define do
     venue "MyString"
     description "MyText"
     name "MyString"
-    user
+    date "2014-02-12"
   end
 
   factory :invalid_event, class: Event do
@@ -14,6 +14,6 @@ FactoryGirl.define do
     venue ""
     description ""
     name ""
-    user_id 1
+    host_id 1
   end
 end

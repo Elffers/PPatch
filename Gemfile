@@ -15,7 +15,11 @@ gem 'omniauth-twitter'
 gem 'redis'
 gem 'json'
 gem 'pg'
+
 gem 'barometer'
+
+gem 'jquery-ui-rails'
+
 
 group :development, :test do
   gem "rspec-rails"
