@@ -253,7 +253,6 @@ describe PostsController do
         expect(flash[:notice]).to eq "You must be signed in."
       end
     end
-
   end #end patch update
 
   describe "DELETE 'destroy'" do
