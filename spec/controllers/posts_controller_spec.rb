@@ -211,10 +211,7 @@ describe PostsController do
           context 'with invalid fields' do
             let(:invalid_attributes){ { body: ""} }
             it 'renders edit' do
-
               patch :update, id: post.id, post: invalid_attributes
-              p response.status
-              p flash[:notice]
               expect(response).to render_template :edit
             end
 
@@ -226,8 +223,10 @@ describe PostsController do
         end
 
         context 'if invalid user' do
+          let(:hacker){ create(:user, admin: true)}
           before(:each) do
-            session[:user_id] = 1
+            session[:user_id] = hacker.id
+            # post.update(user_id: 1)
           end
 
            it 'is redirects to post show' do
