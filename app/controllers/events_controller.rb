@@ -28,6 +28,9 @@ class EventsController < ApplicationController
 
   def show
     @user = User.find(@event.host_id)
+    @date = @event.date.to_time.strftime("%A, %B %d, %Y")
+    @time = @event.time.in_time_zone('Pacific Time (US & Canada)').strftime("%l:%M %p")
+    # maybe save time as string?
   end
 
   def edit
