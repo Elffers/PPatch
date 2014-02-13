@@ -16,6 +16,7 @@ gem 'redis'
 gem 'json'
 gem 'pg'
 gem 'jquery-ui-rails'
+gem "mail", "2.5.4"
 
 
 group :development, :test do
