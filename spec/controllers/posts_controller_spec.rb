@@ -196,10 +196,10 @@ describe PostsController do
             expect { delete :destroy, id: post.id }.to change(Post, :count).by(-1)
           end
 
-          # it "removes post from admin's posts"
-          #   delete :destroy, id: post.id
-          #   expect { delete :destroy, id: post.id }.to change(user.posts, :count).by(-1)
-          # end
+          it "removes post from admin's posts" do
+            delete :destroy, id: post.id
+            expect { delete :destroy, id: post.id }.to change(user.posts, :count).by(-1)
+          end
         end #end if valid user
 
         context 'if invalid user' do
