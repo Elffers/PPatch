@@ -289,5 +289,48 @@ describe EventsController do
     end
   end
 
+  describe 'GET rsvp' do
+    let!(:event){ create(:event, host_id: user.id) }
 
+    context 'if not logged in' do
+      before(:each) do
+        session[:user_id] = nil
+      end
+
+      it "redirects to sign in" do
+        get :rsvp, id: event.id
+        expect(response).to redirect_to root_path
+      end
+
+      it 'sets flash message' do
+        get :rsvp, id: event.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+
+      it 'does not add event to user' do
+        expect { get :rsvp, id: event.id }.to change(user.events, :count).by(0)
+      end
+    end
+
+    context 'if logged in' do
+      before(:each) do
+        session[:user_id] = user.id
+      end
+
+      it 'redirects to event page' do
+        get :rsvp, id: event.id
+        expect(response).to redirect_to event_path(event)
+      end
+
+      it 'sets flash message' do
+        get :rsvp, id: event.id
+        expect(flash[:notice]).to eq "You have successfully RSVPd for this event!"
+      end
+
+      it "adds event to user's events" do
+        expect { get :rsvp, id: event.id }.to change(user.events, :count).by(1)
+      end
+    end
+  end
+    
 end

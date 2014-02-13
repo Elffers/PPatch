@@ -8,6 +8,7 @@ Ppatch::Application.routes.draw do
   patch "/events/:id"         => "events#update"
   delete "/events/:id"        => "events#destroy"
   get "/events/:id/edit"      => "events#edit",       as: :edit_event
+  get "/events/:id/rsvp"      => "events#rsvp",       as: :rsvp
 
   get "/blog"                 => "posts#index",       as: :posts
   get "/blog/:id"             => "posts#show",        as: :post

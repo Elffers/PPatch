@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :rsvp]
   before_action :require_login, except: [:show, :index]
   before_action :valid_user, only: [:edit, :update, :destroy]
 
@@ -45,6 +45,16 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     redirect_to events_path
+  end
+
+  def rsvp
+    if current_user.events << @event
+      flash[:notice] = "You have successfully RSVPd for this event!"
+      redirect_to event_path(@event)
+    else
+      flash[:notice] = "There was a problem RSVPing to this event!"
+      redirect_to event_path(@event)
+    end
   end
 
   private 
