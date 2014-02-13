@@ -1,5 +1,5 @@
 class PostMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "admin@thewormhole.com"
 
   def new_post(post_id, user_id)
     @post = Post.find(post_id)

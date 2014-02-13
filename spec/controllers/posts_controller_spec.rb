@@ -74,6 +74,16 @@ describe PostsController do
 
       context "with valid attributes" do
         let(:valid_attributes) { {title: "a post", body: "here is the body of the post", user_id: user.id} }
+         before(:each) do
+          ActionMailer::Base.delivery_method = :test
+          ActionMailer::Base.perform_deliveries = true
+          ActionMailer::Base.deliveries = []
+        end
+
+        after(:each) do
+          ActionMailer::Base.deliveries.clear
+        end
+
         it "is a redirect" do
           post :create, post: valid_attributes
           expect(response.status).to eq 302 # This is a redirect
@@ -91,6 +101,16 @@ describe PostsController do
         it 'associates post with current user' do
           expect { post :create, post: valid_attributes }.to change(user.posts, :count).by(1)
           expect(assigns(:post).user).to eq user
+        end
+
+        it 'sends an email' do # maybe customize later
+          expect { post :create, post: valid_attributes }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+
+        xit 'sends an email to users who want email update' do
+          post :create, post: valid_attributes
+          p "MAIL", PostMailer.new_post(assigns(:post).id, assigns(:user).id).deliver
+          expect(response.status).to eq 302
         end
       end
 
@@ -197,8 +217,6 @@ describe PostsController do
             
             it 'redirects to post show page' do
               patch :update, id: post.id, post: valid_attributes
-              p response.status
-              p flash[:notice]
               expect(response).to redirect_to post_path(post)
             end
 
