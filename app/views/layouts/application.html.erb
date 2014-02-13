@@ -17,7 +17,7 @@
               <li>Signed in as: <a href="/profile"><%= current_user.name %></a></li>
               <li><a href="/signout">Sign out</a></li>
             <% else %>
-              <li><a href="/signin">Sign in</a></li>
+              <li><a href="/auth/twitter">Sign in with Twitter: <br></a><%= link_to (image_tag "twitter_green_small.png"), '/auth/twitter', title: "Twitter" %></li>
             <% end %>
           </ul>
         </nav>
