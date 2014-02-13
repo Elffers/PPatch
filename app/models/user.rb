@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :posts # only if admin?
   has_many :rsvps
   has_many :events, through: :rsvps
+  has_many :tools
 
 
   def self.find_or_create_from_omniauth(auth_hash)

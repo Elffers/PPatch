@@ -88,9 +88,7 @@ describe EventsController do
 
         it "adds event to current user's events" do
           post :create, event: valid_attributes
-          p user.events
-          # p Event.last
-          expect(user.events).to include Event.last
+          expect(user.events).to include assigns(:event) 
         end
 
       end

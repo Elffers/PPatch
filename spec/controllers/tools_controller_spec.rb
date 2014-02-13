@@ -153,4 +153,38 @@ describe ToolsController do
     end
   end
 
+  describe 'GET borrow' do
+    let!(:tool) { create(:tool) }
+    context 'if logged in' do
+      before(:each) do
+        session[:user_id] = user.id
+      end
+      it 'changes tool checkedin status to false' do
+        get :borrow, id: tool.id #why need both factory tool and assigns(:tool) here?
+        expect(assigns(:tool).checkedin).to eq false
+      end
+
+      it 'adds tool to user toolbox' do
+        expect { get :borrow, id: tool.id }.to change(user.tools, :count).by(1)
+        expect(user.tools).to include assigns(:tool)
+      end
+    end
+
+    context 'if not logged in' do
+      before(:each) do
+        session[:user_id] = nil
+      end
+
+      it 'redirects to home' do
+        get :borrow, id: tool.id
+        expect(response).to redirect_to root_path
+      end
+
+      it 'sets flash message' do
+        get :borrow, id: tool.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+    end
+  end
+
 end

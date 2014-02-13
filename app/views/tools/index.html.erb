@@ -1,2 +1,13 @@
-<h1>Tools#index</h1>
-<p>Find me in app/views/tools/index.html.erb</p>
+<h1>Toolbox</h1>
+
+<ul>
+  <% @tools.each do |tool|%>
+  <li>
+    <%= tool.name %>
+    <%= link_to "Borrow", borrow_tool_path(tool) %>
+  </li>
+  <% end %>
+</ul>
+
+<%= link_to "Add tool", new_tool_path %>
+

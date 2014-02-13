@@ -1,8 +1,8 @@
 class ToolsController < ApplicationController
   before_action :current_user
-  before_action :require_login, only: [:new, :destroy]
-  before_action :require_admin, only: [:new, :destroy]
-  before_action :set_tool, only: [:update, :destroy]
+  before_action :require_login, except: [:show, :index]
+  before_action :require_admin, only: [:new, :create, :destroy] #need edit, update
+  before_action :set_tool, only: [:update, :destroy, :borrow]
 
   def index
     @tools = Tool.all
@@ -40,6 +40,13 @@ class ToolsController < ApplicationController
     redirect_to tools_path
   end
 
+  def borrow
+    @tool.update(checkedin: false, user_id: current_user.id)
+    if @tool.save
+      redirect_to tools_path
+    end
+  end
+
   private
   
   def require_login
@@ -54,7 +61,7 @@ class ToolsController < ApplicationController
   end
 
   def tool_params
-    params.require(:tool).permit(:name, :description)
+    params.require(:tool).permit(:name, :description, :checkedin)
   end
 
   def set_tool

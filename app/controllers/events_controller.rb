@@ -3,7 +3,6 @@ class EventsController < ApplicationController
   before_action :require_login, except: [:show, :index]
   before_action :valid_user, only: [:edit, :update, :destroy]
 
-
   def new
     @event = Event.new
   end
@@ -21,13 +20,6 @@ class EventsController < ApplicationController
       render :new
     end
 
-    # if current_user.events << @event
-    #   flash[:notice] = "Event added!"
-    #   redirect_to event_path(@event)
-    # else
-    #   flash[:notice] = "There was a problem saving your event."
-    #   render :new
-    # end
   end
 
   def index

@@ -25,6 +25,8 @@ Ppatch::Application.routes.draw do
   
   resources :tools
 
+  get '/tools/:id/borrow'   => "tools#borrow",        as: :borrow_tool
+
   get "/auth/twitter/callback", to: "sessions#create"
 
   root "welcome#home"
