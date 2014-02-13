@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ppatch</title>
+  <title>The Wormhole</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+
+<div class="container">
+      <header>
+        <nav>
+          <ul>
+            <li><a href="/">The Wormhole</a></li>
+            <li><a href="/blog">News</a></li>
+            <% if current_user %>
+              <li>Signed in as: <a href="/profile"><%= current_user.name %></a></li>
+              <li><a href="/signout">Sign out</a></li>
+            <% else %>
+              <li><a href="/signin">Sign in</a></li>
+            <% end %>
+          </ul>
+        </nav>
+      </header>
+
 <body>
-
-<nav class="ui teal inverted menu">
-  <a class="item" href="/">PeaPatch Home</a>
-  <a class="item" href="/blog">Blog</a>
-
-  <span class="right floated item">
-    <% if current_user %>
-      <a class="item" href="/profile">Welcome, <%= current_user.name %>!</a>
-      <a class="item" href="/signout">Sign out</a>
-    <% else %>
-      <a class="item" href="/signin">Sign in</a>
-    <% end %>
-    </span>
-</nav>
 
 
 <%= flash[:notice] %>
@@ -30,12 +33,3 @@
 </body>
 </html>
 
-
-<div class="ui menu">
-  <div class="item">
-    <div class="ui teal button">Sign up</div>
-  </div>
-  <div class="item">
-    <div class="ui button">Log-in</div>
-  </div>
-</div>
