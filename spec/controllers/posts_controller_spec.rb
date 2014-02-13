@@ -66,7 +66,7 @@ describe PostsController do
         get :new
 
         expect(flash[:notice]).to eq "You must be signed in."
-        expect(response).to redirect_to sign_in_path
+        expect(response).to redirect_to root_path
       end
     end
 

@@ -4,7 +4,6 @@ class PostsController < ApplicationController
   before_action :require_admin, except: [:show, :index]
   before_action :set_post, only: [:show, :update, :destroy, :edit]
 
-
   def index
     @posts = Post.all
   end
@@ -32,26 +31,26 @@ class PostsController < ApplicationController
     end
   end
 
-def update
-      @post.update(post_params)
-      if @post.save
-        flash[:notice] = "Post has been successfully updated."
-        redirect_to post_path(@post)
-      else
-        flash[:notice] = "There was a problem saving the post."
-       redirect_to post_path(@post)
-      end
+  def update
+    @post.update(post_params)
+    if @post.save
+      flash[:notice] = "Post has been successfully updated."
+      redirect_to post_path(@post)
+    else
+      flash[:notice] = "There was a problem saving the post."
+     redirect_to post_path(@post)
     end
+  end
 
-    def destroy
-      @post.destroy
-      flash[:notice] = "Post has been successfully deleted."
-      redirect_to posts_path
-    end
+  def destroy
+    @post.destroy
+    flash[:notice] = "Post has been successfully deleted."
+    redirect_to posts_path
+  end
 
   private
     def require_login
-      redirect_to sign_in_path, notice: "You must be signed in." if session[:user_id].nil?
+      redirect_to root_path, notice: "You must be signed in." if session[:user_id].nil?
     end
 
     def require_admin

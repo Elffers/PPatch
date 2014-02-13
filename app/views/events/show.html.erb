@@ -2,20 +2,38 @@
   <%= @event.name %> 
 </h1>
 <h3>
-  Organized by: <%= @event.user.name %>
+  Organized by: <%= @user.name %>
 </h3>
 <div>
   <ul>
-  <li><%= @event.date %></li>
-  <li><%= @event.time %></li>
+  <li><%= @date %></li>
+  <li><%= @time %></li>
   <li><%= @event.venue %></li>
   <li><%= @event.description %></li>
 </div>
 
 <div class='event_buttons'>
-  <% if @event.user == current_user %>
+  <% if @user == current_user %>
     <%= link_to "Edit event", edit_event_path(@event) %>
     <%= link_to "Remove event", event_path(@event), method: :delete %>
   <% end %>
+</div>
+
+<div>
+  <%= link_to "RSVP", rsvp_path %>
   <%= link_to "See Calendar", events_path %>
 </div>
+
+<div class='participants'>
+  <h3>Participants</h3>
+  <ul>
+    <% @event.users.each do |user| %>
+      <% if user == @user %>
+        <li><%=user.name%> (organizer) </li>
+      <% else %>
+        <li><%= user.name %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+

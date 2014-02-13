@@ -8,6 +8,7 @@ Ppatch::Application.routes.draw do
   patch "/events/:id"         => "events#update"
   delete "/events/:id"        => "events#destroy"
   get "/events/:id/edit"      => "events#edit",       as: :edit_event
+  get "/events/:id/rsvp"      => "events#rsvp",       as: :rsvp
 
   get "/blog"                 => "posts#index",       as: :posts
   get "/blog/:id"             => "posts#show",        as: :post
@@ -21,7 +22,12 @@ Ppatch::Application.routes.draw do
   get "/users/new"
 
   get "/signout"              => "sessions#destroy",  as: :sign_out
+  
   resources :tools
+
+  get '/tools/:id/borrow'   => "tools#borrow",        as: :borrow_tool
+  get '/tools/:id/return'   => "tools#return",        as: :return_tool
+
 
   get "/auth/twitter/callback", to: "sessions#create"
 

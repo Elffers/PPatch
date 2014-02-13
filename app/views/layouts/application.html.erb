@@ -15,7 +15,7 @@
       Welcome, <%= link_to "#{current_user.name}", user_path(current_user) %>!
       <%=link_to "Sign out", sign_out_path %>
       <% else %>
-      <%= link_to "Sign in!", "/auth/twitter" %> <!-- can add icon -->
+        <%= link_to "Sign in!", "/auth/twitter" %> <!-- can add icon -->
     <% end %>
   </div>
 

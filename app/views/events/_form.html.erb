@@ -3,9 +3,11 @@
 <%= form_for @event do |f| %>
   <% if @event.errors.any? %>
     <h2>Form is invalid</h2>
-    <% for message in @event.errors.full_messages %>
-      <%= message %>
-    <% end %>
+    <ul>
+      <% for message in @event.errors.full_messages %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
   <% end %>
 
   <div class = 'field'>

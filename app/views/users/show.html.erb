@@ -1,1 +1,34 @@
-<%= @user.inspect %>
+<div class='profile'>
+  <div>
+    <%= image_tag "#{@user.avatar_url}" %>
+    <h1><%= @user.name %></h1>
+  </div>
+  <ul>
+    <li>Email: <%= @user.email %></li>
+    <li>Phone: <%= @user.phone %></li>
+  </ul>
+</div>
+
+<div class='rsvp-events'>
+  <h3>Events</h3>
+  <ul>
+    <% @user.events.each do |event| %>
+    <li>
+      <%= link_to "#{event.name.capitalize}", event_path(event) %>
+      <%= event.date.to_time.strftime("%A, %B %d, %Y") %>
+    </li>
+    <% end %>
+  </ul>
+</div>
+
+<div class='borrowed-tools'>
+  <h3>Borrowed Tools</h3>
+  <ul>
+    <% @user.tools.each do |tool| %>
+    <li>
+      <%= link_to "#{tool.name.capitalize}", tool_path(tool) %>
+      <%= link_to "Return", return_tool_path(tool) %>
+    </li>
+    <% end %>
+  </ul>
+</div>

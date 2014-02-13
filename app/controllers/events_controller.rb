@@ -1,8 +1,7 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :rsvp]
   before_action :require_login, except: [:show, :index]
   before_action :valid_user, only: [:edit, :update, :destroy]
-
 
   def new
     @event = Event.new
@@ -10,14 +9,17 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-    user = User.find(session[:user_id])
-    if user.events << @event
+    @event.host_id = current_user.id
+
+    begin
+      current_user.events << @event
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
-    else
+    rescue ActiveRecord::RecordInvalid 
       flash[:notice] = "There was a problem saving your event."
       render :new
     end
+
   end
 
   def index
@@ -27,6 +29,11 @@ class EventsController < ApplicationController
   end
 
   def show
+    @user = User.find(@event.host_id)
+    @date = @event.date.to_time.strftime("%A, %B %d, %Y")
+    @time = @event.time
+    #@event.time.in_time_zone('Pacific Time (US & Canada)').strftime("%l:%M %p")
+    # maybe save time as string?
   end
 
   def edit
@@ -47,10 +54,20 @@ class EventsController < ApplicationController
     redirect_to events_path
   end
 
+  def rsvp
+    if current_user.events << @event
+      flash[:notice] = "You have successfully RSVPd for this event!"
+      redirect_to event_path(@event)
+    else
+      flash[:notice] = "There was a problem RSVPing to this event!"
+      redirect_to event_path(@event)
+    end
+  end
+
   private 
 
   def event_params
-    params.require(:event).permit(:venue, :time, :description, :name, :user_id, :date)
+    params.require(:event).permit(:venue, :time, :description, :name, :date)
   end
 
   def set_event
@@ -60,12 +77,12 @@ class EventsController < ApplicationController
   def require_login
     unless session[:user_id]
       flash[:notice] = "You must be signed in." 
-      redirect_to sign_in_path
+      redirect_to root_path
     end
   end
 
   def valid_user
-    unless session[:user_id] == @event.user.id
+    unless session[:user_id] == @event.host_id
       flash[:notice] = "You are not authorized to edit this event!" 
       redirect_to events_path
     end
