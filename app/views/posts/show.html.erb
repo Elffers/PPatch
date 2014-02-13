@@ -2,4 +2,11 @@
 
 <p><%= @post.body %></p>
 
+<div class= 'owner-actions'>
+  <% if current_user == @post.user %>
+    <%= link_to "Edit", edit_post_path(@post) %><br>
+    <%= link_to "Delete", post_path(@post), method: :delete, data: { confirm: 'Are you sure?'} %>
+  <% end %>
+</div>
+
 <%= link_to "Back to Blagh", posts_path %>
