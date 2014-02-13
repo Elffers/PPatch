@@ -24,25 +24,25 @@ class ToolsController < ApplicationController
   end
 
   def update
-      @tool.update(tool_params)
-      if @tool.save
-        flash[:notice] = "Tool has been successfully updated."
-        redirect_to tools_path
-      else
-        flash[:notice] = "There was a problem saving the tool."
-       redirect_to tools_path
-      end
-    end
-
-    def destroy
-      @tool.destroy
-      flash[:notice] = "Tool has been successfully deleted."
+    @tool.update(tool_params)
+    if @tool.save
+      flash[:notice] = "Tool has been successfully updated."
       redirect_to tools_path
+    else
+      flash[:notice] = "There was a problem saving the tool."
+     redirect_to tools_path
     end
+  end
+
+  def destroy
+    @tool.destroy
+    flash[:notice] = "Tool has been successfully deleted."
+    redirect_to tools_path
+  end
 
   private
     def require_login
-      redirect_to sign_in_path, notice: "You must be signed in." if session[:user_id].nil?
+      redirect_to root_path, notice: "You must be signed in." if session[:user_id].nil?
     end
 
     def require_admin

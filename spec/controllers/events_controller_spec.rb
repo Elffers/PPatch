@@ -328,7 +328,18 @@ describe EventsController do
       end
 
       it "adds event to user's events" do
-        expect { get :rsvp, id: event.id }.to change(user.events, :count).by(1)
+        get :rsvp, id: event.id
+        p user.events
+        expect(user.events).to include event
+      end
+
+      it 'adds rsvp to db' do
+        expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(1)
+      end
+
+      it 'adds user to event rsvps' do
+        get :rsvp, id: event.id
+        expect(event.users).to include user
       end
     end
   end
