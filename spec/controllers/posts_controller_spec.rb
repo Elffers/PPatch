@@ -7,11 +7,10 @@ describe PostsController do
     it "returns http success" do
       post = create(:post)
       get 'index'
-
       response.should be_success
       expect(assigns(:posts)).to eq ([post])
     end
-  end
+  end # end GET index
 
   describe "GET 'show'" do
     it "returns http success" do
@@ -19,7 +18,7 @@ describe PostsController do
       get :show, id: post.id
       response.should be_success
     end
-  end
+  end # end GET show
 
   describe "GET 'new'" do
     context "if logged in" do
@@ -36,6 +35,11 @@ describe PostsController do
           get 'new'
           response.should be_success
           expect(assigns(:post)).to be_an_instance_of(Post)
+        end
+
+        it 'renders new template' do
+          get :new
+          expect(response).to render_template :new
         end
       end
 
@@ -55,12 +59,11 @@ describe PostsController do
 
       it "redirects to index" do
         get :new
-
         expect(flash[:notice]).to eq "You must be signed in."
         expect(response).to redirect_to root_path
       end
     end
-  end
+  end #end GET new
 
   describe "POST create" do
     context "if admin" do
@@ -84,6 +87,11 @@ describe PostsController do
           post :create, post: valid_attributes
           expect(flash[:notice]).to_not be_blank
         end
+
+        it 'associates post with current user' do
+          expect { post :create, post: valid_attributes }.to change(user.posts, :count).by(1)
+          expect(assigns(:post).user).to eq user
+        end
       end
 
       context "with invalid attributes" do
@@ -97,58 +105,151 @@ describe PostsController do
         end
       end
     end
-  end
+  end # end POST create
 
-  describe "PATCH update" do
-    let(:post) { create(:post) }
-    context "if admin" do
-      before(:each) do
-        user.update(admin: true)
-        session[:user_id] = user.id
+  describe "GET 'edit'" do
+    let(:post){create(:post, user_id: user.id) }
+
+    context 'if logged in' do
+      context 'if admin' do
+        before(:each) do
+          user.update(admin:true)
+          session[:user_id] = user.id
+        end
+
+        context 'if valid user' do
+          it 'renders edit' do
+            get :edit, id: post.id
+            expect(response).to render_template :edit
+          end
+
+          it 'assigns post variable' do
+            get :edit, id: post.id
+            expect(assigns(:post)).to_not be_nil
+          end
+        end
+
+        context 'if invalid user' do
+          before(:each) do
+            post.update(user_id: 1)
+          end
+
+          it 'redirects to index' do
+            get :edit, id: post.id
+            expect(response).to redirect_to posts_path
+          end
+
+          it 'sets flash notice' do
+            get :edit, id: post.id
+            expect(flash[:notice]).to eq "You are not authorized to edit this post!" 
+          end
+        end
       end
 
-      it "does not create a new post" do
-        post.update(title: "updated post", body: "here's some things to read", user_id: user.id)
-        expect { patch :update, id: post.id, post: post.attributes }.to change(Post, :count).by(0)
-      end
+      context 'if not admin' do
+        before(:each) do
+          user.update(admin:false)
+          session[:user_id] = user.id
+        end
 
-      it "redirects to post path" do
-        post.update(title: "updated post", body: "here's some things to read", user_id: user.id)
-        patch :update, id: post.id, post: post.attributes
-        expect(flash[:notice]).to_not be_blank
-     end
+        it 'sets flash message' do
+          get :edit, id: post.id
+          expect(flash[:notice]).to eq "You must be an admin." 
+        end
 
-      it "sets flash message on failure" do
-        post.update(title: nil, body: "here's some things to read", user_id: user.id)
-        patch :update, id: post.id, post: post.attributes
-        expect(flash[:notice]).to eq "There was a problem saving the post."
+        it 'redirects to blog' do
+          get :edit, id: post.id
+          expect(response).to redirect_to posts_path
+        end
       end
     end
-  end
 
-  describe "DELETE destroy" do
-    let!(:post) { create(:post) }
-    context "if admin" do
+    context 'if not logged in' do
       before(:each) do
-        user.update(admin: true)
-        session[:user_id] = user.id
+        session[:user_id] = nil
       end
 
-      it "deletes a post" do
-        expect { delete :destroy, id: post.id }.to change(Post, :count).by(-1)
+      it "redirects to sign in" do
+        get :edit, id: post.id
+        expect(response).to redirect_to root_path
+      end
+
+      it 'sets flash message' do
+        get :edit, id: post.id
+        expect(flash[:notice]).to eq "You must be signed in."
       end
     end
+  end # end GET edit
 
-    context "if not admin" do
+  describe "DELETE 'destroy'" do
+    let!(:post) { create(:post, user_id: user.id) }
+    context 'if logged in' do
+      
+      context "if admin" do
+        before(:each) do
+          user.update(admin: true)
+          session[:user_id] = user.id
+        end
+
+        context 'if valid user' do
+          it "deletes a post" do
+            expect { delete :destroy, id: post.id }.to change(Post, :count).by(-1)
+          end
+
+          # it "removes post from admin's posts"
+          #   delete :destroy, id: post.id
+          #   expect { delete :destroy, id: post.id }.to change(user.posts, :count).by(-1)
+          # end
+        end #end if valid user
+
+        context 'if invalid user' do
+          before(:each) do
+            post.update(user_id: 1)
+          end
+
+          it 'does not delete post' do
+            expect { delete :destroy, id: post.id }.to change(Post, :count).by(0)
+          end
+
+          it 'sets flash message' do
+            delete :destroy, id: post.id
+            expect(flash[:notice]).to eq "You are not authorized to edit this post!" 
+          end
+        end #end if invalid user
+      end # end if admin
+
+      context "if not admin" do
+        before(:each) do
+          session[:user_id] = user.id
+          user.update(admin: false)
+        end
+
+        it "does not delete the post" do
+          expect { delete :destroy, id: post.id }.to change(Post, :count).by(0)
+        end
+
+        it 'sets flash message' do
+          delete :destroy, id: post.id
+          expect(flash[:notice]).to eq "You must be an admin."
+        end
+      end #end if not admin
+    end #end if logged in
+
+    context 'if not logged in' do
       before(:each) do
-        session[:user_id] = user.id
-        user.update(admin: false)
+        session[:user_id] = nil
       end
 
-      it "does not delete the post" do
-         expect { delete :destroy, id: post.id }.to change(Post, :count).by(0)
+      it "redirects to sign in" do
+        delete :destroy, id: post.id
+        expect(response).to redirect_to root_path
       end
-    end
-  end
 
+      it 'sets flash message' do
+        delete :destroy, id: post.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+    end # end if logged in
+  end # end DELETE destroy
 end
+
