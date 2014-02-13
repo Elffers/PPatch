@@ -15,6 +15,7 @@ gem 'omniauth-twitter'
 gem 'redis'
 gem 'json'
 gem 'pg'
+gem 'barometer'
 
 group :development, :test do
   gem "rspec-rails"

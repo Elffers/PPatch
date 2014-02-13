@@ -7,16 +7,35 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= flash[:notice] %>
 
-  <div class='navbar'>
+<nav class="ui teal inverted menu">
+  <a class="item" href="/">PeaPatch Home</a>
+  <a class="item" href="/blog">Blog</a>
+
+  <span class="right floated item">
     <% if current_user %>
-      Welcome, <%= current_user.name%>!
-      <%=link_to "Sign out", sign_out_path %>
+      <a class="item" href="/profile">Welcome, <%= current_user.name %>!</a>
+      <a class="item" href="/signout">Sign out</a>
+    <% else %>
+      <a class="item" href="/signin">Sign in</a>
     <% end %>
-  </div>
+    </span>
+</nav>
+
+
+<%= flash[:notice] %>
 
 <%= yield %>
 
 </body>
 </html>
+
+
+<div class="ui menu">
+  <div class="item">
+    <div class="ui teal button">Sign up</div>
+  </div>
+  <div class="item">
+    <div class="ui button">Log-in</div>
+  </div>
+</div>
