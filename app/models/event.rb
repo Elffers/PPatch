@@ -4,6 +4,6 @@ class Event < ActiveRecord::Base
   validates :venue, presence: true
   validates :venue, format: { with: /\w+/}
 
-  belongs_to :user
+  # belongs_to :user
 
 end

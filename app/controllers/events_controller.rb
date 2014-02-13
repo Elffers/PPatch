@@ -10,8 +10,8 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-    user = User.find(session[:user_id])
-    if user.events << @event
+    @event.host_id = current_user.id
+    if @event.save
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
     else
@@ -50,7 +50,7 @@ class EventsController < ApplicationController
   private 
 
   def event_params
-    params.require(:event).permit(:venue, :time, :description, :name, :user_id, :date)
+    params.require(:event).permit(:venue, :time, :description, :name, :date)
   end
 
   def set_event
@@ -60,12 +60,12 @@ class EventsController < ApplicationController
   def require_login
     unless session[:user_id]
       flash[:notice] = "You must be signed in." 
-      redirect_to sign_in_path
+      redirect_to root_path
     end
   end
 
   def valid_user
-    unless session[:user_id] == @event.user.id
+    unless session[:user_id] == @event.host_id
       flash[:notice] = "You are not authorized to edit this event!" 
       redirect_to events_path
     end
