@@ -38,7 +38,7 @@ class PostsController < ApplicationController
       redirect_to post_path(@post)
     else
       flash[:notice] = "There was a problem saving the post."
-     redirect_to post_path(@post)
+      render :edit
     end
   end
 
@@ -49,7 +49,7 @@ class PostsController < ApplicationController
   end
 
   private
-  
+
   def require_login
     redirect_to root_path, notice: "You must be signed in." unless session[:user_id]
   end

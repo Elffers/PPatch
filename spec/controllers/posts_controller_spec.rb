@@ -181,6 +181,82 @@ describe PostsController do
     end
   end # end GET edit
 
+  describe "PATCH 'update'" do
+    let!(:post){create(:post, user_id: user.id) }
+
+    context 'if logged in' do
+      context 'if admin' do
+        context 'if valid user' do
+          before(:each) do
+            session[:user_id] = user.id
+            user.update(admin: true)
+          end
+
+          context 'with valid fields' do
+            let!(:valid_attributes){ { title: "new title", body:"New body" } }
+            
+            it 'redirects to post show page' do
+              patch :update, id: post.id, post: valid_attributes
+              p response.status
+              p flash[:notice]
+              expect(response).to redirect_to post_path(post)
+            end
+
+            it 'does not add post to database' do
+              expect {patch :update, id: post.id, post: valid_attributes }.to change(Post, :count).by(0)
+            end
+
+          end
+
+          context 'with invalid fields' do
+            let(:invalid_attributes){ { body: ""} }
+            it 'renders edit' do
+
+              patch :update, id: post.id, post: invalid_attributes
+              p response.status
+              p flash[:notice]
+              expect(response).to render_template :edit
+            end
+
+            it 'does not add post' do
+              expect { patch :update, id: post.id, post: invalid_attributes }.to change(Post, :count).by(0)
+            end
+
+          end
+        end
+
+        context 'if invalid user' do
+          before(:each) do
+            session[:user_id] = 1
+          end
+
+           it 'is redirects to post show' do
+            patch :update, id: post.id
+            expect(response).to redirect_to posts_path
+          end
+
+          it 'sets flash message' do
+            patch :update, id: post.id
+            expect(flash[:notice]).to eq "You are not authorized to edit this post!" 
+          end
+        end
+      end
+    end
+
+    context 'if not logged in' do
+      it "redirects to sign in" do
+        get :edit, id: post.id
+        expect(response).to redirect_to root_path
+      end
+
+      it 'sets flash message' do
+        get :edit, id: post.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+    end
+
+  end #end patch update
+
   describe "DELETE 'destroy'" do
     let!(:post) { create(:post, user_id: user.id) }
     context 'if logged in' do
