@@ -41,8 +41,14 @@ class ToolsController < ApplicationController
   end
 
   def borrow
-    @tool.update(checkedin: false, user_id: current_user.id)
-    if @tool.save
+    if @tool.checkedin == true
+      @tool.update(checkedin: false, user_id: current_user.id)
+      if @tool.save
+        flash[:notice] = "You have successfully checked out #{@tool.name}!"
+        redirect_to tools_path
+      end
+    else
+      flash[:notice] =  "This tool is unavailable!"
       redirect_to tools_path
     end
   end

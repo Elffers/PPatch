@@ -4,7 +4,9 @@
   <% @tools.each do |tool|%>
   <li>
     <%= tool.name %>
-    <%= link_to "Borrow", borrow_tool_path(tool) %>
+    <% if tool.checkedin == true %>
+      <%= link_to "Borrow", borrow_tool_path(tool) %>
+    <% end %>
   </li>
   <% end %>
 </ul>

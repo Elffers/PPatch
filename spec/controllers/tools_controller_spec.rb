@@ -159,14 +159,32 @@ describe ToolsController do
       before(:each) do
         session[:user_id] = user.id
       end
-      it 'changes tool checkedin status to false' do
-        get :borrow, id: tool.id #why need both factory tool and assigns(:tool) here?
-        expect(assigns(:tool).checkedin).to eq false
+      context 'if tool is available' do
+        it 'changes tool checkedin status to false' do
+          #why need both factory tool and assigns(:tool) here?
+          get :borrow, id: tool.id
+          expect(assigns(:tool).checkedin).to eq false
+        end
+
+        it 'adds tool to user toolbox' do
+          expect { get :borrow, id: tool.id }.to change(user.tools, :count).by(1)
+          expect(user.tools).to include assigns(:tool)
+        end
       end
 
-      it 'adds tool to user toolbox' do
-        expect { get :borrow, id: tool.id }.to change(user.tools, :count).by(1)
-        expect(user.tools).to include assigns(:tool)
+      context 'if tool is not available' do
+        before(:each) do
+          tool.update(checkedin: false)
+        end
+
+        it 'does not add to user toolbox' do
+          expect { get :borrow, id: tool.id }.to change(user.tools, :count).by(0)
+        end
+
+        it 'sets flash message' do
+          get :borrow, id: tool.id
+          expect(flash[:notice]).to eq "This tool is unavailable!"
+        end
       end
     end
 
