@@ -79,10 +79,10 @@ describe EventsController do
           expect {post :create, event: build(:event, host_id: user.id).attributes }.to change(Event, :count).by(1)
         end
 
-        # it 'assigns event to current user' do
-        #   post :create, event: build(:event).attributes 
-        #   expect(assigns(:event).user_id).to eq user.id
-        # end
+        it 'assigns current user as event host' do
+          post :create, event: build(:event, host_id: user.id).attributes 
+          expect(assigns(:event).host_id).to eq session[:user_id]
+        end
 
       end
 
