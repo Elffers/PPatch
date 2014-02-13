@@ -27,6 +27,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @user = User.find(@event.host_id)
   end
 
   def edit

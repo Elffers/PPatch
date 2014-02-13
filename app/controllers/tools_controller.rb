@@ -41,22 +41,23 @@ class ToolsController < ApplicationController
   end
 
   private
-    def require_login
-      redirect_to root_path, notice: "You must be signed in." if session[:user_id].nil?
-    end
+  
+  def require_login
+    redirect_to root_path, notice: "You must be signed in." if session[:user_id].nil?
+  end
 
-    def require_admin
-      unless User.find(session[:user_id]).admin == true
-        flash[:notice] = "You must be an admin."
-        redirect_to tools_path
-      end
+  def require_admin
+    unless User.find(session[:user_id]).admin == true
+      flash[:notice] = "You must be an admin."
+      redirect_to tools_path
     end
+  end
 
-    def tool_params
-      params.require(:tool).permit(:name, :description)
-    end
+  def tool_params
+    params.require(:tool).permit(:name, :description)
+  end
 
-    def set_tool
-      @tool = Tool.find(params[:id])
-    end
+  def set_tool
+    @tool = Tool.find(params[:id])
+  end
 end

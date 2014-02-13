@@ -8,6 +8,11 @@ describe UsersController do
       get 'show', id: user.id
       response.should be_success
     end
+
+    it 'should assign user' do
+      get 'show', id: user.id
+      expect(assigns(:user)).to_not be_nil
+    end
   end
 
   describe "GET 'new'" do
