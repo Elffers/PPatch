@@ -109,8 +109,9 @@ describe PostsController do
 
         xit 'sends an email to users who want email update' do
           post :create, post: valid_attributes
+          p ActionMailer::Base.deliveries
           p "MAIL", PostMailer.new_post(assigns(:post).id, assigns(:user).id).deliver
-          expect(response.status).to eq 302
+          expect(ActionMailer::Base.deliveries).to_not be_empty
         end
       end
 
