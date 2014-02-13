@@ -11,8 +11,8 @@ Ppatch::Application.routes.draw do
   get "/events/:id/rsvp"      => "events#rsvp",       as: :rsvp
 
   get "/blog"                 => "posts#index",       as: :posts
-  get "/blog/:id"             => "posts#show",        as: :post
   get "/blog/new"             => "posts#new",         as: :new_post
+  get "/blog/:id"             => "posts#show",        as: :post
   post "/blog"                => "posts#create",      as: :create_post
   get "/blog/:id/edit"        => "posts#edit",        as: :edit_post
   patch "/blog/:id"           => "posts#update"
