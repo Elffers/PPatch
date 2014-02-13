@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   validates :uid, presence: true
   validates :name, uniqueness: true
-  validates :email, uniqueness: true
-  validates :phone, uniqueness: true
+  validates :email, uniqueness: true, allow_nil: true
+  validates :phone, uniqueness: true, allow_nil: true
   validates :admin, inclusion: { in: [true, false] }
   has_many :posts
   has_many :events

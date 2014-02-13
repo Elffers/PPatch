@@ -1,3 +1,24 @@
-<% @events.each do |event| %>
-<%= event.inspect %>
-<% end %>
+<div id="events">
+  <h2 id="month">
+    <%= link_to "<", date: @date.prev_month %>
+    <%= @date.strftime("%B %Y") %>
+    <%= link_to ">", date: @date.next_month %>
+  </h2>
+  <%= calendar @date do |date| %>
+    <%= date.day %>
+    <% if @events_by_date[date] %>
+      <ul>
+        <% @events_by_date[date].each do |event| %>
+          <li><%= link_to event.name, event %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>
+
+<div>
+  <%= link_to "Add event!", new_event_path %>
+  <% @events.each do |event| %>
+    <%= event.inspect %>
+  <% end %>
+</div>

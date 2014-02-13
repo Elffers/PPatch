@@ -17,11 +17,10 @@ Ppatch::Application.routes.draw do
   patch "/blog/:id"           => "posts#update"
   delete "/blog/:id"          => "posts#destroy"
 
-  get "/users/show"
+  get "/users/:id"            => "users#show",        as: :user
   get "/users/new"
 
   get "/signout"              => "sessions#destroy",  as: :sign_out
-  get "/signin"               => "sessions#create",   as: :sign_in
   resources :tools
 
   get "/auth/twitter/callback", to: "sessions#create"

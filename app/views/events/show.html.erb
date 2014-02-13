@@ -1,1 +1,21 @@
-<%= render 'form' %> 
+<h1>
+  <%= @event.name %> 
+</h1>
+<h3>
+  Organized by: <%= @event.user.name %>
+</h3>
+<div>
+  <ul>
+  <li><%= @event.date %></li>
+  <li><%= @event.time %></li>
+  <li><%= @event.venue %></li>
+  <li><%= @event.description %></li>
+</div>
+
+<div class='event_buttons'>
+  <% if @event.user == current_user %>
+    <%= link_to "Edit event", edit_event_path(@event) %>
+    <%= link_to "Remove event", event_path(@event), method: :delete %>
+  <% end %>
+  <%= link_to "See Calendar", events_path %>
+</div>

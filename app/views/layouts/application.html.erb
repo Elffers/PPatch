@@ -2,7 +2,8 @@
 <html>
 <head>
   <title>Ppatch</title>
-  <%= stylesheet_link_tag    "application" %>
+  
+  <%= stylesheet_link_tag "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -11,8 +12,10 @@
 
   <div class='navbar'>
     <% if current_user %>
-      Welcome, <%= current_user.name%>!
+      Welcome, <%= link_to "#{current_user.name}", user_path(current_user) %>!
       <%=link_to "Sign out", sign_out_path %>
+      <% else %>
+      <%= link_to "Sign in!", "/auth/twitter" %> <!-- can add icon -->
     <% end %>
   </div>
 
