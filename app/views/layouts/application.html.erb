@@ -5,31 +5,38 @@
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <div class="container">
       <header>
         <nav>
           <ul>
-            <li><a href="/">The Wormhole</a></li>
+            <li><a href="/">The Wormhole<br>
+              <%= image_tag("worm_guy.png") %></a></li>
             <li><a href="/blog">News</a></li>
             <% if current_user %>
               <li>Signed in as: <a href="/profile"><%= current_user.name %></a></li>
               <li><a href="/signout">Sign out</a></li>
             <% else %>
               <li><a href="/auth/twitter">Sign in with Twitter: <br></a><%= link_to (image_tag "twitter_green_small.png"), '/auth/twitter', title: "Twitter" %></li>
+              <li> Current Weather: <br><%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.current.icon}.gif") %></li>
             <% end %>
           </ul>
         </nav>
       </header>
 
 <body>
+  <div class="content">
 
+    <%= flash[:notice] %>
 
-<%= flash[:notice] %>
+    <%= yield %>
 
-<%= yield %>
+  </div>
 
 </body>
+
+</div>
 </html>
 

@@ -12,36 +12,38 @@
  *= require_tree .
  */
 
- .container {
-  padding-top: 50px;
-  margin: 0 auto;
-  max-width: 960px;
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+ }
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+p {
+  color: #222;
 }
 
 header {
   width: 100%;
-  background: rgba(255, 0, 0, 0.6);
+  background: blue;
 }
 
 nav ul {
   width: 100%;
 }
-
-/*.content {
-  width: 100%;
-  float: left;
-}
-
-.content-inner {
-  margin-left: 250px;
-  background: rgba(255, 0, 0, 0.6);
-}
-
-.sidebar {
-  float: left;
-  width: 250px;
-  margin-left: -100%;
-}*/
 
 nav {
   display: table;
@@ -57,18 +59,57 @@ nav ul {
 }
 
 nav ul li {
+  vertical-align: middle;
   display: table-cell;
   list-style: none;
 }
 
-@media (max-width: 500px) {
-  .sidebar {
-    width: 100%;
-    background: green;
-    float: none;
-    margin-left: 0;
-  }
-  .content-inner {
-    margin-left: 0;
-  }
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding: 15px;
 }
+
+.content {
+  width: 100%;
+}
+
+/*calendar div name
+display none
+*/
+
+@media (min-width: 760px) {
+
+  .content-inner {
+    float: right;
+    width: 75%;
+    background: teal;
+  }
+
+  .sidebar {
+    float: left;
+    width: 25%;
+    background: green;
+  }
+
+}
+
+/*BREAKPOINT STUFFFFFF*/
+/*
+
+@media (min-width:768px){.container {
+        width: 750px
+    }
+}
+
+@media (min-width:992px){.container {
+        width: 970px
+    }
+}
+
+@media (min-width:1200px){.container {
+        width: 1170px
+    }
+}
+*/
