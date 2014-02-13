@@ -27,7 +27,7 @@
     <% @user.tools.each do |tool| %>
     <li>
       <%= link_to "#{tool.name.capitalize}", tool_path(tool) %>
-      <%= link_to "Return", return_tool_path %>
+      <%= link_to "Return", return_tool_path(tool) %>
     </li>
     <% end %>
   </ul>
