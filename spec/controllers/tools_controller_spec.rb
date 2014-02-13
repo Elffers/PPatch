@@ -210,6 +210,63 @@ describe ToolsController do
         expect(flash[:notice]).to eq "You must be signed in."
       end
     end
+  end #end get borrow
+
+
+  describe 'GET return' do
+    let!(:tool) { create(:tool, user_id: user.id, checkedin: false) }
+    context 'if logged in' do
+      before(:each) do
+        session[:user_id] = user.id
+      end
+      context 'if tool is checked out' do
+        it 'changes tool checkedin status to true' do
+          #why need both factory tool and assigns(:tool) here?
+          get :return, id: tool.id
+          expect(assigns(:tool).checkedin).to eq true
+        end
+
+        it 'changes user toolbox count' do
+          expect { get :return, id: tool.id }.to change(user.tools, :count).by(-1)
+        end
+
+        it 'removes tool from user toolbox' do
+          get :return, id: tool.id
+          expect(assigns(:tool).user).to be_nil
+        end
+      end
+
+      # context 'if tool is not checked out' do
+      #   before(:each) do
+      #     tool.update(checkedin: true)
+      #   end
+
+      #   it 'does not add to user toolbox' do
+      #     expect { get :borrow, id: tool.id }.to change(user.tools, :count).by(0)
+      #   end
+
+      #   it 'sets flash message' do
+      #     get :borrow, id: tool.id
+      #     expect(flash[:notice]).to eq "This tool is unavailable!"
+      #   end
+      # end
+    end
+
+    context 'if not logged in' do
+      before(:each) do
+        session[:user_id] = nil
+      end
+
+      it 'redirects to home' do
+        get :return, id: tool.id
+        expect(response).to redirect_to root_path
+      end
+
+      it 'sets flash message' do
+        get :return, id: tool.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+    end
   end
 
 end

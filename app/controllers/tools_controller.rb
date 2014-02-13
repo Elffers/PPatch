@@ -2,7 +2,7 @@ class ToolsController < ApplicationController
   before_action :current_user
   before_action :require_login, except: [:show, :index]
   before_action :require_admin, only: [:new, :create, :destroy] #need edit, update
-  before_action :set_tool, only: [:show, :update, :destroy, :borrow]
+  before_action :set_tool, only: [:show, :update, :destroy, :borrow, :return]
 
   def index
     @tools = Tool.all
@@ -52,6 +52,19 @@ class ToolsController < ApplicationController
       end
     else
       flash[:notice] =  "This tool is unavailable!"
+      redirect_to tools_path
+    end
+  end
+
+  def return
+    if @tool.checkedin == false
+      @tool.update(checkedin: true, user_id: nil)
+      if @tool.save
+        flash[:notice] = "Tool successfully returned!"
+        redirect_to tools_path
+      end
+    else
+      flash[:notice] = "This tool is already checked in!"
       redirect_to tools_path
     end
   end
