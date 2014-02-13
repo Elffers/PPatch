@@ -236,20 +236,21 @@ describe ToolsController do
         end
       end
 
-      # context 'if tool is not checked out' do
-      #   before(:each) do
-      #     tool.update(checkedin: true)
-      #   end
+      context 'if tool is not checked out' do
+        before(:each) do
+          tool.update(checkedin: true)
+        end
 
-      #   it 'does not add to user toolbox' do
-      #     expect { get :borrow, id: tool.id }.to change(user.tools, :count).by(0)
-      #   end
+        it 'redirects to tools' do
+          get :return, id: tool.id
+          expect(response).to redirect_to tools_path
+        end
 
-      #   it 'sets flash message' do
-      #     get :borrow, id: tool.id
-      #     expect(flash[:notice]).to eq "This tool is unavailable!"
-      #   end
-      # end
+        it 'sets flash message' do
+          get :return, id: tool.id
+          expect(flash[:notice]).to eq "This tool is already checked in!"
+        end
+      end
     end
 
     context 'if not logged in' do
