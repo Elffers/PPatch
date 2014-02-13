@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ppatch</title>
-  
-  <%= stylesheet_link_tag "application" %>
+  <title>The Wormhole</title>
+  <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+
+<div class="container">
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">The Wormhole</a></li>
+        <li><a href="/blog">News</a></li>
+        <% if current_user %>
+          <li>Signed in as: <a href="/profile"><%= current_user.name %></a></li>
+          <li><a href="/signout">Sign out</a></li>
+        <% else %>
+          <li><a href="/auth/twitter">Sign in with Twitter: <br></a><%= link_to (image_tag "twitter_green_small.png"), '/auth/twitter', title: "Twitter" %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </header>
+
 <body>
-<%= flash[:notice] %>
+  <%= flash[:notice] %>
 
-  <div class='navbar'>
-    <% if current_user %>
-      Welcome, <%= link_to "#{current_user.name}", user_path(current_user) %>!
-      <%=link_to "Sign out", sign_out_path %>
-      <% else %>
-        <%= link_to "Sign in!", "/auth/twitter" %> <!-- can add icon -->
-    <% end %>
-  </div>
-
-<%= yield %>
-
+  <%= yield %>
 
   <script type="text/javascript">
   var disqus_shortname = 'thewormholeherokuappcom'; 
@@ -34,3 +40,4 @@
     
 </body>
 </html>
+

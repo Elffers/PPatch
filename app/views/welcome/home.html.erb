@@ -1,5 +1,26 @@
+
+<div>
+<%= "Current Temperature: #{@weather.current.temperature.f} °F" %><br>
+<%= "Conditions: #{@weather.current.condition}" %><br>
+<%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.current.icon}.gif") %>
+</div>
+<div>
+<%= "Today's high: #{@weather.today.high.f} °F" %><br>
+<%= "Today's low: #{@weather.today.low.f} °F" %><br>
+<%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.tomorrow.icon}.gif") %>
+</div>
+<div>
+<%= "Tomorrow's high: #{@weather.tomorrow.high.f} °F" %><br>
+<%= "Tomorrow's low: #{@weather.tomorrow.low.f} °F" %><br>
+<%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.tomorrow.icon}.gif") %>
+</div>
+</div>
+
+
+
 <div class='sign-in'>
   <h1>Sign in with Twitter!</h1>
-  <%= link_to (image_tag "twitter_green.png"), '/auth/twitter', title: "Twitter" %>
+
 </div>
+
 

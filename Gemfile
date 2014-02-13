@@ -17,7 +17,7 @@ gem 'json'
 gem 'pg'
 gem 'jquery-ui-rails'
 gem "mail", "2.5.4"
-
+gem 'barometer'
 
 group :development, :test do
   gem "rspec-rails"
