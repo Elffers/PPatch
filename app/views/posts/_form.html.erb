@@ -1,0 +1,26 @@
+<H1>Create an Event!</H1>
+
+<%= form_for @post do |f| %>
+  <% if @post.errors.any? %>
+    <h2>Form is invalid</h2>
+    <ul>
+      <% for message in @post.errors.full_messages %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class = 'field'>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class = 'field'>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+
+  <%= f.submit "Post de post!" %>
+
+<% end %>  
+

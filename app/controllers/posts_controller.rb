@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :current_user
   before_action :require_login, except: [:show, :index]
   before_action :require_admin, except: [:show, :index]
-  before_action :set_post, only: [:show, :update, :destroy, :edit]
+  before_action :set_post, only: [:show, :update, :edit, :destroy]
 
   def index
     @posts = Post.all
@@ -15,7 +15,6 @@ class PostsController < ApplicationController
   end
 
   def new
-   require_admin
    @post = Post.new
   end
 
@@ -50,7 +49,7 @@ class PostsController < ApplicationController
 
   private
     def require_login
-      redirect_to root_path, notice: "You must be signed in." if session[:user_id].nil?
+      redirect_to root_path, notice: "You must be signed in." unless session[:user_id]
     end
 
     def require_admin
