@@ -60,6 +60,8 @@ describe EventsController do
       before(:each) do
         session[:user_id] = user.id
       end
+      let(:valid_attributes){ build(:event).attributes }
+
       context 'with valid fields' do
         it 'redirects to event show' do
           post :create, event: create(:event, host_id: user.id).attributes 
@@ -84,10 +86,17 @@ describe EventsController do
           expect(assigns(:event).host_id).to eq session[:user_id]
         end
 
+        it "adds event to current user's events" do
+          post :create, event: valid_attributes
+          p user.events
+          # p Event.last
+          expect(user.events).to include Event.last
+        end
+
       end
 
       context 'with invalid fields' do
-        let(:invalid_attributes) { {name: nil} }
+        let(:invalid_attributes) { {name: ""} }
 
         it 'renders new' do
           post :create, event: invalid_attributes

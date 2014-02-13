@@ -11,13 +11,23 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.host_id = current_user.id
-    if @event.save
+
+    begin
+      current_user.events << @event
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
-    else
+    rescue ActiveRecord::RecordInvalid 
       flash[:notice] = "There was a problem saving your event."
       render :new
     end
+
+    # if current_user.events << @event
+    #   flash[:notice] = "Event added!"
+    #   redirect_to event_path(@event)
+    # else
+    #   flash[:notice] = "There was a problem saving your event."
+    #   render :new
+    # end
   end
 
   def index
