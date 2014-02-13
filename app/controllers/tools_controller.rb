@@ -2,7 +2,7 @@ class ToolsController < ApplicationController
   before_action :current_user
   before_action :require_login, except: [:show, :index]
   before_action :require_admin, only: [:new, :create, :destroy] #need edit, update
-  before_action :set_tool, only: [:update, :destroy, :borrow]
+  before_action :set_tool, only: [:show, :update, :destroy, :borrow]
 
   def index
     @tools = Tool.all
@@ -10,6 +10,9 @@ class ToolsController < ApplicationController
 
   def new
    @tool = Tool.new
+  end
+
+  def show
   end
 
   def create

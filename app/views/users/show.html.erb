@@ -19,5 +19,15 @@
     </li>
     <% end %>
   </ul>
+</div>
 
+<div class='borrowed-tools'>
+  <h3>Borrowed Tools</h3>
+  <ul>
+    <% @user.tools.each do |tool| %>
+    <li>
+      <%= link_to "#{tool.name.capitalize}", tool_path(tool) %>
+    </li>
+    <% end %>
+  </ul>
 </div>

@@ -61,7 +61,14 @@ describe ToolsController do
         expect(response).to redirect_to root_path
       end
     end
+  end
 
+  describe 'GET show' do
+    let(:tool){ create(:tool) }
+    it 'assigns tool' do
+      get :show, id: tool.id
+      expect(assigns(:tool)).to be_an_instance_of Tool
+    end
   end
 
   describe "POST create" do
