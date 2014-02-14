@@ -38,8 +38,9 @@ p {
 }
 
 header {
+  margin-top: 120px;
   width: 100%;
-  background: blue;
+  padding: 20px;
 }
 
 nav ul {
@@ -49,43 +50,9 @@ nav ul {
 nav {
   display: table;
   width: 100%;
-}
-
-nav ul {
-  vertical-align: middle;
-  display: table-row;
   margin: 0;
   padding: 0;
   text-align: center;
-}
-
-nav ul li {
-  vertical-align: middle;
-  display: table-cell;
-  list-style: none;
-}
-
-body{
-  background-image: url("grass-small.jpg");
-  background-repeat: no-repeat;
-}
-
-#cssmenu,
-#cssmenu ul,
-#cssmenu li #cssmenu a {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 14px;
-  font-family: Helvetica;
-  line-height: 1;
-}
-#greenmenu {
-  width: auto;
-}
-#greenmenu ul {
-  zoom: 1;
   background: #a7bc7a url(pattern.png) top left repeat;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -95,18 +62,13 @@ body{
   -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 }
-#greenmenu ul:before {
-  content: '';
-  display: block;
+
+nav a:hover {
+  color: #586835;
+  text-shadow: 0 1px 1px #bdcd9c;
 }
-#greenmenu ul:after {
-  content: '';
-  display: table;
-  clear: both;
-}
-#greenmenu a,
-#greenmenu a:link,
-#greenmenu a:visited {
+
+nav a:visited {
   padding: 15px 20px;
   display: block;
   text-decoration: none;
@@ -114,23 +76,28 @@ body{
   text-shadow: 0 -1px 1px #586835;
   border-right: 1px solid #839b4e;
 }
-#greenmenu a:hover {
-  color: #586835;
-  text-shadow: 0 1px 1px #bdcd9c;
+
+nav ul {
+  vertical-align: middle;
+  display: table-row;
 }
-#greenmenu li {
-  float: left;
+
+nav ul li {
+  vertical-align: middle;
+  display: table-cell;
+  list-style: none;
   border-right: 1px solid #b2c58b;
 }
-#greenmenu li:hover {
+
+nav ul li:hover {
   background: #9cb369 url(pattern.png) top left repeat;
 }
-#greenmenu li:first-child {
-  border-left: none;
-  -webkit-border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
-  border-radius: 4px 0 0 4px;
+
+body{
+  background-image: url("grass-small.jpg");
+  background-repeat: no-repeat;
 }
+
 
 .forecast {
   display: none;
