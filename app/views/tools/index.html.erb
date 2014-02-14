@@ -2,10 +2,10 @@
 
 <ul>
   <% @tools.each do |tool|%>
-  <li>
+  <li class="tool">
     <%= tool.name %>
     <% if tool.checkedin == true %>
-      <%= link_to "Borrow", borrow_tool_path(tool) %>
+      <%= link_to "Borrow", borrow_tool_path(tool), class='borrow-tool' %>
     <% end %>
   </li>
   <% end %>
