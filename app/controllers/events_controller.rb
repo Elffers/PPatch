@@ -55,12 +55,19 @@ class EventsController < ApplicationController
   end
 
   def rsvp
-    if current_user.events << @event
-      flash[:notice] = "You have successfully RSVPd for this event!"
+    @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
+    if @rsvp
+      p "already rsvp'd"
+      flash[:notice] = "You have already RSVP'd for this event!"
       redirect_to event_path(@event)
     else
-      flash[:notice] = "There was a problem RSVPing to this event!"
-      redirect_to event_path(@event)
+      if current_user.events << @event
+        flash[:notice] = "You have successfully RSVPd for this event!"
+        redirect_to event_path(@event)
+      else
+        flash[:notice] = "There was a problem RSVPing to this event!"
+        redirect_to event_path(@event)
+      end
     end
   end
 

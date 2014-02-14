@@ -324,8 +324,10 @@ describe EventsController do
     end
 
     context 'if logged in' do
+      let(:participant){ create(:user) }
+
       before(:each) do
-        session[:user_id] = user.id
+        session[:user_id] = participant.id
       end
 
       context 'if not already RSVPd' do
@@ -342,8 +344,7 @@ describe EventsController do
 
         it "adds event to user's events" do
           get :rsvp, id: event.id
-          p user.events
-          expect(user.events).to include event
+          expect(participant.events).to include event
         end
 
         it 'adds rsvp to db' do
@@ -352,17 +353,15 @@ describe EventsController do
 
         it 'adds user to event rsvps' do
           get :rsvp, id: event.id
-          expect(event.users).to include user
+          expect(event.users).to include participant
         end
 
       end
 
       context 'if already RSVPd' do
-        let(:rsvp){ create(:rsvp, user_id: user.id) }
+        let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
         
         it 'does not create RSVP' do
-          p "RSVP", rsvp
-          p "USER", user
           expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(0)
         end
 
