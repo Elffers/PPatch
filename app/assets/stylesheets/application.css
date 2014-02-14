@@ -39,7 +39,7 @@ p {
 
 header {
   width: 100%;
-  background: blue;
+  padding: 20px;
 }
 
 nav ul {
@@ -89,13 +89,11 @@ display none
   .content-inner {
     float: right;
     width: 70%;
-    background: teal;
   }
 
   .sidebar {
     float: left;
     width: 30%;
-    background: green;
   }
 
   .forecast {

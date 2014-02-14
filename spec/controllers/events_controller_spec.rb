@@ -317,6 +317,10 @@ describe EventsController do
       it 'does not add event to user' do
         expect { get :rsvp, id: event.id }.to change(user.events, :count).by(0)
       end
+
+      it 'does not create RSVP' do
+        expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(0)
+      end
     end
 
     context 'if logged in' do
@@ -324,29 +328,49 @@ describe EventsController do
         session[:user_id] = user.id
       end
 
-      it 'redirects to event page' do
-        get :rsvp, id: event.id
-        expect(response).to redirect_to event_path(event)
+      context 'if not already RSVPd' do
+
+        it 'redirects to event page' do
+          get :rsvp, id: event.id
+          expect(response).to redirect_to event_path(event)
+        end
+
+        it 'sets flash message' do
+          get :rsvp, id: event.id
+          expect(flash[:notice]).to eq "You have successfully RSVPd for this event!"
+        end
+
+        it "adds event to user's events" do
+          get :rsvp, id: event.id
+          p user.events
+          expect(user.events).to include event
+        end
+
+        it 'adds rsvp to db' do
+          expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(1)
+        end
+
+        it 'adds user to event rsvps' do
+          get :rsvp, id: event.id
+          expect(event.users).to include user
+        end
+
       end
 
-      it 'sets flash message' do
-        get :rsvp, id: event.id
-        expect(flash[:notice]).to eq "You have successfully RSVPd for this event!"
-      end
+      context 'if already RSVPd' do
+        let(:rsvp){ create(:rsvp, user_id: user.id) }
+        
+        it 'does not create RSVP' do
+          p "RSVP", rsvp
+          p "USER", user
+          expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(0)
+        end
 
-      it "adds event to user's events" do
-        get :rsvp, id: event.id
-        p user.events
-        expect(user.events).to include event
-      end
+        it 'sets flash message' do
+          get :rsvp, id: event.id
+          expect(flash[:notice]).to eq "You have already RSVP'd for this event!"
+        end
 
-      it 'adds rsvp to db' do
-        expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(1)
-      end
-
-      it 'adds user to event rsvps' do
-        get :rsvp, id: event.id
-        expect(event.users).to include user
       end
     end
   end
