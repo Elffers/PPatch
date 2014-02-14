@@ -12,3 +12,105 @@
  *= require_self
  *= require_tree .
  */
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+ }
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+p {
+  color: #222;
+}
+
+header {
+  width: 100%;
+  background: blue;
+}
+
+nav ul {
+  width: 100%;
+}
+
+nav {
+  display: table;
+  width: 100%;
+}
+
+nav ul {
+  vertical-align: middle;
+  display: table-row;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+nav ul li {
+  vertical-align: middle;
+  display: table-cell;
+  list-style: none;
+}
+
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding: 15px;
+}
+
+.content {
+  width: 100%;
+}
+
+/*calendar div name
+display none
+*/
+
+@media (min-width: 760px) {
+
+  .content-inner {
+    float: right;
+    width: 75%;
+    background: teal;
+  }
+
+  .sidebar {
+    float: left;
+    width: 25%;
+    background: green;
+  }
+
+}
+
+/*BREAKPOINT STUFFFFFF*/
+/*
+
+@media (min-width:768px){.container {
+        width: 750px
+    }
+}
+
+@media (min-width:992px){.container {
+        width: 970px
+    }
+}
+
+@media (min-width:1200px){.container {
+        width: 1170px
+    }
+}
+*/
