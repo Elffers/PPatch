@@ -8,11 +8,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
+ <body>
   <header>
     <nav>
       <ul>
-        <li><a href="/">The Wormhole
-          <%= image_tag("worm_guy2.png") %></a></li>
+        <li><a href="/"><%= image_tag("worm_guy2.png") %> The Wormhole
+          </a></li>
         <li><a href="/blog">News</a></li>
         <% if current_user %>
           <li>Signed in as: <%= link_to "#{current_user.name}", user_path(current_user) %></li>
@@ -25,7 +26,7 @@
     </nav>
   </header>
 
-<body>
+
   <div class="container">
 
     <%= flash[:notice] %>
@@ -46,7 +47,5 @@
   </script>
 
 </body>
-
-</div>
 </html>
 
