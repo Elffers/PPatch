@@ -57,7 +57,6 @@ class EventsController < ApplicationController
   def rsvp
     @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
     if @rsvp
-      p "already rsvp'd"
       flash[:notice] = "You have already RSVP'd for this event!"
       redirect_to event_path(@event)
     else
@@ -69,6 +68,9 @@ class EventsController < ApplicationController
         redirect_to event_path(@event)
       end
     end
+  end
+
+  def flake
   end
 
   private 

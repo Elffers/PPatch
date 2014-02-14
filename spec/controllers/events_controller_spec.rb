@@ -376,17 +376,54 @@ describe EventsController do
         before(:each) do
           session[:user_id] = user.id
         end
-        it 'does not add RSVP to ' do
-          p event.host_id
-          p user.id
+
+        it 'does not add RSVP to db' do
           expect{ get :rsvp, id: event.id }.to change(Rsvp, :count).by(0)
         end
+
+        it 'does not add RSVP to db' do
+          expect{ get :rsvp, id: event.id }.to change(user.events, :count).by(0)
+        end
+
+        it 'sets flash message' do
+          get :rsvp, id: event.id
+          expect(flash[:notice]).to eq "You have already RSVP'd for this event!"
+        end
+
       end
     end
   end
 
-  describe 'GET un_rsvp' do
+  describe 'GET flake_out' do
     let!(:event){ create(:event, host_id: user.id) }
+
+    context 'if not logged in' do
+      before(:each) do
+        session[:user_id] = nil
+      end
+
+      it "redirects to sign in" do
+        get :flake, id: event.id
+        expect(response).to redirect_to root_path
+      end
+
+      it 'sets flash message' do
+        get :flake, id: event.id
+        expect(flash[:notice]).to eq "You must be signed in."
+      end
+    end
+
+    context 'if logged in' do
+      context "if already RSVP'd" do
+      end
+
+      context "if not already RSVP'd" do
+      end      
+
+      context 'if hosting event' do
+      end
+    end
+    
   end
     
 end
