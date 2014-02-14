@@ -15,11 +15,9 @@ gem 'omniauth-twitter'
 gem 'redis'
 gem 'json'
 gem 'pg'
-
-gem 'barometer'
-
 gem 'jquery-ui-rails'
-
+gem "mail", "2.5.4"
+gem 'barometer'
 
 group :development, :test do
   gem "rspec-rails"
