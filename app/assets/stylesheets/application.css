@@ -65,6 +65,10 @@ nav ul li {
   list-style: none;
 }
 
+.forecast {
+  display: none;
+}
+
 
 .container {
     margin-right: auto;
@@ -84,16 +88,19 @@ display none
 
   .content-inner {
     float: right;
-    width: 75%;
+    width: 70%;
     background: teal;
   }
 
   .sidebar {
     float: left;
-    width: 25%;
+    width: 30%;
     background: green;
   }
 
+  .forecast {
+    display: inline-block;
+  }
 }
 
 /*BREAKPOINT STUFFFFFF*/
