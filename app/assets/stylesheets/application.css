@@ -18,9 +18,8 @@
  }
 
 html {
-  color: #222;
   font-size: 1em;
-  line-height: 1.4;
+  line-height: 1.2;
 }
 
 .clearfix:before,
@@ -38,6 +37,7 @@ p {
 }
 
 header {
+  margin-top: 120px;
   width: 100%;
   padding: 20px;
 }
@@ -49,21 +49,52 @@ nav ul {
 nav {
   display: table;
   width: 100%;
+  text-align: center;
+  background: #a7bc7a url(pattern.png) top left repeat;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #839b4e;
+  -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+nav a:hover {
+  color: #586835;
+  text-shadow: 0 1px 1px #bdcd9c;
+}
+
+nav a:visited {
+  padding: 15px 20px;
+  display: block;
+  text-decoration: none;
+  color: #ffffff;
+  text-shadow: 0 -1px 1px #586835;
+  border-right: 1px solid #839b4e;
 }
 
 nav ul {
   vertical-align: middle;
   display: table-row;
-  margin: 0;
-  padding: 0;
-  text-align: center;
 }
 
 nav ul li {
   vertical-align: middle;
   display: table-cell;
   list-style: none;
+  border-right: 1px solid #b2c58b;
 }
+
+nav ul li:hover {
+  background: #9cb369 url(pattern.png) top left repeat;
+}
+
+body{
+  background-image: url("grass-small.jpg");
+  background-repeat: no-repeat;
+}
+
 
 .forecast {
   display: none;
@@ -73,25 +104,66 @@ nav ul li {
 .container {
     margin-right: auto;
     margin-left: auto;
-    padding: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #a7bc7a url(pattern.png) top left repeat;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #839b4e;
+    -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 }
 
-.content {
+.content-inner {
   width: 100%;
+  color: white;
 }
+
 
 /*calendar div name
 display none
 */
 
+
+/*BREAKPOINT STUFFFFFF*/
+/* background image*/
+
+@media (min-width: 400px) {
+
+    body {
+    background-image: url("grass-medium.jpg");
+    background-repeat: no-repeat;
+    }
+}
+
+@media (min-width: 800px) {
+    body {
+    background-image: url("grass-large.jpg");
+    background-repeat: no-repeat;
+    }
+}
+
+/*end image stuff*/
+
 @media (min-width: 760px) {
 
+  .container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
   .content-inner {
+    padding-left: 5px;
     float: right;
     width: 70%;
   }
 
   .sidebar {
+    padding-right: 30px;
     float: left;
     width: 30%;
   }
@@ -101,21 +173,23 @@ display none
   }
 }
 
-/*BREAKPOINT STUFFFFFF*/
-/*
 
-@media (min-width:768px){.container {
-        width: 750px
+@media (min-width:992px){
+
+  .container {
+      width: 970px;
+      padding-left: 35px;
+      padding-right: 35px;
     }
 }
 
-@media (min-width:992px){.container {
-        width: 970px
+@media (min-width:1200px){
+
+  .container {
+        width: 1170px;
+
     }
 }
 
-@media (min-width:1200px){.container {
-        width: 1170px
-    }
-}
-*/
+
+
