@@ -37,9 +37,9 @@ p {
 }
 
 header {
-  margin-top: 120px;
+  background-image: url("grass-header.jpg");
+  background-repeat: repeat-x;
   width: 100%;
-  padding: 20px;
 }
 
 nav ul {
@@ -47,6 +47,7 @@ nav ul {
 }
 
 nav {
+  margin-top: 120px;
   display: table;
   width: 100%;
   text-align: center;
@@ -90,11 +91,11 @@ nav ul li:hover {
   background: #9cb369 url(pattern.png) top left repeat;
 }
 
-body{
-  background-image: url("grass-small.jpg");
-  background-repeat: no-repeat;
-}
 
+.headerimage {
+  background-image: url("grass-header.jpg");
+  background-repeat: repeat-x;
+}
 
 .forecast {
   display: none;
@@ -102,11 +103,15 @@ body{
 
 
 .container {
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 10px;
-    padding-right: 10px;
-    background: #a7bc7a url(pattern.png) top left repeat;
+  background-image: url("dirt.jpg");
+  background-repeat: repeat;
+  width: 100%;
+}
+
+.content-inner {
+  width: 100%;
+  color: white;
+      background: #a7bc7a url(pattern.png) top left repeat;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -114,11 +119,6 @@ body{
     -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
-}
-
-.content-inner {
-  width: 100%;
-  color: white;
 }
 
 
@@ -132,34 +132,22 @@ display none
 
 @media (min-width: 400px) {
 
-    body {
-    background-image: url("grass-medium.jpg");
-    background-repeat: no-repeat;
-    }
 }
 
 @media (min-width: 800px) {
-    body {
-    background-image: url("grass-large.jpg");
-    background-repeat: no-repeat;
-    }
+
 }
 
 /*end image stuff*/
 
 @media (min-width: 760px) {
 
-  .container {
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
   .content-inner {
     padding-left: 5px;
     float: right;
     width: 70%;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
   .sidebar {
@@ -176,7 +164,7 @@ display none
 
 @media (min-width:992px){
 
-  .container {
+  .content-inner {
       width: 970px;
       padding-left: 35px;
       padding-right: 35px;
@@ -186,8 +174,7 @@ display none
 @media (min-width:1200px){
 
   .container {
-        width: 1170px;
-
+      width: 1170px;
     }
 }
 
