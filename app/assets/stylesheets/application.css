@@ -35,10 +35,12 @@ html {
 p {
   color: #222;
 }
-
-header {
+body {
   background-image: url("grass-header.jpg");
   background-repeat: repeat-x;
+}
+
+header {
   width: 100%;
 }
 
@@ -91,12 +93,6 @@ nav ul li:hover {
   background: #9cb369 url(pattern.png) top left repeat;
 }
 
-
-.headerimage {
-  background-image: url("grass-header.jpg");
-  background-repeat: repeat-x;
-}
-
 .forecast {
   display: none;
 }
@@ -111,14 +107,15 @@ nav ul li:hover {
 .content-inner {
   width: 100%;
   color: white;
-      background: #a7bc7a url(pattern.png) top left repeat;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    border: 1px solid #839b4e;
-    -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  background: #a7bc7a url(pattern.png) top left repeat;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #839b4e;
+  -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 }
 
 
