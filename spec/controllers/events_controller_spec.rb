@@ -394,7 +394,7 @@ describe EventsController do
     end
   end
 
-  describe 'GET flake_out' do
+  describe 'GET flake' do
     let!(:event){ create(:event, host_id: user.id) }
 
     context 'if not logged in' do
@@ -414,13 +414,46 @@ describe EventsController do
     end
 
     context 'if logged in' do
+      let(:participant){ create(:user) }
+
+      before(:each) do
+        session[:user_id] = participant.id
+      end
+
       context "if already RSVP'd" do
+        let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
+
+        it "removes event from user's events" do
+          expect{ get :flake, id: event.id }.to change(participant.events, :count).by(-1)
+        end
+
+        it "removes rsvp from db" do
+          expect{ get :flake, id: event.id }.to change(Rsvp, :count).by(-1)
+        end
       end
 
       context "if not already RSVP'd" do
+        it "sets flash message" do
+          get :flake, id: event.id
+          expect(flash[:notice]).to eq "You are not RSVP'd for this event!"
+        end
       end      
 
       context 'if hosting event' do
+        let!(:rsvp){ create(:rsvp, user_id: user.id, event_id: event.id) }
+        before(:each) do
+          session[:user_id] = user.id
+        end
+
+        it 'does not allow you to flake' do
+          expect {get :flake, id: event.id}.to change(Rsvp, :count).by(0)
+          expect(user.events). to include event
+        end
+
+        it 'sets flash message' do
+          get :flake, id: event.id
+          expect(flash[:notice]).to eq "You can't flake from your own event!"
+        end
       end
     end
     
