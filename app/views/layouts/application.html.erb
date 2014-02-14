@@ -8,23 +8,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
- <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="/"><%= image_tag("worm_guy2.png") %> The Wormhole
-          </a></li>
-        <li><a href="/blog">News</a></li>
-        <% if current_user %>
-          <li>Signed in as: <%= link_to "#{current_user.name}", user_path(current_user) %></li>
-          <li><a href="/signout">Sign out</a></li>
-        <% else %>
-          <li><a href="/auth/twitter">Sign in with Twitter: </a><%= link_to (image_tag "twitter_green_small.png"), '/auth/twitter', title: "Twitter" %></li>
-          <li> Current Weather: <%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.current.icon}.gif") %></li>
-        <% end %>
-      </ul>
-    </nav>
-  </header>
+  <body>
+    <header></header>
+        <nav>
+          <ul>
+            <li><a href="/"><%= image_tag("worm_guy2.png") %> The Wormhole
+              </a></li>
+            <li><a href="/blog">News</a></li>
+            <% if current_user %>
+              <li>Signed in as: <%= link_to "#{current_user.name}", user_path(current_user) %></li>
+              <li><a href="/signout">Sign out</a></li>
+            <% else %>
+              <li><a href="/auth/twitter">Sign in with Twitter: </a><%= link_to (image_tag "twitter_green_small.png"), '/auth/twitter', title: "Twitter" %></li>
+              <li> Current Weather: <%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.current.icon}.gif") %></li>
+            <% end %>
+          </ul>
+        </nav>
+
 
   <div class="container">
 
@@ -32,6 +32,7 @@
 
     <%= yield %>
 
+    <br style="clear:both;">
   </div>
 
 
