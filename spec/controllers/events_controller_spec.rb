@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe EventsController do
-  let(:user){ create(:user) }
+  let!(:user){ create(:user) }
 
   describe "GET 'index'" do
     it "returns http success" do
@@ -355,7 +355,6 @@ describe EventsController do
           get :rsvp, id: event.id
           expect(event.users).to include participant
         end
-
       end
 
       context 'if already RSVPd' do
@@ -369,9 +368,25 @@ describe EventsController do
           get :rsvp, id: event.id
           expect(flash[:notice]).to eq "You have already RSVP'd for this event!"
         end
+      end
 
+      context 'if hosting' do
+        let!(:rsvp){ create(:rsvp, user_id: user.id, event_id: event.id) }
+
+        before(:each) do
+          session[:user_id] = user.id
+        end
+        it 'does not add RSVP to ' do
+          p event.host_id
+          p user.id
+          expect{ get :rsvp, id: event.id }.to change(Rsvp, :count).by(0)
+        end
       end
     end
+  end
+
+  describe 'GET un_rsvp' do
+    let!(:event){ create(:event, host_id: user.id) }
   end
     
 end
