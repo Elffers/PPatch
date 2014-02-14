@@ -2,6 +2,8 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy, :rsvp, :flake]
   before_action :require_login, except: [:show, :index]
   before_action :valid_user, only: [:edit, :update, :destroy]
+  before_action :set_rsvp, only: [:rsvp, :flake]
+
 
   def new
     @event = Event.new
@@ -55,7 +57,6 @@ class EventsController < ApplicationController
   end
 
   def rsvp
-    @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
     if @rsvp
       flash[:notice] = "You have already RSVP'd for this event!"
       redirect_to event_path(@event)
@@ -71,11 +72,7 @@ class EventsController < ApplicationController
   end
 
   def flake
-    @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
     if @rsvp
-      # p "RSVP", @rsvp
-      # p "EVENT", @event
-      # p "USER", current_user
       if @rsvp.user_id == @event.host_id
         flash[:notice] = "You can't flake from your own event!"
         redirect_to event_path(@event)
@@ -111,6 +108,10 @@ class EventsController < ApplicationController
       flash[:notice] = "You are not authorized to edit this event!" 
       redirect_to events_path
     end
+  end
+
+  def set_rsvp
+    @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
   end
 
 end
