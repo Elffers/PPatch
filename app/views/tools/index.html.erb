@@ -5,7 +5,7 @@
   <li class="tool">
     <%= tool.name %>
     <% if tool.checkedin == true %>
-      <%= link_to "Borrow", borrow_tool_path(tool), class='borrow-tool' %>
+      <%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %>
     <% end %>
   </li>
   <% end %>
