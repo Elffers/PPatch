@@ -1,5 +1,6 @@
 class WelcomeController < ApplicationController
   before_action :past_events
+  before_action :upcoming_events
 
   def home
     barometer = Barometer.new('Seattle')
@@ -12,9 +13,9 @@ class WelcomeController < ApplicationController
   private
   def past_events
     @past_events = Event.all.keep_if {|event| event.date < Date.today}
-    p @past_events
   end
 
-  # def upcoming_events
-  # end
+  def upcoming_events
+    @upcoming_events = Event.all.keep_if {|event| event.date > Date.today}
+  end
 end

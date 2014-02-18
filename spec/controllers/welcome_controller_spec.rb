@@ -9,22 +9,33 @@ describe WelcomeController do
     end
   end
 
-  describe "sets past events" do
+  describe "sets events" do
     let!(:past_event){ create(:event, date: Date.today - 1) }
     let!(:future_event){ create(:event, date: Date.today + 1) }
 
-    it 'does not include future event' do
-      get :home
-      expect(assigns(:past_events)).to_not include future_event
+    context 'sets past events' do
+      it 'does not include future event' do
+        get :home
+        expect(assigns(:past_events)).to_not include future_event
+      end
+
+      it 'does include past event' do
+        get :home
+        expect(assigns(:past_events)).to include past_event
+      end
     end
 
-    it 'does include past event' do
-      get :home
-      expect(assigns(:past_events)).to include past_event
-    end
-  end
+    context "sets upcoming events" do
+      it 'does not include future event' do
+        get :home
+        expect(assigns(:upcoming_events)).to include future_event
+      end
 
-  describe "sets upcoming events" do
+      it 'does include past event' do
+        get :home
+        expect(assigns(:upcoming_events)).to_not include past_event
+      end
+    end
   end
 
 end
