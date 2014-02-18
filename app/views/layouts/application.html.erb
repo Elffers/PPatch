@@ -15,7 +15,7 @@
             <li><a href="/"><%= image_tag("worm_guy2.png") %><div id="page-title">The Wormhole</div>
               </a></li>
             <li><a href="/blog">News</a></li>
-            <li> Current Weather:<br><%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.current.icon}.gif") %></li>
+            <li> Current Weather:<br><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.current.icon}.gif") %></li>
             <% if current_user %>
               <li>Signed in as:<br><%= link_to "#{current_user.name}", user_path(current_user) %></li>
               <li><a href="/signout">Sign out</a></li>

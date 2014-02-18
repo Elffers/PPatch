@@ -46,14 +46,14 @@
         <td><%= "Tomorrow's conditions:" %></td>
       </tr>
       <tr>
-        <td><%= " #{@weather.current.temperature.f}°F" %><br><%= "#{@weather.current.condition}" %></td>
-        <td><%= "#{@weather.today.high.f}/#{@weather.today.low.f} °F" %></td>
-        <td><%= "#{@weather.tomorrow.high.f}/#{@weather.tomorrow.low.f} °F" %></td>
+        <td><%= " #{weather.current.temperature.f}°F" %><br><%= "#{weather.current.condition}" %></td>
+        <td><%= "#{weather.today.high.f}/#{weather.today.low.f} °F" %></td>
+        <td><%= "#{weather.tomorrow.high.f}/#{weather.tomorrow.low.f} °F" %></td>
       </tr>
       <tr>
-        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.current.icon}.gif") %></td>
-        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.tomorrow.icon}.gif") %></td>
-        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.tomorrow.icon}.gif") %></td>
+        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.current.icon}.gif") %></td>
+        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.tomorrow.icon}.gif") %></td>
+        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.tomorrow.icon}.gif") %></td>
       </tr>
     </table>
     </div>
