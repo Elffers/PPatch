@@ -3,6 +3,7 @@
     <%= link_to "<", date: @date.prev_month %>
     <%= @date.strftime("%B %Y") %>
     <%= link_to ">", date: @date.next_month %>
+    <h4><%= link_to "Add event!", new_event_path %></h4>
   </h2>
   <%= calendar @date do |date| %>
     <%= date.day %>
@@ -14,8 +15,4 @@
       </ul>
     <% end %>
   <% end %>
-</div>
-
-<div>
-  <%= link_to "Add event!", new_event_path %>
 </div>
