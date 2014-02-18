@@ -24,7 +24,7 @@
         <ul>
           <% @upcoming_events.each do |event|%>
             <li>
-              <%= event.name %><br>
+              <%= link_to "#{event.name}", event_path(event) %><br>
               <%= event.date.to_time.strftime("%A, %B %d, %Y") %><br>
             </li>
           <% end %>
@@ -37,7 +37,7 @@
         <ul>
           <% @past_events.each do |event|%>
             <li>
-              <%= event.name %><br>
+              <%= link_to "#{event.name}", event_path(event) %><br>
               <%= event.date.to_time.strftime("%A, %B %d, %Y") %><br>
             </li>
           <% end %>
