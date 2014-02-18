@@ -11,5 +11,8 @@
   <% end %>
 </ul>
 
-<%= link_to "Add tool", new_tool_path %>
-
+<div class='add_button'>
+  <% if current_user.admin == true %>
+    <%= link_to "Add tool", new_tool_path %>
+  <% end %>
+</div>

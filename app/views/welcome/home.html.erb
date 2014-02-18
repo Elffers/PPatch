@@ -26,6 +26,7 @@
             <li>
               <%= link_to "#{event.name}", event_path(event) %><br>
               <%= event.date.to_time.strftime("%A, %B %d, %Y") %><br>
+              <%= link_to "RSVP!", rsvp_path(event.id) %>
             </li>
           <% end %>
         </ul>

@@ -78,6 +78,7 @@ class EventsController < ApplicationController
         redirect_to event_path(@event)
       else
         @rsvp.destroy
+        flash[:notice] = "You are a huge flake. Good job."
         redirect_to event_path(@event)
       end
     else
