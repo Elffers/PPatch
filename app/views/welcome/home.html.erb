@@ -1,7 +1,10 @@
 <div class="content-inner">
-  <div class="header-box">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Transfer idem ad modestiam vel temperantiam, quae est moderatio cupiditatum rationi oboediens. Mihi enim satis est, ipsis non satis. Ipse Epicurus fortasse redderet, ut [redacted]tus Peducaeus, [redacted]. Quae fere omnia appellantur uno ingenii nomine, easque virtutes qui habent, ingeniosi vocantur. Facillimum id quidem est, inquam. Duo Reges: constructio interrete.
-      Si enim ita est, vide ne facinus facias, cum mori suadeas. Aliter homines, aliter philosophos loqui putas oportere? Mihi enim satis est, ipsis non satis. In qua si nihil est praeter rationem, sit in una virtute finis bonorum; Est autem officium, quod ita factum est, ut eius facti probabilis ratio reddi possit.
+  <div class="jumbotron-knockoff">
+    <% if current_user %>
+      Welcome, <%= current_user.name %>.
+    <% else %>
+      Welcome to The Wormhole! We're your friendly neighborhood gardening club. Join us to reserve tools, create events and rsvp, and get updates about the club.
+    <% end %>
   </div>
   <div id="calendar-box">
 
