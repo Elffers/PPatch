@@ -110,6 +110,8 @@ nav ul li:hover {
 
 .container {
   margin: 5px;
+  margin-left: auto;
+  margin-right: auto;
   width: 97%;
   background: #a7bc7a url(pattern.png) top left repeat;
   -webkit-border-radius: 4px;
@@ -171,8 +173,10 @@ display none
 @media (min-width: 760px) {
 
   .container {
-    width: 650px;
-    margin: auto;
+    width: 95%;
+    margin: 5px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
 .content-inner{
@@ -199,21 +203,30 @@ display none
 @media (min-width:850px){
 
   .container {
-      width: 800px;
+      width: 95%;
+      margin: 5px;
+      margin-left: auto;
+      margin-right: auto;
     }
 }
 
 @media (min-width:992px){
 
   .container {
-      width: 970px;
+      width: 90%;
+      margin: 10px;
+      margin-left: auto;
+      margin-right: auto;
     }
 }
 
 @media (min-width:1200px){
 
   .container {
-      width: 1100px;
+      width: 90%;
+      margin-top: 10px;
+      margin-left: auto;
+      margin-right: auto;
     }
 }
 
