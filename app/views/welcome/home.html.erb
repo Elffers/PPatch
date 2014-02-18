@@ -1,8 +1,13 @@
 <div class="content-inner">
-  <div class="header-box">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Transfer idem ad modestiam vel temperantiam, quae est moderatio cupiditatum rationi oboediens. Mihi enim satis est, ipsis non satis. Ipse Epicurus fortasse redderet, ut [redacted]tus Peducaeus, [redacted]. Quae fere omnia appellantur uno ingenii nomine, easque virtutes qui habent, ingeniosi vocantur. Facillimum id quidem est, inquam. Duo Reges: constructio interrete.
-      Si enim ita est, vide ne facinus facias, cum mori suadeas. Aliter homines, aliter philosophos loqui putas oportere? Mihi enim satis est, ipsis non satis. In qua si nihil est praeter rationem, sit in una virtute finis bonorum; Est autem officium, quod ita factum est, ut eius facti probabilis ratio reddi possit.
+  <div class="jumbotron-knockoff">
+    <% if current_user %>
+      Welcome, <%= current_user.name %>.
+    <% else %>
+      Welcome to The Wormhole! We're your friendly neighborhood gardening club. Join us to reserve tools, create events and rsvp, and get updates about the club.
+    <% end %>
   </div>
+
+
   <div id="calendar-box">
 
     <nav id="profiletabs">
@@ -44,9 +49,9 @@
       </div>
     </section>
 
-  </div> <!-- calendar-box -->
+  </div> <!-- closes calendar box -->
 
-</div>
+</div> <!-- closes content inner -->
 
   <div class="sidebar">
 
@@ -58,20 +63,22 @@
         <td><%= "Tomorrow's conditions:" %></td>
       </tr>
       <tr>
-         <td><%= " #{@weather.current.temperature.f}°F" %><br><%= "#{@weather.current.condition}" %></td>
-         <td><%= "#{@weather.today.high.f}/#{@weather.today.low.f} °F" %></td>
-         <td><%= "#{@weather.tomorrow.high.f}/#{@weather.tomorrow.low.f} °F" %></td>
+        <td><%= " #{weather.current.temperature.f}°F" %><br><%= "#{weather.current.condition}" %></td>
+        <td><%= "#{weather.today.high.f}/#{weather.today.low.f} °F" %></td>
+        <td><%= "#{weather.tomorrow.high.f}/#{weather.tomorrow.low.f} °F" %></td>
       </tr>
       <tr>
-         <td><%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.current.icon}.gif") %></td>
-        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.tomorrow.icon}.gif") %></td>
-         <td><%= image_tag("http://icons.wxug.com/i/c/k/#{@weather.tomorrow.icon}.gif") %></td>
+        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.current.icon}.gif") %></td>
+        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.tomorrow.icon}.gif") %></td>
+        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.tomorrow.icon}.gif") %></td>
       </tr>
     </table>
     </div>
-    <div class="recentnews"
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cenasti in vita numquam bene, cum omnia in ista Consumis squilla atque acupensere cum decimano. Virtutis, magnitudinis animi, patientiae, fortitudinis fomentis dolor mitigari solet. Cave putes quicquam esse verius. Bonum valitudo: miser morbus. Quando enim Socrates, qui parens philosophiae iure dici potest, quicquam tale fecit? Cum praesertim illa perdiscere ludus esset. Invidiosum nomen est, infame, suspectum. Duo Reges: constructio interrete. Sed tempus est, si videtur, et recta quidem ad me.
 
-        Philosophi autem in suis lectulis plerumque moriuntur. Restinguet citius, si ardentem acceperit. Immo istud quidem, inquam, quo loco quidque, nisi iniquum postulo, arbitratu meo. Nulla erit controversia. Vide, quantum, inquam, fallare, Torquate. Mihi enim satis est, ipsis non satis.</p>
+    <div class="recentnews">
+      <% @news.each do |news| %>
+       <h3> <%= news.title %></h3><br>
+        <%= truncate(news.body, length: 25) { link_to "Read More", post_path(news) } %><br>
+        <% end %>
     </div>
 </div>
