@@ -1,7 +1,7 @@
 Ppatch::Application.routes.draw do
   
   get "/events/new"           => "events#new",        as: :new_event
-  get "/events"               => "events#index",      as: :events
+  # get "/events"               => "events#index",      as: :events
   post "/events"              => "events#create"
 
   get "/events/:id"           => "events#show",       as: :event

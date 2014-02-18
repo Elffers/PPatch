@@ -130,6 +130,10 @@ nav ul li:hover {
   width: 100%;
   color: white;
 }
+
+.hidden {
+  display: none;
+}
 /*calendar div name
 display none
 */
