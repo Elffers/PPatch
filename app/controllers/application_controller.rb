@@ -9,4 +9,12 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
+
+  def weather
+    barometer = Barometer.new('Seattle')
+    @weather = barometer.measure
+  end
+
+  helper_method :weather
+
 end

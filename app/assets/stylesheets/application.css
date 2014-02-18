@@ -59,9 +59,9 @@ nav ul {
 }
 
 nav {
-  margin: 5px;
+  margin: auto;
   display: table;
-  width: 100%;
+  width: 98%;
   text-align: center;
   background: #a7bc7a url(pattern.png) top left repeat;
   -webkit-border-radius: 4px;
@@ -110,7 +110,9 @@ nav ul li:hover {
 
 .container {
   margin: 5px;
-  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 97%;
   background: #a7bc7a url(pattern.png) top left repeat;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -131,6 +133,14 @@ nav ul li:hover {
   color: white;
 }
 
+#page-title {
+  display: none;
+}
+
+#calendar-box {
+  display: none;
+}
+
 .hidden {
   display: none;
 }
@@ -147,6 +157,14 @@ display none
 }
 
 @media (min-width: 800px) {
+  #page-title {
+    display: inline;
+  }
+
+  #calendar-box {
+    display: inline;
+  }
+
 
 }
 
@@ -155,7 +173,10 @@ display none
 @media (min-width: 760px) {
 
   .container {
-    margin: 30px;
+    width: 95%;
+    margin: 5px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
 .content-inner{
@@ -169,8 +190,8 @@ display none
   .sidebar {
     padding-right: 30px;
     float: left;
-    width: 30%;
-  }
+    width: 25%;
+}
 
 
   .forecast {
@@ -179,19 +200,33 @@ display none
 }
 
 
+@media (min-width:850px){
+
+  .container {
+      width: 95%;
+      margin: 5px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+}
+
 @media (min-width:992px){
 
   .container {
-      width: 970px;
-      padding-left: 35px;
-      padding-right: 35px;
+      width: 90%;
+      margin: 10px;
+      margin-left: auto;
+      margin-right: auto;
     }
 }
 
 @media (min-width:1200px){
 
   .container {
-      width: 100%;
+      width: 90%;
+      margin-top: 10px;
+      margin-left: auto;
+      margin-right: auto;
     }
 }
 
