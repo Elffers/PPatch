@@ -4,12 +4,29 @@
       Si enim ita est, vide ne facinus facias, cum mori suadeas. Aliter homines, aliter philosophos loqui putas oportere? Mihi enim satis est, ipsis non satis. In qua si nihil est praeter rationem, sit in una virtute finis bonorum; Est autem officium, quod ita factum est, ut eius facti probabilis ratio reddi possit.
   </div>
   <div class="calendar-box">
-      Sapientem locupletat ipsa natura, cuius divitias Epicurus parabiles esse docuit. Expectoque quid ad id, quod quaerebam, respondeas. Quam ob rem tandem, inquit, non satisfacit? Scio enim esse quosdam, qui quavis lingua philosophari possint; Ita prorsus, inquam; Quid enim possumus hoc agere divinius? Perge porro; Sed nimis multa.
+    
+    <nav id="profiletabs">
+      <ul>
+        <li><a href="#calendar" class="sel">Events Calendar</a></li>
+        <li><a href="#upcoming">Upcoming Events</a></li>
+        <li><a href="#past_events">Past Events</a></li>
+      </ul>
+    </nav>
 
-      Qualem igitur hominem natura inchoavit? Ergo illi intellegunt quid Epicurus dicat, ego non intellego? Huius ego nunc auctoritatem sequens idem faciam. Ergo, si semel tristior effectus est, hilara vita amissa est? Nam illud vehementer repugnat, eundem beatum esse et multis malis oppressum. Verba tu fingas et ea dicas, quae non sentias? Sed non sunt in eo genere tantae commoditates corporis tamque productae temporibus tamque multae. Haec quo modo conveniant, non sane intellego.
+    <section id="calendar">
+      <%= render 'events/index' %>
+    </section>
 
-      Quae cum essent dicta, discessimus. Memini vero, inquam; Verum tamen cum de rebus grandioribus dicas, ipsae res verba rapiunt; Mihi quidem Homerus huius modi quiddam vidisse videatur in iis, quae de Sirenum cantibus finxerit. Quodsi ipsam honestatem undique pertectam atque absolutam.
-  </div>
+    <section id="upcoming" class="hidden">
+      <div>Hello</div>
+    </section>
+
+    <section id="past_events" class="hidden">
+      <div>Past events</div>
+    </section>
+
+  </div> <!-- calendar-box -->
+
 </div>
 
   <div class="sidebar">
