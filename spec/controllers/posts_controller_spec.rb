@@ -84,6 +84,10 @@ describe PostsController do
           ActionMailer::Base.deliveries.clear
         end
 
+        before do
+          ResqueSpec.reset!
+        end
+
         it "is a redirect" do
           post :create, post: valid_attributes
           expect(response.status).to eq 302 # This is a redirect
@@ -104,14 +108,27 @@ describe PostsController do
         end
 
         it 'sends an email' do # maybe customize later
-          expect { post :create, post: valid_attributes }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          without_resque_spec do
+            post :create, post: valid_attributes
+            expect { PostMailer.new_post(post.id, user.id).deliver }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          end
         end
 
         xit 'sends an email to users who want email update' do
           post :create, post: valid_attributes
-          p ActionMailer::Base.deliveries
-          p "MAIL", PostMailer.new_post(assigns(:post).id, assigns(:user).id).deliver
+          # p ActionMailer::Base.deliveries
+          # p "MAIL", PostMailer.new_post(assigns(:post).id, assigns(:user).id).deliver
           expect(ActionMailer::Base.deliveries).to_not be_empty
+        end
+
+        it "should have a queue size of 1" do
+          post :create, user: valid_attributes
+          EmailJob.should have_queue_size_of(1)
+        end
+
+        it "adds ListMailer.welcome to the Email queue" do
+          post :create, user: valid_attributes
+          EmailJob.should have_queued(assigns(:post).id, assigns(:user).id)
         end
       end
 
