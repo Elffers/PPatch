@@ -20,11 +20,29 @@
     </section>
 
     <section id="upcoming" class="hidden">
-      <div>Hello</div>
+      <div>
+        <ul>
+          <% @upcoming_events.each do |event|%>
+            <li>
+              <%= event.name %><br>
+              <%= event.date.to_time.strftime("%A, %B %d, %Y") %><br>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </section>
 
     <section id="past_events" class="hidden">
-      <div>Past events</div>
+      <div>
+        <ul>
+          <% @past_events.each do |event|%>
+            <li>
+              <%= event.name %><br>
+              <%= event.date.to_time.strftime("%A, %B %d, %Y") %><br>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </section>
 
   </div> <!-- calendar-box -->
