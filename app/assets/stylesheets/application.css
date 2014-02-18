@@ -59,9 +59,9 @@ nav ul {
 }
 
 nav {
-  margin: 5px;
+  margin: auto;
   display: table;
-  width: 100%;
+  width: 98%;
   text-align: center;
   background: #a7bc7a url(pattern.png) top left repeat;
   -webkit-border-radius: 4px;
@@ -110,7 +110,7 @@ nav ul li:hover {
 
 .container {
   margin: 5px;
-  width: 100%;
+  width: 97%;
   background: #a7bc7a url(pattern.png) top left repeat;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
