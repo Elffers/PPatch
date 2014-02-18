@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  # before_action :check_auth_hash
 
   def create
     auth_hash = request.env['omniauth.auth']
@@ -23,5 +24,15 @@ class SessionsController < ApplicationController
     redirect_to root_path
   end
 
+  private
+
+  # def check_auth_hash
+  #   auth_hash = request.env['omniauth.auth']
+  #   unless auth_hash[:uid]
+  #     flash[:notice] = "You do not exist!"
+  #     redirect_to root_path
+  #   end
+
+  # end
 
 end

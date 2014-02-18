@@ -1,7 +1,7 @@
 Ppatch::Application.routes.draw do
   
   get "/events/new"           => "events#new",        as: :new_event
-  get "/events"               => "events#index",      as: :events
+  # get "/events"               => "events#index",      as: :events
   post "/events"              => "events#create"
 
   get "/events/:id"           => "events#show",       as: :event
@@ -9,6 +9,8 @@ Ppatch::Application.routes.draw do
   delete "/events/:id"        => "events#destroy"
   get "/events/:id/edit"      => "events#edit",       as: :edit_event
   get "/events/:id/rsvp"      => "events#rsvp",       as: :rsvp
+  get "/events/:id/flake"     => "events#flake",     as: :flake
+
 
   get "/blog"                 => "posts#index",       as: :posts
   get "/blog/new"             => "posts#new",         as: :new_post

@@ -1,7 +1,9 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :rsvp]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :rsvp, :flake]
   before_action :require_login, except: [:show, :index]
   before_action :valid_user, only: [:edit, :update, :destroy]
+  before_action :set_rsvp, only: [:rsvp, :flake]
+
 
   def new
     @event = Event.new
@@ -22,11 +24,11 @@ class EventsController < ApplicationController
 
   end
 
-  def index
-    @events = Event.all
-    @events_by_date = @events.group_by(&:date)
-    @date = params[:date] ? Date.parse(params[:date]) : Date.today
-  end
+  # def index
+  #   @events = Event.all
+  #   @events_by_date = @events.group_by(&:date)
+  #   @date = params[:date] ? Date.parse(params[:date]) : Date.today
+  # end
 
   def show
     @user = User.find(@event.host_id)
@@ -55,11 +57,31 @@ class EventsController < ApplicationController
   end
 
   def rsvp
-    if current_user.events << @event
-      flash[:notice] = "You have successfully RSVPd for this event!"
+    if @rsvp
+      flash[:notice] = "You have already RSVP'd for this event!"
       redirect_to event_path(@event)
     else
-      flash[:notice] = "There was a problem RSVPing to this event!"
+      if current_user.events << @event
+        flash[:notice] = "You have successfully RSVPd for this event!"
+        redirect_to event_path(@event)
+      else
+        flash[:notice] = "There was a problem RSVPing to this event!"
+        redirect_to event_path(@event)
+      end
+    end
+  end
+
+  def flake
+    if @rsvp
+      if @rsvp.user_id == @event.host_id
+        flash[:notice] = "You can't flake from your own event!"
+        redirect_to event_path(@event)
+      else
+        @rsvp.destroy
+        redirect_to event_path(@event)
+      end
+    else
+      flash[:notice] = "You are not RSVP'd for this event!"
       redirect_to event_path(@event)
     end
   end
@@ -86,6 +108,10 @@ class EventsController < ApplicationController
       flash[:notice] = "You are not authorized to edit this event!" 
       redirect_to events_path
     end
+  end
+
+  def set_rsvp
+    @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
   end
 
 end

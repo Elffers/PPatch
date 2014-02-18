@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe EventsController do
-  let(:user){ create(:user) }
+  let!(:user){ create(:user) }
 
   describe "GET 'index'" do
     it "returns http success" do
@@ -317,38 +317,146 @@ describe EventsController do
       it 'does not add event to user' do
         expect { get :rsvp, id: event.id }.to change(user.events, :count).by(0)
       end
+
+      it 'does not create RSVP' do
+        expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(0)
+      end
     end
 
     context 'if logged in' do
+      let(:participant){ create(:user) }
+
       before(:each) do
-        session[:user_id] = user.id
+        session[:user_id] = participant.id
       end
 
-      it 'redirects to event page' do
-        get :rsvp, id: event.id
-        expect(response).to redirect_to event_path(event)
+      context 'if not already RSVPd' do
+
+        it 'redirects to event page' do
+          get :rsvp, id: event.id
+          expect(response).to redirect_to event_path(event)
+        end
+
+        it 'sets flash message' do
+          get :rsvp, id: event.id
+          expect(flash[:notice]).to eq "You have successfully RSVPd for this event!"
+        end
+
+        it "adds event to user's events" do
+          get :rsvp, id: event.id
+          expect(participant.events).to include event
+        end
+
+        it 'adds rsvp to db' do
+          expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(1)
+        end
+
+        it 'adds user to event rsvps' do
+          get :rsvp, id: event.id
+          expect(event.users).to include participant
+        end
+      end
+
+      context 'if already RSVPd' do
+        let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
+        
+        it 'does not create RSVP' do
+          expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(0)
+        end
+
+        it 'sets flash message' do
+          get :rsvp, id: event.id
+          expect(flash[:notice]).to eq "You have already RSVP'd for this event!"
+        end
+      end
+
+      context 'if hosting' do
+        let!(:rsvp){ create(:rsvp, user_id: user.id, event_id: event.id) }
+
+        before(:each) do
+          session[:user_id] = user.id
+        end
+
+        it 'does not add RSVP to db' do
+          expect{ get :rsvp, id: event.id }.to change(Rsvp, :count).by(0)
+        end
+
+        it 'does not add RSVP to db' do
+          expect{ get :rsvp, id: event.id }.to change(user.events, :count).by(0)
+        end
+
+        it 'sets flash message' do
+          get :rsvp, id: event.id
+          expect(flash[:notice]).to eq "You have already RSVP'd for this event!"
+        end
+
+      end
+    end
+  end
+
+  describe 'GET flake' do
+    let!(:event){ create(:event, host_id: user.id) }
+
+    context 'if not logged in' do
+      before(:each) do
+        session[:user_id] = nil
+      end
+
+      it "redirects to sign in" do
+        get :flake, id: event.id
+        expect(response).to redirect_to root_path
       end
 
       it 'sets flash message' do
-        get :rsvp, id: event.id
-        expect(flash[:notice]).to eq "You have successfully RSVPd for this event!"
-      end
-
-      it "adds event to user's events" do
-        get :rsvp, id: event.id
-        p user.events
-        expect(user.events).to include event
-      end
-
-      it 'adds rsvp to db' do
-        expect { get :rsvp, id: event.id }.to change(Rsvp, :count).by(1)
-      end
-
-      it 'adds user to event rsvps' do
-        get :rsvp, id: event.id
-        expect(event.users).to include user
+        get :flake, id: event.id
+        expect(flash[:notice]).to eq "You must be signed in."
       end
     end
+
+    context 'if logged in' do
+      let(:participant){ create(:user) }
+
+      before(:each) do
+        session[:user_id] = participant.id
+      end
+
+      context "if already RSVP'd" do
+        let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
+
+        it "removes event from user's events" do
+          expect{ get :flake, id: event.id }.to change(participant.events, :count).by(-1)
+        end
+
+        it "removes rsvp from db" do
+          expect{ get :flake, id: event.id }.to change(Rsvp, :count).by(-1)
+        end
+      end
+
+      context "if not already RSVP'd" do
+        it "sets flash message" do
+          get :flake, id: event.id
+          expect(flash[:notice]).to eq "You are not RSVP'd for this event!"
+        end
+      end      
+
+      context 'if hosting event' do
+        let!(:rsvp){ create(:rsvp, user_id: user.id, event_id: event.id) }
+        before(:each) do
+          session[:user_id] = user.id
+        end
+
+        it 'does not allow you to flake' do
+          expect {get :flake, id: event.id}.to change(Rsvp, :count).by(0)
+          expect(user.events). to include event
+        end
+
+        it 'sets flash message' do
+          get :flake, id: event.id
+          expect(flash[:notice]).to eq "You can't flake from your own event!"
+        end
+      end
+    end
+    
   end
     
 end
