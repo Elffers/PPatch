@@ -23,7 +23,7 @@ $(function(){
     $('#profiletabs ul li a').removeClass('sel');
     $(this).addClass('sel');
      
-    $('.calendar-box section').each(function(){
+    $('#calendar-box section').each(function(){
       if(!$(this).hasClass('hidden')) { $(this).addClass('hidden'); }
     });
      
