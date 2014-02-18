@@ -131,6 +131,10 @@ nav ul li:hover {
   color: white;
 }
 
+#page-title {
+  display: none;
+}
+
 .hidden {
   display: none;
 }
@@ -147,6 +151,9 @@ display none
 }
 
 @media (min-width: 800px) {
+  .page-title {
+  display: inline;
+}
 
 }
 
