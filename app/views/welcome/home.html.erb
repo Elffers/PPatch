@@ -19,17 +19,34 @@
     </nav>
 
     <section id="calendar">
-      <div id="calendar_partial">
-        <%= render 'events/index' %>
-      </div>
+      <%= render 'events/index' %>     
     </section>
 
     <section id="upcoming" class="hidden">
-      <div>Hello</div>
+      <div>
+        <ul>
+          <% @upcoming_events.each do |event|%>
+            <li>
+              <%= link_to "#{event.name}", event_path(event) %><br>
+              <%= event.date.to_time.strftime("%A, %B %d, %Y") %><br>
+              <%= link_to "RSVP!", rsvp_path(event.id) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </section>
 
     <section id="past_events" class="hidden">
-      <div>Past events</div>
+      <div>
+        <ul>
+          <% @past_events.each do |event|%>
+            <li>
+              <%= link_to "#{event.name}", event_path(event) %><br>
+              <%= event.date.to_time.strftime("%A, %B %d, %Y") %><br>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </section>
 
   </div> <!-- closes calendar box -->

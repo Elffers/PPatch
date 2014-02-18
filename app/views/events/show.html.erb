@@ -19,11 +19,6 @@
   <% end %>
 </div>
 
-<div>
-  <%= link_to "RSVP", rsvp_path %>
-  <%= link_to "See Calendar", events_path %>
-</div>
-
 <div class='participants'>
   <h3>Participants</h3>
   <ul>
@@ -35,5 +30,10 @@
       <% end %>
     <% end %>
   </ul>
+</div>
+
+<div>
+  <%= link_to "RSVP", rsvp_path %>
+  <%= link_to "See Calendar", root_path %>
 </div>
 
