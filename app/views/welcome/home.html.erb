@@ -60,7 +60,8 @@
 
     <div class="recentnews">
       <% @news.each do |news| %>
-        <%= news.title %>
+       <h3> <%= news.title %></h3><br>
+        <%= truncate(news.body, length: 25) { link_to "Read More", post_path(news) } %><br>
         <% end %>
     </div>
 </div>
