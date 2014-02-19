@@ -43,7 +43,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      event_update_email(@event)
+      event_update_email(@event) # put in resque
       flash[:notice] = "Event successfully updated!"
       redirect_to event_path(@event)
     else
@@ -53,7 +53,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    cancellation_update_email(@event)
+    cancellation_update_email(@event) #put in resque
     rsvps = Rsvp.where(event_id: @event.id)
     rsvps.each {|rsvp| rsvp.destroy}
     @event.destroy
@@ -68,7 +68,6 @@ class EventsController < ApplicationController
     else
       if current_user.events << @event
         Resque.enqueue(RsvpJob, @event.id, current_user.id)
-        # RsvpMailer.confirmation(@event.id, current_user.id).deliver
         flash[:notice] = "You have successfully RSVPd for this event!"
         redirect_to event_path(@event)
       else
