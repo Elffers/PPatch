@@ -144,10 +144,34 @@ nav ul li:hover {
 .hidden {
   display: none;
 }
-/*calendar div name
-display none
-*/
 
+.rsvp-events {
+  display: table;
+}
+
+.rsvp-events ul {
+  display: table-row;
+}
+
+.rsvp-events ul li {
+  vertical-align: bottom;
+  display: table-cell;
+  list-style: none;
+}
+
+#flake-out {
+    padding: 3px 3px;
+    background: #4479BA;
+    color: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: solid 1px #20538D;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+}
 
 /*BREAKPOINT STUFFFFFF*/
 /* background image*/

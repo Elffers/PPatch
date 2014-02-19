@@ -13,11 +13,13 @@
   <h3>Events</h3>
   <ul>
     <% @user.events.each do |event| %>
-    <li>
-      <%= link_to "#{event.name.capitalize}", event_path(event) %>
-      <%= event.date.to_time.strftime("%A, %B %d, %Y") %>
-      <%= link_to "I'm a flake", flake_path(event) %>
-    </li>
+      <li>
+        <h4><%= link_to "#{event.name.capitalize}", event_path(event) %></h4>
+        <%= event.date.to_time.strftime("%A, %B %d, %Y") %>
+      </li>
+      <li>
+        <%= link_to "I'm a flake", flake_path(event), :id=>"flake-out" %>
+      </li>
     <% end %>
   </ul>
 </div>
