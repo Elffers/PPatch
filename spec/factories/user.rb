@@ -18,6 +18,7 @@ FactoryGirl.define do
     avatar_url "some_url"
     token "some_token"
     secret "some_secret"
+    preferences true
   end
 
 end

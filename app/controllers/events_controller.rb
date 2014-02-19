@@ -4,7 +4,6 @@ class EventsController < ApplicationController
   before_action :valid_user, only: [:edit, :update, :destroy]
   before_action :set_rsvp, only: [:rsvp, :flake]
 
-
   def new
     @event = Event.new
   end
@@ -15,6 +14,7 @@ class EventsController < ApplicationController
 
     begin
       current_user.events << @event
+      # send_email(@event)
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
     rescue ActiveRecord::RecordInvalid 
@@ -62,6 +62,8 @@ class EventsController < ApplicationController
       redirect_to event_path(@event)
     else
       if current_user.events << @event
+        Resque.enqueue(RsvpJob, @event.id, current_user.id)
+        # RsvpMailer.confirmation(@event.id, current_user.id).deliver
         flash[:notice] = "You have successfully RSVPd for this event!"
         redirect_to event_path(@event)
       else
