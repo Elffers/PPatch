@@ -253,6 +253,7 @@ describe EventsController do
     let!(:event){ create(:event, host_id: user.id) }
     let!(:participant){create(:user)} #set preferences
     let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
+    let(:no_mail){ create(:user, preferences: false) }
 
     context 'if logged in' do
       context 'if valid user' do
@@ -288,9 +289,14 @@ describe EventsController do
 
         it 'emails participants' do
           delete :destroy, id: event.id
+          p "DELIVERIES", ActionMailer::Base.deliveries
           expect(ActionMailer::Base.deliveries).to_not be_empty
         end
         
+        # it 'sets correct participants' do
+        #   delete :destroy, id: event.id
+        #   expect(ActionMailer::Base.deliveries).to include CancelEventMailer.cancellation(assignsevent.id, user.id)
+        # end
       end
 
       context 'if invalid user' do
@@ -403,7 +409,7 @@ describe EventsController do
         it 'sends email to user' do
           without_resque_spec do
             get :rsvp, id: event.id
-            RsvpMailer.confirmation(event.id, participant.id).deliver
+            WormholeMailer.rsvp_confirmation(event.id, participant.id).deliver
             expect(ActionMailer::Base.deliveries).to_not be_empty
           end
         end

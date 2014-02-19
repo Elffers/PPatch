@@ -125,7 +125,7 @@ class EventsController < ApplicationController
   def cancellation_update_email(event)
     @recipients = User.where(preferences: true)
     @recipients.each do |recipient|
-      CancelEventMailer.cancellation(event.id, recipient.id).deliver
+      WormholeMailer.event_cancellation(event.id, recipient.id).deliver
     end
   end
 
