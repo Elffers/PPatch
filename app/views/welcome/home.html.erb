@@ -1,5 +1,5 @@
-<% if flash[:newuser_modal] %>
-  <% render :partial => "welcome/modal" %>
+<% if params[:getting_started] %>
+  <%= render :partial => "welcome/modal" %>
 <% end %>
 
 <div class="content-inner">

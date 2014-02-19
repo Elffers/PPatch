@@ -159,10 +159,11 @@ nav ul li:hover {
   list-style: none;
 }
 
-#flake-out {
+.button {
     padding: 3px 3px;
     background: #4479BA;
     color: #FFF;
+    text-decoration: none;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;

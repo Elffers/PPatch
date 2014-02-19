@@ -33,3 +33,8 @@ $(function(){
     $(newcontent).removeClass('hidden');
   });
 });
+
+
+$(document ).ready(function() {
+    $("#demo-form").modal()
+});

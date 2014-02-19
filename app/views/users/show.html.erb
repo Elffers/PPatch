@@ -18,7 +18,7 @@
         <%= event.date.to_time.strftime("%A, %B %d, %Y") %>
       </li>
       <li>
-        <%= link_to "I'm a flake", flake_path(event), :id=>"flake-out" %>
+        <%= link_to "I'm a flake", flake_path(event), :class=>"button" %>
       </li>
     <% end %>
   </ul>
