@@ -177,6 +177,9 @@ describe EventsController do
 
   describe "PATCH 'update'" do
     let!(:event){create(:event, host_id: user.id) }
+    let!(:participant){create(:user)} #set preferences
+    let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
+    let(:no_mail){ create(:user, preferences: false) }
 
     context 'if logged in' do
       context 'if valid user' do
@@ -215,7 +218,12 @@ describe EventsController do
             expect(ActionMailer::Base.deliveries).to_not be_empty
           end
 
-          xit 'emails correct recipients' do
+          it 'emails correct recipients' do
+            patch :update, id: event.id, event: valid_attributes
+            recipients = ActionMailer::Base.deliveries.map {|mail| mail.to}.flatten
+            expect(recipients).to include participant.email
+            expect(recipients).to_not include no_mail.email
+
           end
 
         end
