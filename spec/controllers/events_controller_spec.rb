@@ -376,6 +376,16 @@ describe EventsController do
             expect(ActionMailer::Base.deliveries).to_not be_empty
           end
         end
+
+        it 'queues email' do
+          get :rsvp, id: event.id
+          RsvpJob.should have_queue_size_of(1)
+        end
+
+        it 'has current user email job in queue' do
+          get :rsvp, id: event.id
+          RsvpJob.should have_queued(event.id, participant.id).in(:rsvp)
+        end
       end
 
       context 'if already RSVPd' do
