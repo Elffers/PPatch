@@ -370,8 +370,11 @@ describe EventsController do
         end
 
         it 'sends email to user' do
-          get :rsvp, id: event.id
-          expect(ActionMailer::Base.deliveries).to_not be_empty
+          without_resque_spec do
+            get :rsvp, id: event.id
+            RsvpMailer.confirmation(event.id, participant.id).deliver
+            expect(ActionMailer::Base.deliveries).to_not be_empty
+          end
         end
       end
 

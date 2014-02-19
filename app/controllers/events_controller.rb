@@ -62,7 +62,8 @@ class EventsController < ApplicationController
       redirect_to event_path(@event)
     else
       if current_user.events << @event
-        RsvpMailer.confirmation(@event.id, current_user.id).deliver
+        Resque.enqueue(RsvpJob, @event.id, current_user.id)
+        # RsvpMailer.confirmation(@event.id, current_user.id).deliver
         flash[:notice] = "You have successfully RSVPd for this event!"
         redirect_to event_path(@event)
       else
