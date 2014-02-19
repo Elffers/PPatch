@@ -196,6 +196,12 @@ describe EventsController do
             expect {patch :update, id: event.id, event: valid_attributes }.to change(Event, :count).by(0)
           end
 
+          xit 'sends email' do
+          end
+
+          xit 'emails correct recipients' do
+          end
+
         end
 
         context 'with invalid fields' do
@@ -245,11 +251,21 @@ describe EventsController do
 
   describe 'DELETE destroy' do
     let!(:event){ create(:event, host_id: user.id) }
+    let!(:participant){create(:user)} #set preferences
+    let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
 
     context 'if logged in' do
       context 'if valid user' do
         before(:each) do
           session[:user_id] = user.id
+          ActionMailer::Base.delivery_method = :test
+          ActionMailer::Base.perform_deliveries = true
+          ActionMailer::Base.deliveries = []
+          ResqueSpec.reset!
+        end
+
+        after(:each) do
+          ActionMailer::Base.deliveries.clear
         end
 
         it 'removes event from db' do
@@ -260,6 +276,21 @@ describe EventsController do
           delete :destroy, id: event.id
           expect(response).to redirect_to events_path
         end
+
+        it 'deletes rsvp from db' do
+          expect{ delete :destroy, id: event.id }.to change(Rsvp, :count).by(-1)
+        end
+
+        it 'deletes event from participant events' do
+          expect{ delete :destroy, id: event.id }.to change(participant.events, :count).by(-1)
+          expect(participant.events).to_not include event
+        end
+
+        it 'emails participants' do
+          delete :destroy, id: event.id
+          expect(ActionMailer::Base.deliveries).to_not be_empty
+        end
+        
       end
 
       context 'if invalid user' do

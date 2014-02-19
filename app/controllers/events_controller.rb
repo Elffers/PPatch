@@ -43,6 +43,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
+      #send_email
       flash[:notice] = "Event successfully updated!"
       redirect_to event_path(@event)
     else
@@ -52,7 +53,11 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    cancellation_update_email(@event)
+    rsvps = Rsvp.where(event_id: @event.id)
+    rsvps.each {|rsvp| rsvp.destroy}
     @event.destroy
+
     redirect_to events_path
   end
 
@@ -115,6 +120,13 @@ class EventsController < ApplicationController
 
   def set_rsvp
     @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
+  end
+
+  def cancellation_update_email(event)
+    @recipients = User.where(preferences: true)
+    @recipients.each do |recipient|
+      CancelEventMailer.cancellation(event.id, recipient.id).deliver
+    end
   end
 
 end
