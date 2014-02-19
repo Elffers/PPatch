@@ -6,7 +6,7 @@ class PostMailer < ActionMailer::Base
 
   def new_post(post_id, user_id)
     @post = Post.find(post_id)
-    @user = User.find(user_id) # problem with @user being available in view
+    @user = User.find(user_id)
     mail( 
         to: "#{@user.email}", 
         subject: "The Worm Hole has updated its Blahg."

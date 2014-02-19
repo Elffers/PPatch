@@ -3,18 +3,18 @@ require 'spec_helper'
 describe EventsController do
   let!(:user){ create(:user) }
 
-  describe "GET 'index'" do
-    it "returns http success" do
-      get 'index'
-      response.should be_success
-    end
+  # describe "GET 'index'" do
+  #   it "returns http success" do
+  #     get 'index'
+  #     response.should be_success
+  #   end
 
-    it "shows all events" do
-      event = create(:event, host_id: user.id)
-      get 'index'
-      expect(assigns(:events)).to eq([event])
-    end
-  end #end GET index
+  #   it "shows all events" do
+  #     event = create(:event, host_id: user.id)
+  #     get 'index'
+  #     expect(assigns(:events)).to eq([event])
+  #   end
+  # end #end GET index
 
   describe "GET 'show'" do
     let(:event){ create(:event, host_id: user.id)}
@@ -27,7 +27,6 @@ describe EventsController do
       get 'show', id: event.id
       expect(assigns(:event)).to_not be_nil
     end
-
   end #end GET show
 
   describe "GET 'new'" do
@@ -299,6 +298,20 @@ describe EventsController do
   describe 'GET rsvp' do
     let!(:event){ create(:event, host_id: user.id) }
 
+    before(:each) do
+      ActionMailer::Base.delivery_method = :test
+      ActionMailer::Base.perform_deliveries = true
+      ActionMailer::Base.deliveries = []
+    end
+
+    after(:each) do
+      ActionMailer::Base.deliveries.clear
+    end
+
+    before do
+      ResqueSpec.reset!
+    end
+
     context 'if not logged in' do
       before(:each) do
         session[:user_id] = nil
@@ -343,7 +356,7 @@ describe EventsController do
         end
 
         it "adds event to user's events" do
-          get :rsvp, id: event.id
+          expect { get :rsvp, id: event.id }.to change(participant.events, :count).by(1)
           expect(participant.events).to include event
         end
 
@@ -354,6 +367,11 @@ describe EventsController do
         it 'adds user to event rsvps' do
           get :rsvp, id: event.id
           expect(event.users).to include participant
+        end
+
+        it 'sends email to user' do
+          get :rsvp, id: event.id
+          expect(ActionMailer::Base.deliveries).to_not be_empty
         end
       end
 

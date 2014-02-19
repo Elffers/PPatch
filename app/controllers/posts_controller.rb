@@ -21,7 +21,6 @@ class PostsController < ApplicationController
     @user = User.find(session[:user_id])
     if @user.posts << @post
       send_email(@post)
-      # PostMailer.new_post(@post.id, @user.id).deliver #right now only delivers to the post owner
       flash[:notice] = "Post has been successfully created."
       redirect_to post_path(@post)
     else

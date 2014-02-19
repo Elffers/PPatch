@@ -19,14 +19,10 @@ describe PostMailer do
   end 
 
   it 'sends mail to user who wants it' do
-    p mail.to
-    p user.preferences
     expect(mail.to).to include user.email
   end
 
   it 'does not send mail to user who does not want it' do
-    p mail
-    p unsubscribed_user.preferences
     expect(mail.to).to_not include unsubscribed_user.email
   end
 end
