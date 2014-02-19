@@ -43,7 +43,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      #send_email
+      event_update_email(@event)
       flash[:notice] = "Event successfully updated!"
       redirect_to event_path(@event)
     else
@@ -126,6 +126,13 @@ class EventsController < ApplicationController
     @recipients = User.where(preferences: true)
     @recipients.each do |recipient|
       WormholeMailer.event_cancellation(event.id, recipient.id).deliver
+    end
+  end
+
+  def event_update_email(event)
+    @recipients = User.where(preferences: true)
+    @recipients.each do |recipient|
+      WormholeMailer.event_update(event.id, recipient.id).deliver
     end
   end
 

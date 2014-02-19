@@ -186,6 +186,19 @@ describe EventsController do
 
         context 'with valid fields' do
           let!(:valid_attributes){ { venue:"New Venue" } }
+          before(:each) do
+            ActionMailer::Base.delivery_method = :test
+            ActionMailer::Base.perform_deliveries = true
+            ActionMailer::Base.deliveries = []
+          end
+
+          after(:each) do
+            ActionMailer::Base.deliveries.clear
+          end
+
+          before do
+            ResqueSpec.reset!
+          end
           
           it 'redirects to event show page' do
             patch :update, id: event.id, event: valid_attributes
@@ -196,7 +209,10 @@ describe EventsController do
             expect {patch :update, id: event.id, event: valid_attributes }.to change(Event, :count).by(0)
           end
 
-          xit 'sends email' do
+          it 'sends email' do
+            patch :update, id: event.id, event: valid_attributes
+            # expect(recipients).to include participant.email
+            expect(ActionMailer::Base.deliveries).to_not be_empty
           end
 
           xit 'emails correct recipients' do
@@ -253,7 +269,7 @@ describe EventsController do
     let!(:event){ create(:event, host_id: user.id) }
     let!(:participant){create(:user)} #set preferences
     let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
-    let!(:no_mail){ create(:user, preferences: false) }
+    let(:no_mail){ create(:user, preferences: false) }
 
     context 'if logged in' do
       context 'if valid user' do

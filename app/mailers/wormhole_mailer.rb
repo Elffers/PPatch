@@ -21,6 +21,15 @@ class WormholeMailer < ActionMailer::Base
     )
   end
 
+  def event_update(event_id, user_id)
+    @event = Event.find(event_id)
+    @user = User.find(user_id)
+    mail( 
+        to: "#{@user.email}", 
+        subject: "#{@event.name.capitalize} has been updated!"
+    )
+  end
+
   def event_cancellation(event_id, user_id)
     @event = Event.find(event_id)
     @user = User.find(user_id)
