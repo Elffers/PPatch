@@ -1,5 +1,5 @@
 Ppatch::Application.routes.draw do
-  
+
   get "/events/new"           => "events#new",        as: :new_event
   # get "/events"               => "events#index",      as: :events
   post "/events"              => "events#create"
@@ -22,9 +22,10 @@ Ppatch::Application.routes.draw do
 
   get "/users/:id"            => "users#show",        as: :user
   get "/users/new"
+  get "/users/:id/preferences" => "users#preferences", as: :user_preferences
 
   get "/signout"              => "sessions#destroy",  as: :sign_out
-  
+
   resources :tools
 
   get '/tools/:id/borrow'   => "tools#borrow",        as: :borrow_tool

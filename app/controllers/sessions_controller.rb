@@ -5,13 +5,16 @@ class SessionsController < ApplicationController
     auth_hash = request.env['omniauth.auth']
     if auth_hash[:uid]
       @user = User.find_or_create_from_omniauth(auth_hash)
-      if @user
+      if @user && @user.email != nil
         session[:user_id] = @user.id
         flash[:notice] = "You have logged in!"
         redirect_to root_path #user show path
-      else
-        flash[:notice] = "Failed to save the user"
+      elsif @user
+        flash[:newuser_modal] = true
         redirect_to root_path
+      else
+         flash[:notice] = "Failed to save the user"
+         redirect_to root_path
       end
     else
       flash[:notice] = "You do not exist!"
