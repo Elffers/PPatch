@@ -20,7 +20,7 @@ class PostsController < ApplicationController
     @post  = Post.new(post_params)
     @user = User.find(session[:user_id])
     if @user.posts << @post
-      Resque.enqueue(EmailJob, @post.id, @user.id)
+      send_email(@post)
       # PostMailer.new_post(@post.id, @user.id).deliver #right now only delivers to the post owner
       flash[:notice] = "Post has been successfully created."
       redirect_to post_path(@post)
@@ -75,6 +75,13 @@ class PostsController < ApplicationController
     unless session[:user_id] == @post.user_id
       flash[:notice] = "You are not authorized to edit this post!" 
       redirect_to posts_path
+    end
+  end
+
+  def send_email(post)
+    @recipients = User.where(preferences: true)
+    @recipients.each do |recipient|
+      Resque.enqueue(EmailJob, post.id, recipient.id)
     end
   end
   

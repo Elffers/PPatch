@@ -74,7 +74,11 @@ describe PostsController do
 
       context "with valid attributes" do
         let(:valid_attributes) { {title: "a post", body: "here is the body of the post", user_id: user.id} }
-         before(:each) do
+        let!(:unsubscribed_user){create(:user, preferences: false)}
+        # let(:post){ create(:post, valid_attributes) }
+        # let!(:mail) { PostMailer.new_post(post.id, user.id) }
+        
+        before(:each) do
           ActionMailer::Base.delivery_method = :test
           ActionMailer::Base.perform_deliveries = true
           ActionMailer::Base.deliveries = []
@@ -107,18 +111,29 @@ describe PostsController do
           expect(assigns(:post).user).to eq user
         end
 
-        it 'sends an email' do # maybe customize later
+        it 'sends an email' do # ARGH
           without_resque_spec do
             post :create, post: valid_attributes
-            expect { PostMailer.new_post(assigns(:post).id, assigns(:user).id).deliver }.to change(ActionMailer::Base.deliveries, :count).by(1)
+            PostMailer.new_post(assigns(:post).id, assigns(:recipients).first.id).deliver
+            expect(ActionMailer::Base.deliveries.first.to).to include user.email
           end
         end
 
-        xit 'sends an email to users who want email update' do
-          post :create, post: valid_attributes
-          # p ActionMailer::Base.deliveries
-          # p "MAIL", PostMailer.new_post(assigns(:post).id, assigns(:user).id).deliver
-          expect(ActionMailer::Base.deliveries).to_not be_empty
+         it 'sends an email to user who wants it' do # maybe customize later
+          # without_resque_spec do
+            post :create, post: valid_attributes
+            mail = PostMailer.new_post(assigns(:post).id, assigns(:user).id)
+            expect(mail.to).to include user.email
+          # end
+        end
+
+        it 'sends email to correct recipients' do
+          without_resque_spec do
+            post :create, post: valid_attributes
+            # p "MAIL", PostMailer.new_post(assigns(:post).id, assigns(:user).id).deliver
+            expect(assigns(:recipients)).to_not include unsubscribed_user
+            expect(assigns(:recipients)).to include user
+          end
         end
 
         it "should have a queue size of 1" do
