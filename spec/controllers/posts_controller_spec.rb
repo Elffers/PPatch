@@ -134,14 +134,14 @@ describe PostsController do
 
         it "adds Postmailer.new_post to the Email queue" do
           post :create, post: valid_attributes
-          p ResqueSpec.queue_by_name(:email)
+          # p ResqueSpec.queue_by_name(:email)
           EmailJob.should have_queued(assigns(:post).id, user.id)
         end
 
-        # it "doesn't add unsubscribed users to Email queue" do
-        #   post :create, post: valid_attributes
-        #   EmailJob.should_not have_queued(assigns(:post).id, unsubscribed_user.id)
-        # end
+        it "doesn't add unsubscribed users to Email queue" do
+          post :create, post: valid_attributes
+          EmailJob.should_not have_queued(assigns(:post).id, unsubscribed_user.id)
+        end
       end
 
       context "with invalid attributes" do
