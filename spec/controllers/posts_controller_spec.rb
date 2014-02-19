@@ -94,7 +94,7 @@ describe PostsController do
 
         it "is a redirect" do
           post :create, post: valid_attributes
-          expect(response.status).to eq 302 # This is a redirect
+          expect(response.status).to eq 302
         end
 
         it "changes post count by 1" do
@@ -111,7 +111,7 @@ describe PostsController do
           expect(assigns(:post).user).to eq user
         end
 
-        it 'sends an email' do # ARGH
+        it 'sends an email to correct recipients' do
           without_resque_spec do
             post :create, post: valid_attributes
             PostMailer.new_post(assigns(:post).id, assigns(:recipients).first.id).deliver
@@ -119,18 +119,9 @@ describe PostsController do
           end
         end
 
-         it 'sends an email to user who wants it' do # maybe customize later
-          # without_resque_spec do
-            post :create, post: valid_attributes
-            mail = PostMailer.new_post(assigns(:post).id, assigns(:user).id)
-            expect(mail.to).to include user.email
-          # end
-        end
-
-        it 'sends email to correct recipients' do
+        it 'assigns correct email recipients' do
           without_resque_spec do
             post :create, post: valid_attributes
-            # p "MAIL", PostMailer.new_post(assigns(:post).id, assigns(:user).id).deliver
             expect(assigns(:recipients)).to_not include unsubscribed_user
             expect(assigns(:recipients)).to include user
           end
@@ -143,8 +134,14 @@ describe PostsController do
 
         it "adds Postmailer.new_post to the Email queue" do
           post :create, post: valid_attributes
-          EmailJob.should have_queued(assigns(:post).id, assigns(:user).id)
+          p ResqueSpec.queue_by_name(:email)
+          EmailJob.should have_queued(assigns(:post).id, user.id)
         end
+
+        # it "doesn't add unsubscribed users to Email queue" do
+        #   post :create, post: valid_attributes
+        #   EmailJob.should_not have_queued(assigns(:post).id, unsubscribed_user.id)
+        # end
       end
 
       context "with invalid attributes" do
