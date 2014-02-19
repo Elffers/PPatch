@@ -19,7 +19,7 @@
     </nav>
 
     <section id="calendar">
-      <%= render 'events/index' %>     
+      <%= render 'events/index' %>
     </section>
 
     <section id="upcoming" class="hidden">
@@ -76,9 +76,12 @@
     </div>
 
     <div class="recentnews">
-      <% @news.each do |news| %>
-       <h3> <%= news.title %></h3><br>
-        <%= truncate(news.body, length: 25) { link_to "Read More", post_path(news) } %><br>
+      <table id="news-table">
+      <tr>Recent News </tr>
+       <% @news.each do |news| %>
+          <tr><h3> <%= news.title %></h3></tr>
+          <tr><%= truncate(news.body, length: 25) { link_to "Read More", post_path(news) } %></tr>
         <% end %>
+      </table>
     </div>
 </div>

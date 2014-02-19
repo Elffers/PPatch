@@ -152,7 +152,10 @@ display none
 /*BREAKPOINT STUFFFFFF*/
 /* background image*/
 
-@media (min-width: 400px) {
+@media (min-width: 700px) {
+  #calendar-box {
+    display: inline;
+  }
 
 }
 
@@ -196,6 +199,10 @@ display none
 
   .forecast {
     display: inline-block;
+  }
+
+  #news-table {
+    margin: 5px;
   }
 }
 
