@@ -33,4 +33,7 @@ group :production do
   gem 'rails_12factor'
 end
 
-
+group :assets do
+  gem 'jquery-ui-rails'
+  gem 'jquery-modal-rails'
+end
