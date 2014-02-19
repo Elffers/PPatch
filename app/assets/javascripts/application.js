@@ -11,11 +11,12 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.ui.all
+//= require jquery.modal
 //= require jquery_ujs
 //= require jquery.ui.datepicker
 //= require_tree .
-//= require jquery.ui.all
-//= require jquery.modal
+
 
 $(function(){
   $('#profiletabs ul li a').on('click', function(e){

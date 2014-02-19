@@ -8,14 +8,12 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require jquery.ui.all
+ *= require jquery.modal
  *= require jquery.ui.datepicker
  *= require_self
  *= require_tree .
- *= require jquery.ui.all
- *= require jquery.modal
  */
-
-
 
 *, *:before, *:after {
   -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
