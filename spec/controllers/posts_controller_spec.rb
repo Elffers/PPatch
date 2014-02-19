@@ -114,7 +114,7 @@ describe PostsController do
         it 'sends an email to correct recipients' do
           without_resque_spec do
             post :create, post: valid_attributes
-            PostMailer.new_post(assigns(:post).id, assigns(:recipients).first.id).deliver
+            WormholeMailer.new_post(assigns(:post).id, assigns(:recipients).first.id).deliver
             expect(ActionMailer::Base.deliveries.first.to).to include user.email
           end
         end

@@ -43,6 +43,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
+      event_update_email(@event) # put in resque
       flash[:notice] = "Event successfully updated!"
       redirect_to event_path(@event)
     else
@@ -52,7 +53,11 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    cancellation_update_email(@event) #put in resque
+    rsvps = Rsvp.where(event_id: @event.id)
+    rsvps.each {|rsvp| rsvp.destroy}
     @event.destroy
+
     redirect_to events_path
   end
 
@@ -63,7 +68,6 @@ class EventsController < ApplicationController
     else
       if current_user.events << @event
         Resque.enqueue(RsvpJob, @event.id, current_user.id)
-        # RsvpMailer.confirmation(@event.id, current_user.id).deliver
         flash[:notice] = "You have successfully RSVPd for this event!"
         redirect_to event_path(@event)
       else
@@ -115,6 +119,20 @@ class EventsController < ApplicationController
 
   def set_rsvp
     @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
+  end
+
+  def cancellation_update_email(event)
+    @recipients = User.where(preferences: true)
+    @recipients.each do |recipient|
+      WormholeMailer.event_cancellation(event.id, recipient.id).deliver
+    end
+  end
+
+  def event_update_email(event)
+    @recipients = User.where(preferences: true)
+    @recipients.each do |recipient|
+      WormholeMailer.event_update(event.id, recipient.id).deliver
+    end
   end
 
 end
