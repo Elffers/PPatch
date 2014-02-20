@@ -1,4 +1,4 @@
-require 'resque/server'
+require 'resque/server' 
 Ppatch::Application.routes.draw do
 mount Resque::Server.new, :at => "/resque"
 
