@@ -203,7 +203,7 @@ CREATE TABLE users (
     avatar_url character varying(255),
     token character varying(255),
     secret character varying(255),
-    preferences boolean DEFAULT false
+    email_preferences hstore
 );
 
 
@@ -347,3 +347,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140219004244');
 INSERT INTO schema_migrations (version) VALUES ('20140220202409');
 
 INSERT INTO schema_migrations (version) VALUES ('20140220225734');
+
+INSERT INTO schema_migrations (version) VALUES ('20140220230620');
+
+INSERT INTO schema_migrations (version) VALUES ('20140220231125');
+
+INSERT INTO schema_migrations (version) VALUES ('20140220231508');

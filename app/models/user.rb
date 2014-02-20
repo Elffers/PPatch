@@ -8,6 +8,11 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :events, through: :rsvps
   has_many :tools
+  store_accessor :email_preferences,:registration, 
+                                    :new_post, 
+                                    :rsvp, 
+                                    :event_update, 
+                                    :event_cancellation
 
 
   def self.find_or_create_from_omniauth(auth_hash)

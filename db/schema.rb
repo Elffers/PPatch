@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20140220202409) do
     t.string   "avatar_url"
     t.string   "token"
     t.string   "secret"
-    t.boolean  "preferences", default: false
+    t.boolean  "preferences", default: false #now hstore value for :email_preferences
   end
 
 end
