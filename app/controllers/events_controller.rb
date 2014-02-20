@@ -58,7 +58,7 @@ class EventsController < ApplicationController
     rsvps.each {|rsvp| rsvp.destroy}
     @event.destroy
 
-    redirect_to events_path
+    redirect_to root_path
   end
 
   def rsvp
@@ -113,7 +113,7 @@ class EventsController < ApplicationController
   def valid_user
     unless session[:user_id] == @event.host_id
       flash[:notice] = "You are not authorized to edit this event!" 
-      redirect_to events_path
+      redirect_to root_path
     end
   end
 
@@ -122,7 +122,7 @@ class EventsController < ApplicationController
   end
 
   def cancellation_update_email(event)
-    @recipients = User.where(preferences: true)
+    @recipients = User.where(preferences: true) #chain class methods
     @recipients.each do |recipient|
       WormholeMailer.event_cancellation(event.id, recipient.id).deliver
     end
@@ -134,5 +134,9 @@ class EventsController < ApplicationController
       WormholeMailer.event_update(event.id, recipient.id).deliver
     end
   end
+
+  # scope is a one liner method for activerecord queries 
+  scope :method_name, -> {where(attribute:value) }
+
 
 end

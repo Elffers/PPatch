@@ -7,7 +7,7 @@ class WormholeMailer < ActionMailer::Base
     @post = Post.find(post_id)
     @user = User.find(user_id)
     mail( 
-        to: "#{@user.email}", 
+        to: @user.email, 
         subject: "The Worm Hole has updated its Blahg."
     )
   end
@@ -16,7 +16,7 @@ class WormholeMailer < ActionMailer::Base
     @event = Event.find(event_id)
     @user = User.find(user_id)
     mail( 
-        to: "#{@user.email}", 
+        to: @user.email, 
         subject: "You have RSVP'd to #{@event.name.capitalize}!"
     )
   end
@@ -25,7 +25,7 @@ class WormholeMailer < ActionMailer::Base
     @event = Event.find(event_id)
     @user = User.find(user_id)
     mail( 
-        to: "#{@user.email}", 
+        to: @user.email, 
         subject: "#{@event.name.capitalize} has been updated!"
     )
   end
@@ -34,7 +34,7 @@ class WormholeMailer < ActionMailer::Base
     @event = Event.find(event_id)
     @user = User.find(user_id)
     mail( 
-        to: "#{@user.email}", 
+        to: @user.email, 
         subject: "#{@event.name.capitalize} has been cancelled!"
     )
   end
