@@ -4,7 +4,6 @@ class EventsController < ApplicationController
   before_action :valid_user, only: [:edit, :update, :destroy]
   before_action :set_rsvp, only: [:rsvp, :flake]
 
-
   def new
     @event = Event.new
   end
@@ -15,6 +14,7 @@ class EventsController < ApplicationController
 
     begin
       current_user.events << @event
+      # send_email(@event)
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
     rescue ActiveRecord::RecordInvalid 
@@ -43,6 +43,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
+      event_update_email(@event) # put in resque
       flash[:notice] = "Event successfully updated!"
       redirect_to event_path(@event)
     else
@@ -52,7 +53,11 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    cancellation_update_email(@event) #put in resque
+    rsvps = Rsvp.where(event_id: @event.id)
+    rsvps.each {|rsvp| rsvp.destroy}
     @event.destroy
+
     redirect_to events_path
   end
 
@@ -62,6 +67,7 @@ class EventsController < ApplicationController
       redirect_to event_path(@event)
     else
       if current_user.events << @event
+        Resque.enqueue(RsvpJob, @event.id, current_user.id)
         flash[:notice] = "You have successfully RSVPd for this event!"
         redirect_to event_path(@event)
       else
@@ -113,6 +119,20 @@ class EventsController < ApplicationController
 
   def set_rsvp
     @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
+  end
+
+  def cancellation_update_email(event)
+    @recipients = User.where(preferences: true)
+    @recipients.each do |recipient|
+      WormholeMailer.event_cancellation(event.id, recipient.id).deliver
+    end
+  end
+
+  def event_update_email(event)
+    @recipients = User.where(preferences: true)
+    @recipients.each do |recipient|
+      WormholeMailer.event_update(event.id, recipient.id).deliver
+    end
   end
 
 end

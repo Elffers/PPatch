@@ -1,0 +1,13 @@
+Hey <%= @user.name %>!
+
+You have RSVP'd to <%= @event.name.capitalize %>. Be there or be a worm.
+
+Event details:
+<%= @event.name.capitalize %>
+<%= @event.date.to_time.strftime("%A, %B %d, %Y") %>
+
+<!-- link to flake? -->
+
+Love,
+
+The Worms in the Hole

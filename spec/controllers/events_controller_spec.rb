@@ -3,18 +3,18 @@ require 'spec_helper'
 describe EventsController do
   let!(:user){ create(:user) }
 
-  describe "GET 'index'" do
-    it "returns http success" do
-      get 'index'
-      response.should be_success
-    end
+  # describe "GET 'index'" do
+  #   it "returns http success" do
+  #     get 'index'
+  #     response.should be_success
+  #   end
 
-    it "shows all events" do
-      event = create(:event, host_id: user.id)
-      get 'index'
-      expect(assigns(:events)).to eq([event])
-    end
-  end #end GET index
+  #   it "shows all events" do
+  #     event = create(:event, host_id: user.id)
+  #     get 'index'
+  #     expect(assigns(:events)).to eq([event])
+  #   end
+  # end #end GET index
 
   describe "GET 'show'" do
     let(:event){ create(:event, host_id: user.id)}
@@ -27,7 +27,6 @@ describe EventsController do
       get 'show', id: event.id
       expect(assigns(:event)).to_not be_nil
     end
-
   end #end GET show
 
   describe "GET 'new'" do
@@ -178,6 +177,9 @@ describe EventsController do
 
   describe "PATCH 'update'" do
     let!(:event){create(:event, host_id: user.id) }
+    let!(:participant){create(:user)} #set preferences
+    let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
+    let(:no_mail){ create(:user, preferences: false) }
 
     context 'if logged in' do
       context 'if valid user' do
@@ -187,6 +189,19 @@ describe EventsController do
 
         context 'with valid fields' do
           let!(:valid_attributes){ { venue:"New Venue" } }
+          before(:each) do
+            ActionMailer::Base.delivery_method = :test
+            ActionMailer::Base.perform_deliveries = true
+            ActionMailer::Base.deliveries = []
+          end
+
+          after(:each) do
+            ActionMailer::Base.deliveries.clear
+          end
+
+          before do
+            ResqueSpec.reset!
+          end
           
           it 'redirects to event show page' do
             patch :update, id: event.id, event: valid_attributes
@@ -195,6 +210,20 @@ describe EventsController do
 
           it 'does not add event to database' do
             expect {patch :update, id: event.id, event: valid_attributes }.to change(Event, :count).by(0)
+          end
+
+          it 'sends email' do
+            patch :update, id: event.id, event: valid_attributes
+            # expect(recipients).to include participant.email
+            expect(ActionMailer::Base.deliveries).to_not be_empty
+          end
+
+          it 'emails correct recipients' do
+            patch :update, id: event.id, event: valid_attributes
+            recipients = ActionMailer::Base.deliveries.map {|mail| mail.to}.flatten
+            expect(recipients).to include participant.email
+            expect(recipients).to_not include no_mail.email
+
           end
 
         end
@@ -246,11 +275,22 @@ describe EventsController do
 
   describe 'DELETE destroy' do
     let!(:event){ create(:event, host_id: user.id) }
+    let!(:participant){create(:user)} #set preferences
+    let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
+    let(:no_mail){ create(:user, preferences: false) }
 
     context 'if logged in' do
       context 'if valid user' do
         before(:each) do
           session[:user_id] = user.id
+          ActionMailer::Base.delivery_method = :test
+          ActionMailer::Base.perform_deliveries = true
+          ActionMailer::Base.deliveries = []
+          ResqueSpec.reset!
+        end
+
+        after(:each) do
+          ActionMailer::Base.deliveries.clear
         end
 
         it 'removes event from db' do
@@ -260,6 +300,28 @@ describe EventsController do
         it 'redirects to events page' do
           delete :destroy, id: event.id
           expect(response).to redirect_to events_path
+        end
+
+        it 'deletes rsvp from db' do
+          expect{ delete :destroy, id: event.id }.to change(Rsvp, :count).by(-1)
+        end
+
+        it 'deletes event from participant events' do
+          expect{ delete :destroy, id: event.id }.to change(participant.events, :count).by(-1)
+          expect(participant.events).to_not include event
+        end
+
+        it 'emails participants' do
+          delete :destroy, id: event.id
+          recipients = ActionMailer::Base.deliveries.map {|mail| mail.to}.flatten
+          expect(recipients).to include participant.email
+          expect(ActionMailer::Base.deliveries).to_not be_empty
+        end
+        
+        it 'sets correct participants' do
+          delete :destroy, id: event.id
+          recipients = ActionMailer::Base.deliveries.map {|mail| mail.to}.flatten
+          expect(recipients).to_not include no_mail.email 
         end
       end
 
@@ -298,6 +360,20 @@ describe EventsController do
 
   describe 'GET rsvp' do
     let!(:event){ create(:event, host_id: user.id) }
+
+    before(:each) do
+      ActionMailer::Base.delivery_method = :test
+      ActionMailer::Base.perform_deliveries = true
+      ActionMailer::Base.deliveries = []
+    end
+
+    after(:each) do
+      ActionMailer::Base.deliveries.clear
+    end
+
+    before do
+      ResqueSpec.reset!
+    end
 
     context 'if not logged in' do
       before(:each) do
@@ -343,7 +419,7 @@ describe EventsController do
         end
 
         it "adds event to user's events" do
-          get :rsvp, id: event.id
+          expect { get :rsvp, id: event.id }.to change(participant.events, :count).by(1)
           expect(participant.events).to include event
         end
 
@@ -354,6 +430,24 @@ describe EventsController do
         it 'adds user to event rsvps' do
           get :rsvp, id: event.id
           expect(event.users).to include participant
+        end
+
+        it 'sends email to user' do
+          without_resque_spec do
+            get :rsvp, id: event.id
+            WormholeMailer.rsvp_confirmation(event.id, participant.id).deliver
+            expect(ActionMailer::Base.deliveries).to_not be_empty
+          end
+        end
+
+        it 'queues email' do
+          get :rsvp, id: event.id
+          RsvpJob.should have_queue_size_of(1)
+        end
+
+        it 'has current user email job in queue' do
+          get :rsvp, id: event.id
+          RsvpJob.should have_queued(event.id, participant.id).in(:rsvp)
         end
       end
 
