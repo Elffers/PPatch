@@ -2,7 +2,7 @@
   <h2>Welcome to The Wormhole!</h2>
   <p> We noticed that we don't have your email or phone number in our records. We use this information to send you updates about the community, information about upcoming events, and to notify you when a tool is available for checkout.  Please fill out the following information:</p><br>
 
-<%= form_for @user, url: {action: "update"} do |f| %>
+<%= form_for @user do |f| %>
   <% if @user.errors.any? %>
     <h2>Form is invalid</h2>
     <ul>
@@ -23,7 +23,7 @@
   </div>
 
   <div class="field">
-  <% f.hidden_field_tag :preferences, true %>
+  <%= f.hidden_field :preferences, true %>
   </div>
 
   <%= f.submit "Submit" %>

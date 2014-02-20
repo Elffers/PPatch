@@ -13,10 +13,17 @@ before_action :set_user, only: [:show, :update, :preferences]
   end
 
   def update
+    @user.update(user_params)
+    redirect_to root_path
   end
 
   private
-    def set_user
+
+  def user_params
+    params.require(:user).permit(:email, :phone, :preferences)
+  end
+
+  def set_user
     @user = User.find(params[:id])
   end
 end
