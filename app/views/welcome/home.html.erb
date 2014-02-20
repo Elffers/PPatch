@@ -1,3 +1,7 @@
+<% if params[:getting_started] %>
+  <%= render :partial => "welcome/modal" %>
+<% end %>
+
 <div class="content-inner">
   <div class="jumbotron-knockoff">
     <% if current_user %>

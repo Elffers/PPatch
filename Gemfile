@@ -18,6 +18,7 @@ gem 'pg'
 gem 'jquery-ui-rails'
 gem "mail", "2.5.4"
 gem 'barometer'
+gem 'jquery-modal-rails'
 
 group :development, :test do
   gem "rspec-rails"
@@ -32,5 +33,4 @@ group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
-
 
