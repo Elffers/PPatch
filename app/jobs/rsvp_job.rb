@@ -1,4 +1,5 @@
 class RsvpJob
+  extend HerokuResqueAutoscaler
   @queue = :rsvp
   
   def self.perform(event_id, user_id)

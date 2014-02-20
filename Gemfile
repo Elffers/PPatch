@@ -7,7 +7,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
 gem 'figaro'
-gem 'resque'
+gem 'resque', '~>1.23.0'
 gem 'bcrypt-ruby', '~> 3.1.2'
 gem 'httparty'
 gem 'omniauth'
@@ -19,6 +19,7 @@ gem 'jquery-ui-rails'
 gem "mail", "2.5.4"
 gem 'barometer'
 gem 'jquery-modal-rails'
+gem 'heroku_resque_autoscaler'
 
 group :development, :test do
   gem "rspec-rails"
