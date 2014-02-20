@@ -149,9 +149,9 @@ describe EventsController do
           session[:user_id] = 1
         end
 
-        it 'redirects to index' do
+        it 'redirects to root' do
           get :edit, id: event.id
-          expect(response).to redirect_to events_path
+          expect(response).to redirect_to root_path
         end
 
         it 'sets flash notice' do
@@ -223,7 +223,6 @@ describe EventsController do
             recipients = ActionMailer::Base.deliveries.map {|mail| mail.to}.flatten
             expect(recipients).to include participant.email
             expect(recipients).to_not include no_mail.email
-
           end
 
         end
@@ -247,9 +246,9 @@ describe EventsController do
           session[:user_id] = 1
         end
 
-         it 'is redirects to event show' do
+         it 'is redirects to root' do
           patch :update, id: event.id
-          expect(response).to redirect_to events_path
+          expect(response).to redirect_to root_path
         end
 
         it 'sets flash message' do
@@ -297,9 +296,9 @@ describe EventsController do
           expect {delete :destroy, id: event.id}.to change(Event, :count).by(-1)
         end
 
-        it 'redirects to events page' do
+        it 'redirects to home page' do
           delete :destroy, id: event.id
-          expect(response).to redirect_to events_path
+          expect(response).to redirect_to root_path
         end
 
         it 'deletes rsvp from db' do
