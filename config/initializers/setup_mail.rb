@@ -3,7 +3,7 @@ ActionMailer::Base.smtp_settings = {
   :port                 => 587,
   :domain               => "localhost:3000",
   :user_name            => "admin@wormhole.com",
-  :password             => Figaro.env.mandrill_key,
+  :password             => ENV['MANDRILL_KEY'],
   :authentication       => "login",
   :enable_starttls_auto => true
 }
