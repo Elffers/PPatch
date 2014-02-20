@@ -136,7 +136,7 @@ class EventsController < ApplicationController
   end
 
   # scope is a one liner method for activerecord queries 
-  scope :method_name, -> {where(attribute:value) }
+  # scope :method_name, -> {where(attribute:value) }
 
 
 end
