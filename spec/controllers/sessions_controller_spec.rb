@@ -18,9 +18,19 @@ describe SessionsController do
         expect { get :create }.to_not change(User, :count).by(1)
       end
 
-      it "redirects to home page" do
-        get :create
-        expect(response).to redirect_to root_path
+      context "user has empty contact profile" do
+         it "redirects to home page" do
+          get :create
+          expect(response).to redirect_to root_path(getting_started: true)
+        end
+      end
+
+      context "user has filled out contact info" do
+        it "redirects to home page" do
+          complete_user = user.update(email: "hello@example.com")
+          get :create
+          expect(response).to redirect_to root_path
+        end
       end
     end
 
@@ -28,6 +38,12 @@ describe SessionsController do
       it "creates a user" do
         expect { get :create }.to change(User, :count).by(1)
       end
+
+      it "redirects to home page with getting started param" do
+        get :create
+        expect(response).to redirect_to root_path(getting_started: true)
+      end
+
     end
 
 
