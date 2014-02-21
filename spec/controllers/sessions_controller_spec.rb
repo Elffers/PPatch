@@ -58,22 +58,6 @@ describe SessionsController do
         expect(flash[:notice]).to eq "You do not exist!"
       end
     end
-
-    context "when failing to save the user" do
-      before {
-        request.env["omniauth.auth"] = {:uid => "",
-                                        :info => {name:"hello", image: "blah"},
-                                        :credentials => {secret:"", token: ""}
-                                        }
-      }
-
-      it "redirect to home with flash error" do
-        create(:user, name:"UNIQ")
-        get :create
-        expect(response).to redirect_to root_path
-        expect(flash[:notice]).to eq "Failed to save the user"
-      end
-    end
   end
 
   describe 'sign out process' do
