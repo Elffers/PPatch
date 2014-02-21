@@ -35,6 +35,4 @@ class User < ActiveRecord::Base
     User.where("email_preferences -> '#{action}' = 'true'") #hstore syntax
   end
 
-  
-
 end
