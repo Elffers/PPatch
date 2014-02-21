@@ -31,6 +31,10 @@ class User < ActiveRecord::Base
     nil
   end
 
+  def self.set_recipients(action)
+    User.where("email_preferences -> '#{action}' = 'true'") #hstore syntax
+  end
+
   
 
 end

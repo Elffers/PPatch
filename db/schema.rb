@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220202409) do
+ActiveRecord::Schema.define(version: 20140220231508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "events", force: true do |t|
     t.string   "time"
@@ -55,14 +56,14 @@ ActiveRecord::Schema.define(version: 20140220202409) do
     t.string   "name"
     t.string   "email"
     t.string   "phone"
-    t.boolean  "admin",       default: false
+    t.boolean  "admin",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "uid"
     t.string   "avatar_url"
     t.string   "token"
     t.string   "secret"
-    t.boolean  "preferences", default: false #now hstore value for :email_preferences
+    t.hstore   "email_preferences"
   end
 
 end
