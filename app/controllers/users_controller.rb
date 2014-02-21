@@ -14,6 +14,7 @@ before_action :set_user, only: [:show, :update, :preferences]
 
   def update
     @user.update(user_params)
+    @user.reload
     redirect_to root_path
   end
 
