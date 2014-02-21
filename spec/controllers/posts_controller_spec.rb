@@ -74,23 +74,23 @@ describe PostsController do
 
       context "with valid attributes" do
         let(:valid_attributes) { {title: "a post", body: "here is the body of the post", user_id: user.id} }
-        let!(:unsubscribed_user){create(:user, preferences: false)}
+        let!(:unsubscribed_user){create(:user, email_preferences: {})}
         # let(:post){ create(:post, valid_attributes) }
         # let!(:mail) { PostMailer.new_post(post.id, user.id) }
         
-        before(:each) do
-          ActionMailer::Base.delivery_method = :test
-          ActionMailer::Base.perform_deliveries = true
-          ActionMailer::Base.deliveries = []
-        end
+        # before(:each) do
+        #   ActionMailer::Base.delivery_method = :test
+        #   ActionMailer::Base.perform_deliveries = true
+        #   ActionMailer::Base.deliveries = []
+        # end
 
-        after(:each) do
-          ActionMailer::Base.deliveries.clear
-        end
+        # after(:each) do
+        #   ActionMailer::Base.deliveries.clear
+        # end
 
-        before do
-          ResqueSpec.reset!
-        end
+        # before do
+        #   ResqueSpec.reset!
+        # end
 
         it "is a redirect" do
           post :create, post: valid_attributes
@@ -110,37 +110,53 @@ describe PostsController do
           expect { post :create, post: valid_attributes }.to change(user.posts, :count).by(1)
           expect(assigns(:post).user).to eq user
         end
-
-        it 'sends an email to correct recipients' do
-          without_resque_spec do
-            post :create, post: valid_attributes
-            WormholeMailer.new_post(assigns(:post).id, assigns(:recipients).first.id).deliver
-            expect(ActionMailer::Base.deliveries.first.to).to include user.email
+        
+        context 'mailer and resque tests' do
+          before(:each) do
+            ActionMailer::Base.delivery_method = :test
+            ActionMailer::Base.perform_deliveries = true
+            ActionMailer::Base.deliveries = []
           end
-        end
 
-        it 'assigns correct email recipients' do
-          without_resque_spec do
-            post :create, post: valid_attributes
-            expect(assigns(:recipients)).to_not include unsubscribed_user
-            expect(assigns(:recipients)).to include user
+          after(:each) do
+            ActionMailer::Base.deliveries.clear
           end
-        end
 
-        it "should have a queue size of 1" do
-          post :create, post: valid_attributes
-          EmailJob.should have_queue_size_of(1)
-        end
+          before do
+            ResqueSpec.reset!
+          end
 
-        it "adds Postmailer.new_post to the Email queue" do
-          post :create, post: valid_attributes
-          # p ResqueSpec.queue_by_name(:email)
-          EmailJob.should have_queued(assigns(:post).id, user.id)
-        end
+          it 'sends an email to correct recipients' do
+            without_resque_spec do
+              post :create, post: valid_attributes
+              WormholeMailer.new_post(assigns(:post).id, assigns(:recipients).first.id).deliver
+              expect(ActionMailer::Base.deliveries.first.to).to include user.email
+            end
+          end
 
-        it "doesn't add unsubscribed users to Email queue" do
-          post :create, post: valid_attributes
-          EmailJob.should_not have_queued(assigns(:post).id, unsubscribed_user.id)
+          it 'assigns correct email recipients' do
+            without_resque_spec do
+              post :create, post: valid_attributes
+              expect(assigns(:recipients)).to_not include unsubscribed_user
+              expect(assigns(:recipients)).to include user
+            end
+          end
+
+          it "should have a queue size of 1" do
+            post :create, post: valid_attributes
+            EmailJob.should have_queue_size_of(1)
+          end
+
+          it "adds Postmailer.new_post to the Email queue" do
+            post :create, post: valid_attributes
+            # p ResqueSpec.queue_by_name(:email)
+            EmailJob.should have_queued(assigns(:post).id, user.id)
+          end
+
+          it "doesn't add unsubscribed users to Email queue" do
+            post :create, post: valid_attributes
+            EmailJob.should_not have_queued(assigns(:post).id, unsubscribed_user.id)
+          end
         end
       end
 

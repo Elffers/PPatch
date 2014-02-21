@@ -78,7 +78,7 @@ class PostsController < ApplicationController
   end
 
   def send_email(post)
-    @recipients = User.where(preferences: true)
+    @recipients = User.set_recipients("new_post")
     @recipients.each do |recipient|
       Resque.enqueue(EmailJob, post.id, recipient.id)
     end
