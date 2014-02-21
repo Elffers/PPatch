@@ -54,10 +54,8 @@ class EventsController < ApplicationController
 
   def destroy
     cancellation_update_email(@event) #put in resque
-    rsvps = Rsvp.where(event_id: @event.id)
-    rsvps.each {|rsvp| rsvp.destroy}
+    Rsvp.where(event_id: @event.id).each {|rsvp| rsvp.destroy}
     @event.destroy
-
     redirect_to root_path
   end
 
