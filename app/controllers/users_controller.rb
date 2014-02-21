@@ -17,7 +17,6 @@ before_action :set_user, only: [:show, :update, :preferences]
       @user.reload
       redirect_to root_path
     else
-      initialize_calendar
       flash[:notice] = @user.errors.full_messages.to_sentence
       redirect_to root_path(getting_started: true)
     end
