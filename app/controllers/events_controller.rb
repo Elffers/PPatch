@@ -14,7 +14,7 @@ class EventsController < ApplicationController
 
     begin
       current_user.events << @event
-      # send_email(@event)
+      # send_email(@event)?
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
     rescue ActiveRecord::RecordInvalid 
