@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
 
   def weather
-    barometer = Barometer.new('Seattle')
+    barometer = Barometer.new('Seattle') #maybe have this as an AJAX call so it doesn't clog up reloads?
     @weather = barometer.measure
   end
 

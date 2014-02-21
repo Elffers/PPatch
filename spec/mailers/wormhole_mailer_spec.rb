@@ -3,7 +3,7 @@ require "spec_helper"
 describe WormholeMailer do
   context "New Post notification" do
     let!(:user){ create(:user) }
-    let!(:unsubscribed_user){create(:user, preferences: false)}
+    let!(:unsubscribed_user){create(:user, email_preferences: {"new_post" => "false"} )}
     let!(:post){ create(:post) }
     let!(:mail) { WormholeMailer.new_post(post.id, user.id) }
 

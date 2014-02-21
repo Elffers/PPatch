@@ -177,9 +177,9 @@ describe EventsController do
 
   describe "PATCH 'update'" do
     let!(:event){create(:event, host_id: user.id) }
-    let!(:participant){create(:user)} #set preferences
+    let!(:participant){create(:user, email_preferences: {'event_update' => 'true'})}
     let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
-    let(:no_mail){ create(:user, preferences: false) }
+    let(:no_mail){ create(:user, email_preferences: {}) }
 
     context 'if logged in' do
       context 'if valid user' do
@@ -274,9 +274,9 @@ describe EventsController do
 
   describe 'DELETE destroy' do
     let!(:event){ create(:event, host_id: user.id) }
-    let!(:participant){create(:user)} #set preferences
+    let!(:participant){create(:user, email_preferences: {'event_cancellation' => 'true'})}
     let!(:rsvp){ create(:rsvp, user_id: participant.id, event_id: event.id) }
-    let(:no_mail){ create(:user, preferences: false) }
+    let(:no_mail){ create(:user, email_preferences: {}) }
 
     context 'if logged in' do
       context 'if valid user' do
