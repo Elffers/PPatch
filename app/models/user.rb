@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :tools
   store_accessor :email_preferences,:registration, 
                                     :new_post, 
-                                    :rsvp, 
+                                    :rsvp_confirmation, 
                                     :event_update, 
                                     :event_cancellation
 

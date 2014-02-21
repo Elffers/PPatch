@@ -65,7 +65,7 @@ class EventsController < ApplicationController
       redirect_to event_path(@event)
     else
       if current_user.events << @event
-        Resque.enqueue(RsvpJob, @event.id, current_user.id)
+        rsvp_confirmation(@event) #now breaks the specs
         flash[:notice] = "You have successfully RSVPd for this event!"
         redirect_to event_path(@event)
       else
@@ -128,6 +128,12 @@ class EventsController < ApplicationController
   def event_update_email(event)
     User.set_recipients("event_update").each do |recipient|
       WormholeMailer.event_update(event.id, recipient.id).deliver
+    end
+  end
+
+  def rsvp_confirmation(event)
+    User.set_recipients("rsvp_confirmation").each do |recipient|
+      Resque.enqueue(RsvpJob, event.id, recipient.id)
     end
   end
 
