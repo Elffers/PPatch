@@ -8,10 +8,10 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :events, through: :rsvps
   has_many :tools
-  store_accessor :email_preferences,:registration, 
-                                    :new_post, 
-                                    :rsvp_confirmation, 
-                                    :event_update, 
+  store_accessor :email_preferences, :registration,
+                                    :new_post,
+                                    :rsvp_confirmation,
+                                    :event_update,
                                     :event_cancellation
 
   scope :set_recipients, -> (action){ where("email_preferences -> '#{action}' = 'true'") }
