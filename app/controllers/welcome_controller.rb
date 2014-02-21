@@ -12,10 +12,10 @@ class WelcomeController < ApplicationController
 
   private
   def past_events
-    @past_events = Event.all.keep_if {|event| event.date < Date.today}
+    @past_events ||= Event.all.keep_if {|event| event.date < Date.today}
   end
 
   def upcoming_events
-    @upcoming_events = Event.all.keep_if {|event| event.date > Date.today}
+    @upcoming_events ||= Event.all.keep_if {|event| event.date > Date.today}
   end
 end
