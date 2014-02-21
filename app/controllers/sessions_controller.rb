@@ -8,13 +8,10 @@ class SessionsController < ApplicationController
       if @user && @user.email.nil?
         session[:user_id] = @user.id
         redirect_to root_path(getting_started: true)
-      elsif @user && @user.email
+      else
         session[:user_id] = @user.id
         flash[:notice] = "You have logged in!"
         redirect_to root_path #user show path
-      else
-         flash[:notice] = "Failed to save the user"
-         redirect_to root_path
       end
     else
       flash[:notice] = "You do not exist!"
@@ -26,16 +23,5 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_path
   end
-
-  private
-
-  # def check_auth_hash
-  #   auth_hash = request.env['omniauth.auth']
-  #   unless auth_hash[:uid]
-  #     flash[:notice] = "You do not exist!"
-  #     redirect_to root_path
-  #   end
-
-  # end
 
 end

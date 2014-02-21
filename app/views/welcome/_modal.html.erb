@@ -17,13 +17,8 @@
     <%= f.email_field :email %>
   </div>
 
-  <div class='field'>
-    <%= f.label :phone %>
-    <%= f.text_area :phone %>
-  </div>
-
   <div class="field">
-  <%= f.hidden_field :preferences, true %>
+  <%= f.hidden_field :email_preferences, {"registration" => "true"} %>
   </div>
 
   <%= f.submit "Submit" %>

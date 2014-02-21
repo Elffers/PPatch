@@ -20,7 +20,7 @@ before_action :set_user, only: [:show, :update, :preferences]
   private
 
   def user_params
-    params.require(:user).permit(:email, :phone, :preferences)
+    params.require(:user).permit(:email, :phone, :email_preferences)
   end
 
   def set_user
