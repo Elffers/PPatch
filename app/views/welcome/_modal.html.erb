@@ -2,7 +2,10 @@
   <h2>Welcome to The Wormhole!</h2>
   <p> We noticed that we don't have your email or phone number in our records. We use this information to send you updates about the community, information about upcoming events, and to notify you when a tool is available for checkout.  Please fill out the following information:</p><br>
 
-<%= form_for @user do |f| %>
+
+   <%= flash[:notice] %>
+
+<%= form_for @user,url: user_path(@user, getting_started: true) do |f| %>
   <% if @user.errors.any? %>
     <h2>Form is invalid</h2>
     <ul>
@@ -26,8 +29,6 @@
 <% end %>
 
   </p><small> We promise to never sell your information or use it for marketing purposes. You can always change your notificiation preferences in your profile by clicking the link to your user in the navigation bar. Thanks! Team Wormhole</small></p>
-
-
 
 <%= link_to 'close', root_path, :rel => "modal:close" %>
 

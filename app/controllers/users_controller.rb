@@ -13,9 +13,14 @@ before_action :set_user, only: [:show, :update, :preferences]
   end
 
   def update
-    @user.update(user_params)
-    @user.reload
-    redirect_to root_path
+    if @user.update(user_params)
+      @user.reload
+      redirect_to root_path
+    else
+      initialize_calendar
+      flash[:notice] = @user.errors.full_messages.to_sentence
+      redirect_to root_path(getting_started: true)
+    end
   end
 
   private
