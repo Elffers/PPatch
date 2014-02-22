@@ -47,7 +47,7 @@ $(document).ready(function() {
 $(document).ready(function() {
   $(".tools").on( "click", ".delete", function() {
     var tool1 = $(this).parents('#tr-1');
-    var tool2 = $(this).parents('#tr-2');
+    var tool2 = $(this).parents("#tr-2");
 
     $.ajax({
       url: $(this).attr("href"),
@@ -59,7 +59,7 @@ $(document).ready(function() {
       tool2.remove();
     })
   .fail(function(){
-    alert("you are a terrible person and i'm not deleting that");
+    alert("nope");
   });
     return false;
   });
