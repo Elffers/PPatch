@@ -13,6 +13,7 @@ class ToolsController < ApplicationController
     @tool  = Tool.new(tool_params)
     if @tool.save
        respond_to do |format|
+
         format.html { redirect_to tools_path }
         format.json { render json: @tool.as_json }
       end
@@ -25,13 +26,17 @@ class ToolsController < ApplicationController
   def update
     @tool.update(tool_params)
     if @tool.save
-      flash[:notice] = "Tool has been successfully updated."
-      redirect_to tools_path
-    else
-      flash[:notice] = "There was a problem saving the tool."
-     redirect_to tools_path
+      if @tool.save
+
+        respond_to do |format|
+          format.html { redirect_to :back }
+          format.json { render json: @tool.as_json }
+        end
+      else
+        render :back
     end
   end
+end
 
   def destroy
     @tool.destroy

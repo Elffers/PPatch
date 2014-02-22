@@ -7,14 +7,20 @@
       <td><%= tool.name %></td>
           <% if tool.checkedin == true %>
             <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
+            <td></td>
+            <% elsif  current_user.tools.include?(tool) %>
+            <td></td>
+            <td> here is where i put the return thing </td>
             <% else %>
             <td><%= "Sorry, this tool is currently checked out" %></td>
+            <td></td>
           <% end %>
     </tr>
     <tr>
     <td><%= tool.description %></td>
      <% if current_user && current_user.admin = true %>
         <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
+        <td>here is an update description thing </td>
       <% end %>
   <% end %>
   </tbody>
