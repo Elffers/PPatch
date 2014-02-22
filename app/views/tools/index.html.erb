@@ -8,7 +8,7 @@
           <% if tool.checkedin == true %>
             <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
             <% else %>
-            <td><%= "Sorry this tool is currently checked out" %></td>
+            <td><%= "Sorry, this tool is currently checked out" %></td>
           <% end %>
     </tr>
     <tr>
