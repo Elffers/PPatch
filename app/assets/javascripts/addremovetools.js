@@ -24,8 +24,8 @@ $(document).ready(function() {
       dataType: 'json',
       data: {tool: {name: $("#tool_name").val() }},
       success: function(data, textStatus, xhr) {
-        var delete_button = '<a class="delete" data-method="delete" href="/tools/'+ data.list_id +'/tools/' + data.id + '" rel="nofollow">delete tool</a>'
-        tools.append("<tr><td>"+ data.name + "</td><td>" + delete_button + "</td></tr>");
+        var delete_button = '<a class="delete" data-method="delete" href="/tools/'+ data.list_id +'/tools/' + data.id + '" rel="nofollow">delete</a>'
+        tools.append("<td>"+ data.name + "</td><td>" + delete_button + "</td>");
       },
       error: function(xhr, textStatus, errorThrown) {
         alert("There was a problem adding this tool");
@@ -38,14 +38,17 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $(".tools").on( "click", ".delete", function() {
-    var tool = $(this).parents('tr');
+    var tool1 = $('#tr-1');
+    var tool2 = $('#tr-2');
+
     $.ajax({
       url: $(this).attr("href"),
       type: 'DELETE',
       dataType: 'json',
     })
     .done(function(){
-      tool.remove();
+      tool1.remove();
+      tool2.remove();
     })
   .fail(function(){
     alert("you are a terrible person and i'm not deleting that");

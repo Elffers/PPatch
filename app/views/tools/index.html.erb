@@ -3,7 +3,7 @@
 <table>
   <tbody class="tools">
     <% @tools.each do |tool|%>
-    <tr>
+    <tr id="tr-1">
       <td><%= tool.name %></td>
           <% if tool.checkedin == true %>
             <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
@@ -16,13 +16,14 @@
             <td></td>
           <% end %>
     </tr>
-    <tr>
-    <td><%= tool.description %></td>
-     <% if current_user && current_user.admin = true %>
-        <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
-        <td>here is an update description thing </td>
-      <% end %>
-  <% end %>
+    <tr id="tr-2">
+      <td><%= tool.description %></td>
+        <% if current_user && current_user.admin = true %>
+          <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
+          <td>here is an update description thing </td>
+        <% end %>
+    </tr>
+    <% end %>
   </tbody>
 </table>
 
