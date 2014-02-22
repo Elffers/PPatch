@@ -7,11 +7,15 @@
       <td><%= tool.name %></td>
           <% if tool.checkedin == true %>
             <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
+            <% else %>
+            <td><%= "Sorry this tool is currently checked out" %></td>
           <% end %>
-      <% if current_user && current_user.admin = true %>
+    </tr>
+    <tr>
+    <td><%= tool.description %></td>
+     <% if current_user && current_user.admin = true %>
         <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
       <% end %>
-    </tr>
   <% end %>
   </tbody>
 </table>
