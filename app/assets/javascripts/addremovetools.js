@@ -25,7 +25,13 @@ $(document).ready(function() {
       data: {tool: {name: $("#tool_name").val() }},
       success: function(data, textStatus, xhr) {
         var delete_button = '<a class="delete" data-method="delete" href="/tools/'+ data.list_id +'/tools/' + data.id + '" rel="nofollow">delete</a>'
-        tools.append("<td>"+ data.name + "</td><td>" + delete_button + "</td>");
+        tools.append("<tr id='tr-1'><td>"
+                            + data.name
+                            + "</td><td>borrowbutton</td>"
+                            + "<td>returnbutton</td></tr>"
+                            + "<tr id='tr-2'><td>descript</td><td>"
+                            + delete_button
+                            + "</td><td>updatebutton</td></tr>");
       },
       error: function(xhr, textStatus, errorThrown) {
         alert("There was a problem adding this tool");
