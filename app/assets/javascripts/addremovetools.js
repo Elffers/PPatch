@@ -24,7 +24,7 @@ $(document).ready(function() {
       dataType: 'json',
       data: {tool: {name: $("#tool_name").val(), description: $("#tool_description").val() }},
       success: function(data, textStatus, xhr) {
-        var delete_button = '<a class="delete" data-method="delete" href="/tools/'+ data.list_id +'/tools/' + data.id + '" rel="nofollow">delete</a>'
+        var delete_button = '<a class="delete" data-method="delete" href="/tools/'+  data.id + '" rel="nofollow">delete</a>'
         tools.append("<tr id='tr-1'><td>"
                             + data.name
                             + "</td><td>borrowbutton</td>"
@@ -46,8 +46,8 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $(".tools").on( "click", ".delete", function() {
-    var tool1 = $('#tr-1');
-    var tool2 = $('#tr-2');
+    var tool1 = $(this).parents('#tr-1');
+    var tool2 = $(this).parents('#tr-2');
 
     $.ajax({
       url: $(this).attr("href"),
