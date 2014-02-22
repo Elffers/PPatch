@@ -22,14 +22,16 @@ $(document).ready(function() {
       url: $(this).parents('#tool-form').attr("action"),
       type: 'POST',
       dataType: 'json',
-      data: {tool: {name: $("#tool_name").val() }},
+      data: {tool: {name: $("#tool_name").val(), description: $("#tool_description").val() }},
       success: function(data, textStatus, xhr) {
         var delete_button = '<a class="delete" data-method="delete" href="/tools/'+ data.list_id +'/tools/' + data.id + '" rel="nofollow">delete</a>'
         tools.append("<tr id='tr-1'><td>"
                             + data.name
                             + "</td><td>borrowbutton</td>"
                             + "<td>returnbutton</td></tr>"
-                            + "<tr id='tr-2'><td>descript</td><td>"
+                            + "<tr id='tr-2'><td>"
+                            + data.description
+                            + "</td><td>"
                             + delete_button
                             + "</td><td>updatebutton</td></tr>");
       },
