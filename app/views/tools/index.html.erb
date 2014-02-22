@@ -11,8 +11,19 @@
   <% end %>
 </ul>
 
-<div class='add_button'>
-  <% if current_user.admin == true %>
-    <%= link_to "Add tool", new_tool_path %>
+
+<% if current_user && current_user.admin == true %>
+<a class="add-tool-link">Add A Tool</a>
+<div id="add-tool-area">
+  <%= form_for([@tool, Tool.new], html: {:id => "tool-form"} ) do |f| %>
+      <div class="field">
+        <%= f.label :name %><br>
+        <%= f.text_field :name %>
+      </div>
+      <div class="actions">
+        <%= f.submit "Add to toolbox", class: "tool-action" %>
+      </div>
   <% end %>
+  </div>
+<% end %>
 </div>
