@@ -1,15 +1,17 @@
 <h1>Toolbox</h1>
 
-<ul>
-  <% @tools.each do |tool|%>
-  <li class="tool">
-    <%= tool.name %>
-    <% if tool.checkedin == true %>
-      <%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %>
-    <% end %>
-  </li>
+<table class="table table-striped">
+  <tbody class="items">
+    <% @tools.each do |tool|%>
+    <tr>
+      <td><%= tool.name %></td>
+      <% if current_user && current_user.admin = true %>
+      <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
+      <% end %>
+    </tr>
   <% end %>
-</ul>
+  </tbody>
+</table>
 
 
 <% if current_user && current_user.admin == true %>
