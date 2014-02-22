@@ -34,3 +34,22 @@ $(document).ready(function() {
     return false;
   });
 });
+
+
+$(document).ready(function() {
+  $(".tools").on( "click", ".delete", function() {
+    var tool = $(this).parents('tr');
+    $.ajax({
+      url: $(this).attr("href"),
+      type: 'DELETE',
+      dataType: 'json',
+    })
+    .done(function(){
+      tool.remove();
+    })
+  .fail(function(){
+    alert("you are a terrible person and i'm not deleting that");
+  });
+    return false;
+  });
+});
