@@ -6,13 +6,7 @@ class ToolsController < ApplicationController
 
   def index
     @tools = Tool.all
-  end
-
-  def new
-   @tool = Tool.new
-  end
-
-  def show
+    @tool = Tool.new
   end
 
   def create
@@ -72,7 +66,7 @@ class ToolsController < ApplicationController
   end
 
   private
-  
+
   def require_login
     redirect_to root_path, notice: "You must be signed in." if session[:user_id].nil?
   end
