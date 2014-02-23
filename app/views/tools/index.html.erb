@@ -18,7 +18,7 @@
     </tr>
     <tr class="tr-2">
       <td><%= tool.description %></td>
-        <% if current_user && current_user.admin == true %>
+        <% if current_user.try(:admin) %>
           <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
           <td>here is an update description thing </td>
         <% end %>
@@ -28,7 +28,7 @@
 </table>
 
 
-<% if @current_user.try(:admin) %>
+<% if current_user.try(:admin) %>
 <a class="add-tool-link">Add A Tool</a><br>
 <div id="add-tool-area">
   <%= form_for(@tool, html: {:id => "tool-form"} ) do |f| %>
@@ -47,5 +47,3 @@
   </div>
 <% end %>
 </div>
-
-
