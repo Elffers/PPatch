@@ -2,18 +2,28 @@
 
 <%= form_tag email_settings_path do %>
 
-  <%= check_box_tag(:new_post) %>
-  <%= label_tag(:new_post, "New blog post") %>
+  <div>
+    <%= check_box_tag(:new_post) %>
+    <%= label_tag(:new_post, "New blog post") %>
+  </div>
 
-  <%= check_box_tag(:rsvp_confirmation) %>
-  <%= label_tag(:rsvp_confirmation, "RSVP confirmation") %>
+  <div>
+    <%= check_box_tag(:rsvp_confirmation) %>
+    <%= label_tag(:rsvp_confirmation, "RSVP confirmation") %>
+  </div>
 
-  <%= check_box_tag(:event_update) %>
-  <%= label_tag(:event_update, "Event updates") %>
+  <div>
+    <%= check_box_tag(:event_update) %>
+    <%= label_tag(:event_update, "Event updates") %>
+  </div>
 
-  <%= check_box_tag(:event_cancellation) %>
-  <%= label_tag(:event_cancellation, "Event cancellaton") %>
-                                   
+  <div>
+    <%= check_box_tag(:event_cancellation) %>
+    <%= label_tag(:event_cancellation, "Event cancellaton") %>
+  </div>
+
+  <!-- checkbox/radio button for no email? -->
+                            
   <%= submit_tag("Save") %>
 <% end %>
 

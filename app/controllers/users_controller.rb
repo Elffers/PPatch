@@ -15,6 +15,8 @@ before_action :set_user, only: [:show, :update, :preferences]
   def email_settings
     @user = User.find(params[:id])
     @user.email_preferences = set_email_preferences
+    @user.save
+    flash.now.notice = "Email preferences saved!"
     render :show
   end
 
