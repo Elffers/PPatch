@@ -3,22 +3,22 @@
 <table>
   <tbody class="tools">
     <% @tools.each do |tool|%>
-    <tr id="tr-1">
+    <tr class="tr-1">
       <td><%= tool.name %></td>
           <% if tool.checkedin == true %>
             <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
             <td></td>
             <% elsif  current_user.tools.include?(tool) %>
             <td></td>
-            <td> here is where i put the return thing </td>
+            <td><%= link_to "Return", return_tool_path(tool), class: "return-tool" %></td>
             <% else %>
             <td><%= "Sorry, this tool is currently checked out" %></td>
             <td></td>
           <% end %>
     </tr>
-    <tr id="tr-2">
+    <tr class="tr-2">
       <td><%= tool.description %></td>
-        <% if current_user && current_user.admin = true %>
+        <% if current_user && current_user.admin == true %>
           <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
           <td>here is an update description thing </td>
         <% end %>
@@ -29,7 +29,7 @@
 
 
 <% if current_user && current_user.admin == true %>
-<a class="add-tool-link">Add A Tool</a>
+<a class="add-tool-link">Add A Tool</a><br>
 <div id="add-tool-area">
   <%= form_for(@tool, html: {:id => "tool-form"} ) do |f| %>
       <div class="field">

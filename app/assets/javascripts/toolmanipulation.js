@@ -1,3 +1,4 @@
+// show new tool area
 $(function() {
     $('#add-tool-area').hide();
 
@@ -12,7 +13,7 @@ $(function() {
   });
 });
 
-
+// post new tool
 $(document).ready(function() {
   $(".tool-action").click(function() {
 
@@ -25,11 +26,11 @@ $(document).ready(function() {
       data: {tool: {name: $("#tool_name").val(), description: $("#tool_description").val() }},
       success: function(data, textStatus, xhr) {
         var delete_button = '<a class="delete" data-method="delete" href="/tools/'+  data.id + '" rel="nofollow">delete</a>'
-        tools.append("<tr id='tr-1'><td>"
+        tools.append("<tr class='tr-1'><td>"
                             + data.name
                             + "</td><td>borrowbutton</td>"
                             + "<td>returnbutton</td></tr>"
-                            + "<tr id='tr-2'><td>"
+                            + "<tr class='tr-2'><td>"
                             + data.description
                             + "</td><td>"
                             + delete_button
@@ -43,11 +44,11 @@ $(document).ready(function() {
   });
 });
 
-
+// delete tool
 $(document).ready(function() {
   $(".tools").on( "click", ".delete", function() {
-    var tool1 = $(this).parents('#tr-1');
-    var tool2 = $(this).parents("#tr-2");
+    var tool2 = $(this).parents(".tr-2");
+    var tool1 = $(this).parents(".tr-2").prev("tr.tr-1");
 
     $.ajax({
       url: $(this).attr("href"),
@@ -64,3 +65,4 @@ $(document).ready(function() {
     return false;
   });
 });
+
