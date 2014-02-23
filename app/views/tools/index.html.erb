@@ -8,7 +8,7 @@
         <% if tool.checkedin == true %>
           <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
           <td></td>
-        <% elsif  current_user.tools.include?(tool) %>
+        <% elsif  current_user && current_user.tools.include?(tool) %>
           <td></td>
           <td><%= link_to "Return", return_tool_path(tool), class: "return-tool" %></td>
         <% else %>
@@ -28,7 +28,7 @@
 </table>
 
 
-<% if current_user && current_user.admin == true %>
+<% if @current_user.try(:admin) %>
 <a class="add-tool-link">Add A Tool</a><br>
 <div id="add-tool-area">
   <%= form_for(@tool, html: {:id => "tool-form"} ) do |f| %>
