@@ -12,6 +12,12 @@ before_action :set_user, only: [:show, :update, :preferences]
     @user = User.find(params[:id])
   end
 
+  def email_settings
+    @user = User.find(params[:id])
+    @user.email_preferences = set_email_preferences
+    render :show
+  end
+
   def update
     if @user.update(user_params)
       @user.email_preferences = {"registration" => "true", "event_update" => "true", "new_post" => "true"}
@@ -35,6 +41,11 @@ before_action :set_user, only: [:show, :update, :preferences]
   end
 
   def set_email_preferences
-    {"registration" => "true", "event_update" => "true", "new_post" => "true"}
+    email_options = ["new_post", "event_update", "event_cancellation", "rsvp_confirmation"]
+    email_preferences = {}
+    email_options.each do |preference|
+      email_preferences[preference] = "true" if params.has_key? preference
+    end
+    email_preferences
   end
 end

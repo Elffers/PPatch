@@ -1,9 +1,20 @@
-<h1>DO YOU WANT THE MAIL</h1>
+<h1>DO YOU WANT THE MAIL FOR</h1>
 
-<%=form_tag %>
+<%= form_tag email_settings_path do %>
 
-<%= check_box_tag(:pet_dog) %>
-<%= label_tag(:pet_dog, "I own a dog") %>
+  <%= check_box_tag(:new_post) %>
+  <%= label_tag(:new_post, "New blog post") %>
+
+  <%= check_box_tag(:rsvp_confirmation) %>
+  <%= label_tag(:rsvp_confirmation, "RSVP confirmation") %>
+
+  <%= check_box_tag(:event_update) %>
+  <%= label_tag(:event_update, "Event updates") %>
+
+  <%= check_box_tag(:event_cancellation) %>
+  <%= label_tag(:event_cancellation, "Event cancellaton") %>
+                                   
+  <%= submit_tag("Save") %>
 <% end %>
 
 <BR>
