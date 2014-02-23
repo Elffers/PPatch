@@ -5,16 +5,16 @@
     <% @tools.each do |tool|%>
     <tr class="tr-1">
       <td><%= tool.name %></td>
-          <% if tool.checkedin == true %>
-            <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
-            <td></td>
-            <% elsif  current_user.tools.include?(tool) %>
-            <td></td>
-            <td><%= link_to "Return", return_tool_path(tool), class: "return-tool" %></td>
-            <% else %>
-            <td><%= "Sorry, this tool is currently checked out" %></td>
-            <td></td>
-          <% end %>
+        <% if tool.checkedin == true %>
+          <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
+          <td></td>
+        <% elsif  current_user.tools.include?(tool) %>
+          <td></td>
+          <td><%= link_to "Return", return_tool_path(tool), class: "return-tool" %></td>
+        <% else %>
+          <td><%= "Sorry, this tool is currently checked out" %></td>
+          <td></td>
+        <% end %>
     </tr>
     <tr class="tr-2">
       <td><%= tool.description %></td>

@@ -9,7 +9,6 @@ $(document).ready(function() {
       dataType: 'json',
       success: function(data, textStatus, xhr) {
         tool.remove();
-        console.log("Tool borrowed!");
       },
       error: function(xhr, textStatus, errorThrown) {
         alert("There was a problem borrowing this tool!")
@@ -17,6 +16,4 @@ $(document).ready(function() {
     });
     return false
   });
-
-
 });
