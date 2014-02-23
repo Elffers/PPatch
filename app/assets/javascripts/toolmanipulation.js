@@ -26,7 +26,7 @@ $(document).ready(function() {
       data: {tool: {name: $("#tool_name").val(), description: $("#tool_description").val() }},
       success: function(data, textStatus, xhr) {
         var delete_button = '<a class="delete" data-method="delete" href="/tools/'+  data.id + '" rel="nofollow">delete</a>'
-        var borrow_button = '<a class="borrow-tool" data-method="patch" href="/tools/' + data.id + ' "rel="nofollow">borrow</a>'
+        var borrow_button = '<a class="borrow-tool" data-method="get" href="/tools/' + data.id + '/borrow" rel="nofollow">borrow</a>'
         tools.append("<tr class='tr-1'><td>"
                             + data.name
                             + "</td><td>"
