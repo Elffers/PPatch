@@ -22,8 +22,6 @@ before_action :set_user, only: [:show, :update, :preferences]
 
   def update
     if @user.update(user_params)
-      @user.email_preferences = {"registration" => "true", "event_update" => "true", "new_post" => "true"}
-      @user.save
       flash[:notice] = "Email successfully saved!"
       redirect_to root_path
     else
