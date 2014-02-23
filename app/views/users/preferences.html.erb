@@ -1,6 +1,32 @@
-gsdjhgkjashgkaf
+<h1>Receive email updates for:</h1>
 
-this is a modal
+<%= form_tag email_settings_path do %>
+
+  <div>
+    <%= check_box_tag(:new_post) %>
+    <%= label_tag(:new_post, "New blog posts") %>
+  </div>
+
+  <div>
+    <%= check_box_tag(:rsvp_confirmation) %>
+    <%= label_tag(:rsvp_confirmation, "Event RSVP confirmation") %>
+  </div>
+
+  <div>
+    <%= check_box_tag(:event_update) %>
+    <%= label_tag(:event_update, "Event updates") %>
+  </div>
+
+  <div>
+    <%= check_box_tag(:event_cancellation) %>
+    <%= label_tag(:event_cancellation, "Event cancellaton") %>
+  </div>
+
+  <!-- checkbox/radio button for no email? -->
+                            
+  <%= submit_tag("Save") %>
+<% end %>
+
 <BR>
 
 <%= link_to 'Cancel', user_path, :rel => "modal:close" %>

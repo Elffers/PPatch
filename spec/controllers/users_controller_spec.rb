@@ -15,11 +15,14 @@ describe UsersController do
     end
   end
 
-  describe "GET 'new'" do
-    it "returns http success" do
-      get 'new'
-      response.should be_success
+  describe "GET 'preferences'" do
+    it "should render partial" do
+      get 'preferences', id: user.id
+      expect(response).to render_template :preferences 
     end
+  end
+
+  describe "POST 'email settings" do
   end
 
 end

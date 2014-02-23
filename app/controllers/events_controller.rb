@@ -24,18 +24,10 @@ class EventsController < ApplicationController
 
   end
 
-  # def index
-  #   @events = Event.all
-  #   @events_by_date = @events.group_by(&:date)
-  #   @date = params[:date] ? Date.parse(params[:date]) : Date.today
-  # end
-
   def show
     @user = User.find(@event.host_id)
     @date = @event.date.to_time.strftime("%A, %B %d, %Y")
     @time = @event.time
-    #@event.time.in_time_zone('Pacific Time (US & Canada)').strftime("%l:%M %p")
-    # maybe save time as string?
   end
 
   def edit
