@@ -5,9 +5,6 @@ before_action :set_user, only: [:show, :update, :preferences]
     @user = User.find(params[:id])
   end
 
-  def new
-  end
-
   def preferences
     @user = User.find(params[:id])
   end
@@ -22,7 +19,7 @@ before_action :set_user, only: [:show, :update, :preferences]
 
   def update
     if @user.update(user_params)
-      flash[:notice] = "Email successfully saved!"
+      flash[:notice] = "Email address saved!"
       redirect_to root_path
     else
       flash[:notice] = @user.errors.full_messages.to_sentence

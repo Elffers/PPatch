@@ -1,7 +1,5 @@
 <% if params[:getting_started] %>
-  <%#= render :partial => "welcome/modal" %>
   <%= render 'modal'%>
-
 <% end %>
 
 <div class="content-inner">
@@ -12,7 +10,6 @@
       Welcome to The Wormhole! We're your friendly neighborhood gardening club. Join us to reserve tools, create events and rsvp, and get updates about the club.
     <% end %>
   </div>
-
 
   <div id="calendar-box">
 
@@ -59,35 +56,34 @@
 
 </div> <!-- closes content inner -->
 
-  <div class="sidebar">
+<div class="sidebar">
+  <div class="forecast">
+    <table>
+    <tr>
+      <td><%= "Current conditions:" %></td>
+      <td><%= "Today's conditions:" %></td>
+      <td><%= "Tomorrow's conditions:" %></td>
+    </tr>
+    <tr>
+      <td><%= " #{weather.current.temperature.f}°F" %><br><%= "#{weather.current.condition}" %></td>
+      <td><%= "#{weather.today.high.f}/#{weather.today.low.f} °F" %></td>
+      <td><%= "#{weather.tomorrow.high.f}/#{weather.tomorrow.low.f} °F" %></td>
+    </tr>
+    <tr>
+      <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.current.icon}.gif") %></td>
+      <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.tomorrow.icon}.gif") %></td>
+      <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.tomorrow.icon}.gif") %></td>
+    </tr>
+  </table>
+  </div>
 
-    <div class="forecast">
-      <table>
-      <tr>
-        <td><%= "Current conditions:" %></td>
-        <td><%= "Today's conditions:" %></td>
-        <td><%= "Tomorrow's conditions:" %></td>
-      </tr>
-      <tr>
-        <td><%= " #{weather.current.temperature.f}°F" %><br><%= "#{weather.current.condition}" %></td>
-        <td><%= "#{weather.today.high.f}/#{weather.today.low.f} °F" %></td>
-        <td><%= "#{weather.tomorrow.high.f}/#{weather.tomorrow.low.f} °F" %></td>
-      </tr>
-      <tr>
-        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.current.icon}.gif") %></td>
-        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.tomorrow.icon}.gif") %></td>
-        <td><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.tomorrow.icon}.gif") %></td>
-      </tr>
+  <div class="recentnews">
+    <table id="news-table">
+    <tr>Recent News </tr>
+     <% @news.each do |news| %>
+        <tr><h3> <%= news.title %></h3></tr>
+        <tr><%= truncate(news.body, length: 25) { link_to "Read More", post_path(news) } %></tr>
+      <% end %>
     </table>
-    </div>
-
-    <div class="recentnews">
-      <table id="news-table">
-      <tr>Recent News </tr>
-       <% @news.each do |news| %>
-          <tr><h3> <%= news.title %></h3></tr>
-          <tr><%= truncate(news.body, length: 25) { link_to "Read More", post_path(news) } %></tr>
-        <% end %>
-      </table>
-    </div>
+  </div>
 </div>

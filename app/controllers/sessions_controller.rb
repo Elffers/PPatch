@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-  # before_action :check_auth_hash
 
   def create
     auth_hash = request.env['omniauth.auth']
@@ -11,7 +10,7 @@ class SessionsController < ApplicationController
       else
         session[:user_id] = @user.id
         flash[:notice] = "You have logged in!"
-        redirect_to root_path #user show path
+        redirect_to root_path
       end
     else
       flash[:notice] = "You do not exist!"

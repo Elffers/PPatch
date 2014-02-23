@@ -1,15 +1,15 @@
-<h1>DO YOU WANT THE MAIL FOR</h1>
+<h1>Receive email updates for:</h1>
 
 <%= form_tag email_settings_path do %>
 
   <div>
     <%= check_box_tag(:new_post) %>
-    <%= label_tag(:new_post, "New blog post") %>
+    <%= label_tag(:new_post, "New blog posts") %>
   </div>
 
   <div>
     <%= check_box_tag(:rsvp_confirmation) %>
-    <%= label_tag(:rsvp_confirmation, "RSVP confirmation") %>
+    <%= label_tag(:rsvp_confirmation, "Event RSVP confirmation") %>
   </div>
 
   <div>
