@@ -10,7 +10,7 @@ mount Resque::Server.new, :at => "/resque"
   delete "/events/:id"        => "events#destroy"
   get "/events/:id/edit"      => "events#edit",       as: :edit_event
   get "/events/:id/rsvp"      => "events#rsvp",       as: :rsvp
-  get "/events/:id/flake"     => "events#flake",     as: :flake
+  get "/events/:id/flake"     => "events#flake",      as: :flake
 
 
   get "/blog"                 => "posts#index",       as: :posts
@@ -21,13 +21,13 @@ mount Resque::Server.new, :at => "/resque"
   patch "/blog/:id"           => "posts#update"
   delete "/blog/:id"          => "posts#destroy"
 
-  get "/users/:id"            => "users#show",        as: :user
-  patch "/users/:id" => "users#update", as: :update_user
-  get "/users/new"
-  get "/users/:id/preferences" => "users#preferences", as: :user_preferences
+  get "/users/:id"            => "users#show",            as: :user
+  patch "/users/:id"          => "users#update",          as: :update_user
+  get "/users/:id/settings"   => "users#preferences",     as: :user_preferences
+  post "/users/:id/email"     => "users#email_settings",  as: :email_settings
 
 
-  get "/signout"              => "sessions#destroy",  as: :sign_out
+  get "/signout"              => "sessions#destroy",      as: :sign_out
 
   resources :tools
 
