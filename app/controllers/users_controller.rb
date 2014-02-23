@@ -6,7 +6,13 @@ before_action :set_user, only: [:show, :update, :preferences]
   end
 
   def preferences
-    @user = User.find(params[:id])
+    if @user.email
+      @user = User.find(params[:id])
+    else
+      flash.now.notice = "You must register a valid email address!"
+      redirect_to user_path(@user)
+      # render partial:'/welcome/modal' #this doesn't work
+    end
   end
 
   def email_settings
