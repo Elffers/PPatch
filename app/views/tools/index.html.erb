@@ -20,7 +20,7 @@
       <td><%= tool.description %></td>
         <% if current_user.try(:admin) %>
           <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
-          <td>here is an update description thing </td>
+          <td>this will become an ajax update button </td>
         <% end %>
     </tr>
     <% end %>

@@ -36,7 +36,7 @@ $(document).ready(function() {
                             + data.description
                             + "</td><td>"
                             + delete_button
-                            + "</td><td>updatebutton</td></tr>");
+                            + "</td><td>this will become an ajax update button</td></tr>");
       },
       error: function(xhr, textStatus, errorThrown) {
         alert("There was a problem adding this tool");
