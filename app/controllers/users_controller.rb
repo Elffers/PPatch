@@ -10,6 +10,8 @@ class UsersController < ApplicationController
       flash.now.notice = "You must register a valid email address!"
       # render partial:'/welcome/modal' 
       redirect_to user_path(@user)
+      # redirect_to root_path(getting_started: true)
+
     end
   end
 
