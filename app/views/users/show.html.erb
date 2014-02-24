@@ -5,8 +5,13 @@
   </div>
   <ul>
     <li>Email: <%= @user.email %></li>
-    <li>Phone: <%= @user.phone %></li>
-    <li>Email Preferences: <%= @user.email_preferences %></li>
+    <li>You are signed up to receive emails for:
+      <ul>
+        <% @user.email_preferences.each_key do |preference| %>
+          <li><%=preference.gsub(/_/, " ")%></li>
+        <% end %>
+      </ul>
+    </li>
   </ul>
 </div>
 
