@@ -51,7 +51,6 @@ $(function(){
   });
 });
 
-
 $(document ).ready(function() {
     $("#demo-form").modal()
 });
