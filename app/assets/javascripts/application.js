@@ -34,6 +34,22 @@ $(function(){
   });
 });
 
+$(function(){
+  $('#profile_nav ul li a').on('click', function(e){
+    e.preventDefault();
+    var content = $(this).attr('href');
+
+    $('#profiletabs ul li a').removeClass('sel');
+    $(this).addClass('sel');
+
+    $('#user_show section').each(function(){
+      if(!$(this).hasClass('hidden')) { $(this).addClass('hidden'); }
+    });
+
+    $(content).removeClass('hidden');
+  });
+});
+
 
 $(document ).ready(function() {
     $("#demo-form").modal()
