@@ -66,10 +66,9 @@ describe UsersController do
         user.update(email: nil, email_preferences: nil)
       end
 
-      xit 'should render email update partial' do
+      it 'should render email update partial' do
         get 'preferences', id: user.id
-        p user
-        expect(response).to render_template partial:'welcome/modal'
+        expect(response).to render_template partial:'_modal'
       end 
 
       it 'sets flash message' do
