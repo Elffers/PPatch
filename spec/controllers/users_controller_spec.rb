@@ -48,6 +48,11 @@ describe UsersController do
         expect(flash[:notice]).to eq "Email preferences saved!"
       end
 
+      it 'should change user email preferences' do
+        post :email_settings, id: user.id
+        expect(user.email_preferences).to eq email_preferences
+      end
+
     end
 
     context 'if user does not have email saved' do
