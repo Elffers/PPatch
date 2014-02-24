@@ -6,46 +6,48 @@ class ToolsController < ApplicationController
 
   def index
     @tools = Tool.all
-  end
-
-  def new
-   @tool = Tool.new
-  end
-
-  def show
+    @tool = Tool.new
   end
 
   def create
     @tool  = Tool.new(tool_params)
     if @tool.save
-      flash[:notice] = "Tool has been successfully created."
-      redirect_to tools_path
+       respond_to do |format|
+
+        format.html { redirect_to tools_path }
+        format.json { render json: @tool.as_json }
+      end
     else
-      flash[:notice] = "There was a problem saving the tool."
-      render :new
+      redirect_to tools_path
     end
   end
+
 
   def update
     @tool.update(tool_params)
     if @tool.save
-      flash[:notice] = "Tool has been successfully updated."
-      redirect_to tools_path
-    else
-      flash[:notice] = "There was a problem saving the tool."
-     redirect_to tools_path
+      if @tool.save
+
+        respond_to do |format|
+          format.html { redirect_to :back }
+          format.json { render json: @tool.as_json }
+        end
+      else
+        render :back
     end
   end
+end
 
   def destroy
     @tool.destroy
-    flash[:notice] = "Tool has been successfully deleted."
-    redirect_to tools_path
+    respond_to do |format|
+        format.html { redirect_to :back }
+        format.json { head :no_content }
+      end
   end
 
   def borrow
     if @tool.checkedin == true
-      # @tool.update(checkedin: false, user_id: current_user.id)
       if @tool.update(checkedin: false, user_id: current_user.id)
         respond_to do |format|
           format.html { redirect_to tools_path, notice: "You have successfully checked out #{@tool.name}!"  }
@@ -72,7 +74,7 @@ class ToolsController < ApplicationController
   end
 
   private
-  
+
   def require_login
     redirect_to root_path, notice: "You must be signed in." if session[:user_id].nil?
   end

@@ -1,15 +1,14 @@
 $(document).ready(function() {
-  
-// removing an item
+
+// borrowing tool
   $(".borrow-tool").click(function(event) {
-    var list = $(this).parents('li'); 
+    var tool = $(this).parents('td');
     $.ajax({
-      url: $('.borrow-tool').attr("href"), 
-      type: 'GET', 
+      url: $('.borrow-tool').attr("href"),
+      type: 'GET',
       dataType: 'json',
-      success: function(data, textStatus, xhr) { 
-        list.remove();
-        console.log("Tool borrowed!"); 
+      success: function(data, textStatus, xhr) {
+        tool.remove();
       },
       error: function(xhr, textStatus, errorThrown) {
         alert("There was a problem borrowing this tool!")
@@ -17,6 +16,4 @@ $(document).ready(function() {
     });
     return false
   });
-
-  
-}); 
+});
