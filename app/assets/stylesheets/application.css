@@ -149,6 +149,10 @@ nav ul li:hover {
   border: 1px solid black;
 }
 
+.profile-tab h1 {
+  text-align: center;
+}
+
 .profile-tab li {
   list-style: none;
 }
