@@ -10,41 +10,37 @@
 
   <body>
     <header></header>
-      <nav>
-        <ul>
-          <li><a href="/"><%= image_tag("worm_guy2.png") %><div id="page-title">The Wormhole</div>
-            </a></li>
-          <li><a href="/blog">News</a></li>
-          <li> Current Weather:<br><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.current.icon}.gif") %></li>
-          <% if current_user %>
-            <li>Signed in as:<br><%= link_to "#{current_user.name}", user_path(current_user) %></li>
-            <li><a href="/signout" class="button">Sign out</a></li>
-          <% else %>
-            <li><a href="/auth/twitter">Sign in:</a><br><%= link_to (image_tag "twitter_green_small.png"), '/auth/twitter', title: "Twitter" %></li>
-          <% end %>
-        </ul>
-      </nav>
+    <nav>
+      <ul>
+        <li><a href="/"><%= image_tag("worm_guy2.png") %><div id="page-title">The Wormhole</div>
+          </a></li>
+        <li><a href="/blog">News</a></li>
+        <li> Current Weather:<br><%= image_tag("http://icons.wxug.com/i/c/k/#{weather.current.icon}.gif") %></li>
+        <% if current_user %>
+          <li>Signed in as:<br><%= link_to "#{current_user.name}", user_path(current_user) %></li>
+          <li><a href="/signout" class="button">Sign out</a></li>
+        <% else %>
+          <li><a href="/auth/twitter">Sign in:</a><br><%= link_to (image_tag "twitter_green_small.png"), '/auth/twitter', title: "Twitter" %></li>
+        <% end %>
+      </ul>
+    </nav>
 
-  <div class="container">
+    <div class="container">
+      <div id="flash_notice"><%= flash[:notice] %></div>
+      <%= yield %>
+      <br style="clear:both;">
+    </div>
 
-    <div id="flash_notice"><%= flash[:notice] %></div>
+    <script type="text/javascript">
+    var disqus_shortname = 'thewormholeherokuappcom';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
 
-    <%= yield %>
-
-    <br style="clear:both;">
-  </div>
-
-
-  <script type="text/javascript">
-  var disqus_shortname = 'thewormholeherokuappcom';
-  (function () {
-      var s = document.createElement('script'); s.async = true;
-      s.type = 'text/javascript';
-      s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-      (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-  }());
-  </script>
-
-</body>
+  </body>
 </html>
 

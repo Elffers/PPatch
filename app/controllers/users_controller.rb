@@ -11,7 +11,6 @@ class UsersController < ApplicationController
       # render partial:'/welcome/modal' 
       redirect_to user_path(@user)
       # redirect_to root_path(getting_started: true)
-
     end
   end
 
