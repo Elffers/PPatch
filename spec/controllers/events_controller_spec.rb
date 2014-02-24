@@ -3,19 +3,6 @@ require 'spec_helper'
 describe EventsController do
   let!(:user){ create(:user) }
 
-  # describe "GET 'index'" do
-  #   it "returns http success" do
-  #     get 'index'
-  #     response.should be_success
-  #   end
-
-  #   it "shows all events" do
-  #     event = create(:event, host_id: user.id)
-  #     get 'index'
-  #     expect(assigns(:events)).to eq([event])
-  #   end
-  # end #end GET index
-
   describe "GET 'show'" do
     let(:event){ create(:event, host_id: user.id)}
     it "returns http success" do
@@ -27,7 +14,7 @@ describe EventsController do
       get 'show', id: event.id
       expect(assigns(:event)).to_not be_nil
     end
-  end #end GET show
+  end
 
   describe "GET 'new'" do
     context 'if logged in' do
@@ -52,7 +39,7 @@ describe EventsController do
         expect(flash[:notice]).to eq "You must be signed in."
       end
     end
-  end # end GET new
+  end 
 
   describe "POST 'create'" do
     context 'if logged in' do
@@ -71,10 +58,6 @@ describe EventsController do
           post :create, event: create(:event, host_id: user.id).attributes 
           expect(flash[:notice]).to eq "Event added!"
         end
-
-        # it 'increases user event count by 1' do
-        #   expect { post :create, event: build(:event).attributes }.to change(user.events, :count).by(1)
-        # end
 
         it 'changes event count by 1' do
           expect {post :create, event: build(:event, host_id: user.id).attributes }.to change(Event, :count).by(1)
@@ -122,7 +105,7 @@ describe EventsController do
         expect {post :create, event: build(:event).attributes }.to change(Event, :count).by(0)
       end
     end
-  end #end POST create
+  end 
 
   describe "GET 'edit'" do
     let(:event){create(:event, host_id: user.id) }
@@ -159,7 +142,6 @@ describe EventsController do
           expect(flash[:notice]).to eq "You are not authorized to edit this event!" 
         end
       end
-
     end
 
     context 'if not logged in' do
@@ -173,7 +155,7 @@ describe EventsController do
         expect(flash[:notice]).to eq "You must be signed in."
       end
     end
-  end # end GET edit
+  end 
 
   describe "PATCH 'update'" do
     let!(:event){create(:event, host_id: user.id) }
@@ -269,8 +251,7 @@ describe EventsController do
         expect(flash[:notice]).to eq "You must be signed in."
       end
     end
-
-  end #end patch update
+  end
 
   describe 'DELETE destroy' do
     let!(:event){ create(:event, host_id: user.id) }
@@ -482,7 +463,6 @@ describe EventsController do
           get :rsvp, id: event.id
           expect(flash[:notice]).to eq "You have already RSVP'd for this event!"
         end
-
       end
     end
   end
@@ -548,8 +528,7 @@ describe EventsController do
           expect(flash[:notice]).to eq "You can't flake from your own event!"
         end
       end
-    end
-    
+    end  
   end
     
 end

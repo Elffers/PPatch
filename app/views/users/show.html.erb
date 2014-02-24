@@ -1,7 +1,3 @@
-<%# if params[:getting_started] %>
-  <%#= render 'welcome/modal'%>
-<%# end %>
-
 <div class='profile'>
   <div>
     <%= image_tag "#{@user.avatar_url}" %>
@@ -40,6 +36,5 @@
     <% end %>
   </ul>
 </div>
-
 
 <%=  link_to_modal "Update Email Settings", user_preferences_path, :class=>"button" %>

@@ -50,10 +50,7 @@ describe UsersController do
         post :update, id: user_with_same_email.id, user: {email: "example@test.com"}
         expect(response).to redirect_to root_path(getting_started: true)
       end
-  
     end
-
-
   end
 
   describe "GET 'preferences'" do

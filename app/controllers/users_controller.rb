@@ -1,14 +1,12 @@
 class UsersController < ApplicationController
-before_action :set_user, only: [:show, :update, :preferences, :update_email_settings]
+  before_action :set_user, only: [:show, :update, :preferences, :update_email_settings]
 
   def show
     @user = User.find(params[:id])
   end
 
   def preferences
-    if @user.email
-      @user = User.find(params[:id])
-    else
+    unless @user.email
       flash.now.notice = "You must register a valid email address!"
       # render partial:'/welcome/modal' 
       redirect_to user_path(@user)
@@ -49,8 +47,8 @@ before_action :set_user, only: [:show, :update, :preferences, :update_email_sett
   def email_settings
     email_options = ["new_post", "event_update", "event_cancellation", "rsvp_confirmation"]
     preferences = {}
-    email_options.each do |preference|
-      preferences[preference] = "true" if params.has_key? preference
+    email_options.each do |option|
+      preferences[option] = "true" if params.has_key? option
     end
     preferences
   end
