@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-before_action :set_user, only: [:show, :update, :preferences]
+before_action :set_user, only: [:show, :update, :preferences, :email_settings]
 
   def show
     @user = User.find(params[:id])
@@ -10,17 +10,24 @@ before_action :set_user, only: [:show, :update, :preferences]
       @user = User.find(params[:id])
     else
       flash.now.notice = "You must register a valid email address!"
+      raise
+      # render partial:'/welcome/modal' 
       redirect_to user_path(@user)
-      # render partial:'/welcome/modal' #this doesn't work
     end
   end
 
   def email_settings
-    @user = User.find(params[:id])
-    @user.email_preferences = set_email_preferences
-    @user.save
-    flash.now.notice = "Email preferences saved!"
-    render :show
+    if @user.email
+      # @user.update_email_settings
+      # this should be refactored into the model
+      @user.email_preferences = set_email_preferences
+      @user.save
+      flash.now.notice = "Email preferences saved!"
+      render :show
+    else
+      flash.notice = "You must register a valid email address!"
+      redirect_to user_path(@user)
+    end
   end
 
   def update

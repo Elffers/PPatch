@@ -36,6 +36,35 @@ describe UsersController do
   end
 
   describe "POST 'email settings" do
+    context 'if user has saved email address' do
+      let(:email_preferences){ {"new_post" => "true"} } #use stub here for set_email preference?
+      it 'should render show' do
+        post :email_settings, id: user.id
+        expect(response).to render_template :show
+      end
+
+      it 'should set flash message' do
+        post :email_settings, id: user.id
+        expect(flash[:notice]).to eq "Email preferences saved!"
+      end
+
+    end
+
+    context 'if user does not have email saved' do
+      before(:each) do
+        user.update(email: nil, email_preferences: nil)
+      end
+
+      it 'should redirect to user show' do
+        post :email_settings, id: user.id
+        expect(response).to redirect_to user_path(user)
+      end
+
+      it 'should set flash message' do
+        post :email_settings, id: user.id
+        expect(flash[:notice]).to eq "You must register a valid email address!"
+      end
+    end
   end
 
 end
