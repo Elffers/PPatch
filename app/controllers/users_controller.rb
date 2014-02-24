@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-before_action :set_user, only: [:show, :update, :preferences, :email_settings]
+before_action :set_user, only: [:show, :update, :preferences, :update_email_settings]
 
   def show
     @user = User.find(params[:id])
@@ -16,12 +16,9 @@ before_action :set_user, only: [:show, :update, :preferences, :email_settings]
     end
   end
 
-  def email_settings
+  def update_email_settings
     if @user.email
-      # @user.update_email_settings
-      # this should be refactored into the model
-      @user.email_preferences = set_email_preferences
-      @user.save
+      @user.update_email_preferences(email_settings)
       flash.now.notice = "Email preferences saved!"
       render :show
     else
@@ -50,12 +47,12 @@ before_action :set_user, only: [:show, :update, :preferences, :email_settings]
     @user = User.find(params[:id])
   end
 
-  def set_email_preferences
+  def email_settings
     email_options = ["new_post", "event_update", "event_cancellation", "rsvp_confirmation"]
-    email_preferences = {}
+    preferences = {}
     email_options.each do |preference|
-      email_preferences[preference] = "true" if params.has_key? preference
+      preferences[preference] = "true" if params.has_key? preference
     end
-    email_preferences
+    preferences
   end
 end

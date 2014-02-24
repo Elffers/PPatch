@@ -24,7 +24,7 @@ mount Resque::Server.new, :at => "/resque"
   get "/users/:id"            => "users#show",            as: :user
   patch "/users/:id"          => "users#update",          as: :update_user
   get "/users/:id/settings"   => "users#preferences",     as: :user_preferences
-  post "/users/:id/email"     => "users#email_settings",  as: :email_settings
+  post "/users/:id/email"     => "users#update_email_settings",  as: :email_settings
 
 
   get "/signout"              => "sessions#destroy",      as: :sign_out

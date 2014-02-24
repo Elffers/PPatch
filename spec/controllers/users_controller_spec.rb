@@ -39,17 +39,17 @@ describe UsersController do
     context 'if user has saved email address' do
       let(:email_preferences){ {"new_post" => "true"} } #use stub here for set_email preference?
       it 'should render show' do
-        post :email_settings, id: user.id
+        post :update_email_settings, id: user.id
         expect(response).to render_template :show
       end
 
       it 'should set flash message' do
-        post :email_settings, id: user.id
+        post :update_email_settings, id: user.id
         expect(flash[:notice]).to eq "Email preferences saved!"
       end
 
       it 'should change user email preferences' do
-        post :email_settings, id: user.id
+        post :update_email_settings, id: user.id
         expect(user.email_preferences).to eq email_preferences
       end
 
@@ -61,12 +61,12 @@ describe UsersController do
       end
 
       it 'should redirect to user show' do
-        post :email_settings, id: user.id
+        post :update_email_settings, id: user.id
         expect(response).to redirect_to user_path(user)
       end
 
       it 'should set flash message' do
-        post :email_settings, id: user.id
+        post :update_email_settings, id: user.id
         expect(flash[:notice]).to eq "You must register a valid email address!"
       end
     end

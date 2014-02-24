@@ -36,4 +36,11 @@ class User < ActiveRecord::Base
     nil
   end
 
+  def update_email_preferences(settings)
+    self.email_preferences = settings
+    self.save
+  rescue ActiveRecord::RecordInvalid
+    nil
+  end
+
 end
