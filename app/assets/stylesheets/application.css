@@ -146,11 +146,11 @@ nav ul li:hover {
   width: 50%;
   margin-right: auto;
   margin-left: auto;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
 }
 
 .profile-tab h1 {
-  text-align: center;
+  text-align: center; 
 }
 
 .profile-tab li {
