@@ -1,18 +1,49 @@
 <h1>Toolbox</h1>
 
-<ul>
-  <% @tools.each do |tool|%>
-  <li class="tool">
-    <%= tool.name %>
-    <% if tool.checkedin == true %>
-      <%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %>
+<table>
+  <tbody class="tools">
+    <% @tools.each do |tool|%>
+    <tr class="tr-1">
+      <td><%= tool.name %></td>
+        <% if tool.checkedin == true %>
+          <td><%= link_to "Borrow", borrow_tool_path(tool), class: "borrow-tool" %></td>
+          <td></td>
+        <% elsif  current_user && current_user.tools.include?(tool) %>
+          <td></td>
+          <td><%= link_to "Return", return_tool_path(tool), class: "return-tool" %></td>
+        <% else %>
+          <td><%= "Sorry, this tool is currently checked out" %></td>
+          <td></td>
+        <% end %>
+    </tr>
+    <tr class="tr-2">
+      <td><%= tool.description %></td>
+        <% if current_user.try(:admin) %>
+          <td><%= link_to "delete",  tool_path(tool), class: "delete", method: :delete %></td>
+          <td>this will become an ajax update button </td>
+        <% end %>
+    </tr>
     <% end %>
-  </li>
-  <% end %>
-</ul>
+  </tbody>
+</table>
 
-<div class='add_button'>
-  <% if current_user.admin == true %>
-    <%= link_to "Add tool", new_tool_path %>
+
+<% if current_user.try(:admin) %>
+<a class="add-tool-link">Add A Tool</a><br>
+<div id="add-tool-area">
+  <%= form_for(@tool, html: {:id => "tool-form"} ) do |f| %>
+      <div class="field">
+        <%= f.label :name %><br>
+        <%= f.text_field :name %>
+      </div>
+      <div class="field">
+        <%= f.label :description %><br>
+        <%= f.text_field :description %>
+      </div>
+      <div class="actions">
+        <%= f.submit "Add to toolbox", class: "tool-action" %>
+      </div>
   <% end %>
+  </div>
+<% end %>
 </div>
