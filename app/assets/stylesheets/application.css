@@ -195,9 +195,11 @@ nav ul li:hover {
 }
 
 #flash_notice {
-  border: 1px solid black;
+  /*border: 1px solid black;*/
+  font-weight: 500;
+  font-size: 24px;
   text-align: center;
-  color: seagreen;
+  color: cornsilk;
 }
 
 /*BREAKPOINT STUFFFFFF*/
