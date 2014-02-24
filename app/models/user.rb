@@ -16,10 +16,6 @@ class User < ActiveRecord::Base
 
   scope :set_recipients, -> (action){ where("email_preferences -> '#{action}' = 'true'") }
 
-  # def self.set_recipients(action)
-  #   User.where("email_preferences -> '#{action}' = 'true'") #hstore syntax
-  # end
-
   def self.find_or_create_from_omniauth(auth_hash)
     User.find_by(uid: auth_hash[:uid]) || User.create_from_omniauth(auth_hash)
   end

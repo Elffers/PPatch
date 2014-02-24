@@ -10,7 +10,6 @@ before_action :set_user, only: [:show, :update, :preferences, :update_email_sett
       @user = User.find(params[:id])
     else
       flash.now.notice = "You must register a valid email address!"
-      raise
       # render partial:'/welcome/modal' 
       redirect_to user_path(@user)
     end

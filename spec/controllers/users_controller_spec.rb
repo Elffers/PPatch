@@ -15,6 +15,47 @@ describe UsersController do
     end
   end
 
+  describe "POST 'update'" do
+    let(:user){ create(:user, email: nil)}
+    let(:email_address){ "example@test.com"}
+
+    context 'if user updates' do
+
+      it 'should redirect to root' do
+        post :update, id: user.id, user: {email: email_address}
+        expect(response).to redirect_to root_path
+      end
+
+      it 'should upddate email address' do
+        post :update, id: user.id, user: {email: email_address}
+        expect(assigns(:user).email).to eq email_address
+      end
+
+       it 'sets flash message' do
+        post :update, id: user.id, user: {email: email_address}
+        expect(flash[:notice]).to eq "Email address saved!"
+      end
+    end
+
+    context 'if user fails to update' do
+      let!(:user){ create(:user, email: "example@test.com")}
+      let!(:user_with_same_email){ create(:user, email:nil) }
+
+      it 'sets flash message' do
+        post :update, id: user_with_same_email.id, user: {email: "example@test.com"}
+        expect(flash[:notice]).to eq "Email has already been taken"
+      end
+
+      it 'redirects to home and render partial' do
+        post :update, id: user_with_same_email.id, user: {email: "example@test.com"}
+        expect(response).to redirect_to root_path(getting_started: true)
+      end
+  
+    end
+
+
+  end
+
   describe "GET 'preferences'" do
     context 'if user has saved email address' do
       it "should render partial" do
@@ -27,11 +68,17 @@ describe UsersController do
       before(:each) do
         user.update(email: nil, email_preferences: nil)
       end
+
       xit 'should render email update partial' do
         get 'preferences', id: user.id
         p user
         expect(response).to render_template partial:'welcome/modal'
       end 
+
+      it 'sets flash message' do
+        get 'preferences', id: user.id
+        expect(flash[:notice]).to eq "You must register a valid email address!"
+      end
     end
   end
 
