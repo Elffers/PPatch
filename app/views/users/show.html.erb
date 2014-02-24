@@ -1,47 +1,71 @@
-<div class='profile'>
-  <div>
-    <%= image_tag "#{@user.avatar_url}" %>
-    <h1><%= @user.name %></h1>
-  </div>
-  <ul>
-    <li>Email: <%= @user.email %></li>
-    <li>You are signed up to receive emails for:
-      <ul>
-        <% if @user.email_preferences %>
-          <% @user.email_preferences.each_key do |preference| %>
-            <li><%=preference.gsub(/_/, " ")%></li>
+<% if params[:getting_started] %>
+  <%= render 'welcome/modal'%>
+<% end %>
+
+<div id="user-show">
+
+  <nav id="profile-nav">
+    <ul>
+      <li><a href="#profile" class="sel">Profile</a></li>
+      <li><a href="#rsvp-events">My Events</a></li>
+      <li><a href="#borrowed-tools">My Tools</a></li>
+    </ul>
+  </nav>
+
+  <section id='profile'>
+    <div class='profile-tab'>
+      <div>
+        <%= image_tag "#{@user.avatar_url}" %>
+        <h1><%= @user.name %></h1>
+      </div>
+      <div>
+        <h3>Email: <%= @user.email %></h3>
+        <h4>You are signed up to receive emails for:</h4>
+          <ul>
+            <% if @user.email_preferences %>
+              <% @user.email_preferences.each_key do |preference| %>
+                <li><%=preference.gsub(/_/, " ")%></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      <div>
+       <%=  link_to_modal "Update Email Settings", user_preferences_path, :class=>"button" %>
+      </div>
+    </div>
+  </section>
+
+  <section id='rsvp-events' class="hidden">
+    <div class='profile-tab'>
+      <div>
+        <h1>Events</h1>
+        <% @user.events.each do |event| %>
+        <div class='event-item'>
+          <h4><%= link_to "#{event.name.capitalize}", event_path(event) %></h4>
+          <p><%= event.date.to_time.strftime("%A, %B %d, %Y") %></p>
+          <%= link_to "I'm a flake", flake_path(event), :class=>"button" %>
+        </div>
+      <% end %>
+    </div>
+    </div>
+  </section>
+
+  <section id='borrowed-tools' class="hidden">
+    <div class='profile-tab'>
+      <div>
+        <h1>Borrowed Tools</h1>
+        <% if @user.tools.empty? %>
+          <h3>Your toolbox is empty!</h3>
+        <% else %>
+          <% @user.tools.each do |tool| %>
+          <div class='tool-item'>
+            <%= link_to "#{tool.name.capitalize}", tool_path(tool) %>
+            <%= link_to "Return", return_tool_path(tool) %>
+          </div>
           <% end %>
         <% end %>
-      </ul>
-    </li>
-  </ul>
-</div>
+      </div>
+    </div>
+  </section>
 
-<div class='rsvp-events'>
-  <h3>Events</h3>
-  <ul>
-    <% @user.events.each do |event| %>
-      <li>
-        <h4><%= link_to "#{event.name.capitalize}", event_path(event) %></h4>
-        <%= event.date.to_time.strftime("%A, %B %d, %Y") %>
-      </li>
-      <li>
-        <%= link_to "I'm a flake", flake_path(event), :class=>"button" %>
-      </li>
-    <% end %>
-  </ul>
 </div>
-
-<div class='borrowed-tools'>
-  <h3>Borrowed Tools</h3>
-  <ul>
-    <% @user.tools.each do |tool| %>
-    <li>
-      <%= link_to "#{tool.name.capitalize}", tool_path(tool) %>
-      <%= link_to "Return", return_tool_path(tool) %>
-    </li>
-    <% end %>
-  </ul>
-</div>
-
-<%=  link_to_modal "Update Email Settings", user_preferences_path, :class=>"button" %>

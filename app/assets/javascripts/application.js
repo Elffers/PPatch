@@ -34,6 +34,22 @@ $(function(){
   });
 });
 
+$(function(){
+  $('#profile-nav ul li a').on('click', function(e){
+    e.preventDefault();
+    var content = $(this).attr('href');
+
+    $('#profile-nav ul li a').removeClass('sel');
+    $(this).addClass('sel');
+
+    $('#user-show section').each(function(){
+      if(!$(this).hasClass('hidden')) { $(this).addClass('hidden'); }
+      // $(this).removeClass('hidden');
+    });
+
+    $(content).removeClass('hidden');
+  });
+});
 
 $(document ).ready(function() {
     $("#demo-form").modal()

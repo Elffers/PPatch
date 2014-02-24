@@ -6,12 +6,9 @@ class UsersController < ApplicationController
   end
 
   def preferences
-    unless @user.email
+    if !@user.email
       flash.now.notice = "You must register a valid email address!"
-      # render partial:'/welcome/modal' 
-      redirect_to user_path(@user)
-      # redirect_to root_path(getting_started: true)
-
+      render partial: "welcome/modal"
     end
   end
 

@@ -23,6 +23,7 @@ gem 'heroku_resque_autoscaler'
 
 group :development, :test do
   gem "rspec-rails"
+  gem "guard-rspec"
   gem "factory_girl_rails"
   gem 'better_errors'
   gem 'binding_of_caller'
