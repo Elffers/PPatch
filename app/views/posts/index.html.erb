@@ -1,3 +1,4 @@
+<div id="news-posts">
 <h1>BLAHG</h1>
 <ul>
   <% @posts.each do |post|%>
@@ -8,13 +9,16 @@
     </span>
     <div class='owner-links'>
     <% if current_user == post.user %>
-      <%= link_to "Edit", edit_post_path(post) %>
-      <%= link_to "Delete", post_path(post), method: :delete %>
+      <%= link_to "Edit", edit_post_path(post), :class=>"button" %>
+      <%= link_to "Delete", post_path(post), method: :delete, :class=>"button" %>
     <% end %>
+    <br>
+    <br>
   </div>
   </li>
   <% end %>
 </ul>
-
-<%= link_to "Add post", new_post_path %>
-
+<br>
+<br>
+<%= link_to "Add post", new_post_path, :class=>"button" %>
+</div>

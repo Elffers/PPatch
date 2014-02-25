@@ -11,6 +11,7 @@
     <% end %>
   </div>
 
+
   <div id="calendar-box">
 
     <nav id="profiletabs">
@@ -78,10 +79,11 @@
   </div>
 
   <div class="recentnews">
+  <hr>
     <table id="news-table">
-    <tr>Recent News </tr>
+    <tr><h3>Recent News</h3></tr>
      <% @news.each do |news| %>
-        <tr><h3> <%= news.title %></h3></tr>
+        <tr><h4> <%= news.title %></h4></tr>
         <tr><%= truncate(news.body, length: 25) { link_to "Read More", post_path(news) } %></tr>
       <% end %>
     </table>
