@@ -6,10 +6,21 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="js/banner.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="js/modernizr.custom.41769.js"></script>
   </head>
 
   <body>
-    <header></header>
+    <header>
+
+    <div id="wrapper" class="wrapper">
+                <canvas id="canvas-banner" class="inactive">
+                    <img src="images/fallback2.png" />
+                </canvas>
+            </div>
+
+            </header>
     <nav>
       <ul>
         <li><a href="/"><%= image_tag("worm_guy2.png") %><div id="page-title">The Wormhole</div>
