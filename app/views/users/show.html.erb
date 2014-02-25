@@ -15,21 +15,24 @@
   <section id='profile'>
     <div class='profile-tab'>
       <div>
-        <%= image_tag "#{@user.avatar_url}" %>
-        <h1><%= @user.name %></h1>
-      </div>
+        <h1><%= image_tag "#{@user.avatar_url}" %>
+        <%= @user.name %></h1>
+      </div><br>
       <div>
         <h3>Email: <%= @user.email %></h3>
-        <h4>You are signed up to receive emails for:</h4>
-          <ul>
+
+          <ul><br>
             <% if @user.email_preferences %>
+            <h4>You are signed up to receive emails for:</h4>
               <% @user.email_preferences.each_key do |preference| %>
                 <li><%=preference.gsub(/_/, " ")%></li>
               <% end %>
+              <% else %>
+              <h4>You are not signed up to receive emails.</h4>
             <% end %>
           </ul>
         </div>
-      <div>
+      <div><br>
        <%=  link_to_modal "Update Email Settings", user_preferences_path, :class=>"button" %>
       </div>
     </div>
