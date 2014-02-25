@@ -1,9 +1,8 @@
 <% if params[:getting_started] %>
   <%= render 'welcome/modal'%>
 <% end %>
-
+<br>
 <div id="user-show">
-
   <nav id="profile-nav">
     <ul>
       <li><a href="#profile" class="sel">Profile</a></li>
@@ -11,6 +10,7 @@
       <li><a href="#borrowed-tools">My Tools</a></li>
     </ul>
   </nav>
+  <br>
 
   <section id='profile'>
     <div class='profile-tab'>
@@ -45,7 +45,7 @@
         <% @user.events.each do |event| %>
         <div class='event-item'>
           <h4><%= link_to "#{event.name.capitalize}", event_path(event) %></h4>
-          <p><%= event.date.to_time.strftime("%A, %B %d, %Y") %></p>
+          <p><%= event.date.to_time.strftime("%A, %B %d, %Y") %></p><br>
           <%= link_to "I'm a flake", flake_path(event), :class=>"button" %>
         </div>
       <% end %>
@@ -56,19 +56,19 @@
   <section id='borrowed-tools' class="hidden">
     <div class='profile-tab'>
       <div>
-        <h1>Borrowed Tools</h1>
-        <% if @user.tools.empty? %>
-          <h3>Your toolbox is empty!</h3>
-        <% else %>
-          <% @user.tools.each do |tool| %>
-          <div class='tool-item'>
-            <%= link_to "#{tool.name.capitalize}", tool_path(tool) %>
-            <%= link_to "Return", return_tool_path(tool) %>
-          </div>
+      <table>
+        <tbody>
+          <th><h1>Borrowed Tools</h1></th><tr>
+            <% if @user.tools.empty? %>
+              <h3>Your toolbox is empty!</h3></tr>
+            <% else %><tr>
+              <% @user.tools.each do |tool| %>
+              <div class='tool-item'>
+              <td><%= link_to "#{tool.name.capitalize}", tool_path(tool) %></td>
+              <td><%= link_to "Return", return_tool_path(tool), :class=>"button" %></td></tr></div>
           <% end %>
         <% end %>
       </div>
     </div>
   </section>
-
 </div>
