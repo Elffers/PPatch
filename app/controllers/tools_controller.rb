@@ -10,33 +10,28 @@ class ToolsController < ApplicationController
   end
 
   def create
-    @tool  = Tool.new(tool_params)
+    @tool = Tool.new(tool_params)
     if @tool.save
-       respond_to do |format|
-
+      respond_to do |format|
         format.html { redirect_to tools_path }
-        format.json { render json: @tool.as_json }
+        format.json { render json: @tool }
       end
     else
       redirect_to tools_path
     end
   end
 
-
   def update
     @tool.update(tool_params)
     if @tool.save
-      if @tool.save
-
-        respond_to do |format|
-          format.html { redirect_to :back }
-          format.json { render json: @tool.as_json }
-        end
-      else
-        render :back
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.json { render json: @tool }
+      end
+    else
+      render :back
     end
   end
-end
 
   def destroy
     @tool.destroy

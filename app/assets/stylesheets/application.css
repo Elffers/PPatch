@@ -202,6 +202,22 @@ nav ul li:hover {
   color: cornsilk;
 }
 
+
+#news-posts {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  border: 1px solid black;
+}
+
+#news-posts h1 {
+  text-align: center;
+}
+
+#news-posts li {
+  list-style: none;
+}
+
 /*BREAKPOINT STUFFFFFF*/
 /* background image*/
 
