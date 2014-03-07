@@ -10,7 +10,7 @@ class ToolsController < ApplicationController
   end
 
   def create
-    @tool  = Tool.new(tool_params)
+    @tool = Tool.new(tool_params)
     if @tool.save
       respond_to do |format|
         format.html { redirect_to tools_path }
