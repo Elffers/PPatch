@@ -8,13 +8,14 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :events, through: :rsvps
   has_many :tools
-  store_accessor :email_preferences,  :registration,
-                                      :new_post,
-                                      :rsvp_confirmation,
-                                      :event_update,
-                                      :event_cancellation
+  store_accessor  :email_preferences,
+                  :registration,
+                  :new_post,
+                  :rsvp_confirmation,
+                  :event_update,
+                  :event_cancellation
 
-  scope :set_recipients, -> (action){ where("email_preferences -> '#{action}' = 'true'") }
+  scope :set_recipients, -> (action) { where("email_preferences -> '#{action}' = 'true'") }
 
   def self.find_or_create_from_omniauth(auth_hash)
     User.find_by(uid: auth_hash[:uid]) || User.create_from_omniauth(auth_hash)
@@ -34,9 +35,8 @@ class User < ActiveRecord::Base
 
   def update_email_preferences(settings)
     self.email_preferences = settings
-    self.save
+    save
   rescue ActiveRecord::RecordInvalid
     nil
   end
-
 end
