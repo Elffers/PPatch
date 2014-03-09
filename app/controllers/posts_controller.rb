@@ -13,7 +13,7 @@ class PostsController < ApplicationController
   end
 
   def new
-   @post = Post.new
+    @post = Post.new
   end
 
   def create
@@ -72,7 +72,7 @@ class PostsController < ApplicationController
 
   def valid_user
     unless session[:user_id] == @post.user_id
-      flash[:notice] = "You are not authorized to edit this post!" 
+      flash[:notice] = "You are not authorized to edit this post!"
       redirect_to posts_path
     end
   end
@@ -82,5 +82,4 @@ class PostsController < ApplicationController
       Resque.enqueue(EmailJob, post.id, recipient.id)
     end
   end
-  
 end

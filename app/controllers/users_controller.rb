@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def preferences
-    if !@user.email
+    unless @user.email
       flash.now.notice = "You must register a valid email address!"
       render partial: "welcome/modal"
     end
@@ -44,10 +44,10 @@ class UsersController < ApplicationController
   end
 
   def email_settings
-    email_options = ["new_post", "event_update", "event_cancellation", "rsvp_confirmation"]
+    email_options = %w[new_post event_update event_cancellation rsvp_confirmation]
     preferences = {}
     email_options.each do |option|
-      preferences[option] = "true" if params.has_key? option
+      preferences[option] = "true" if params.key? option
     end
     preferences
   end

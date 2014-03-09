@@ -11,17 +11,15 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.host_id = current_user.id
-
     begin
       current_user.events << @event
       # send_email(@event)?
       flash[:notice] = "Event added!"
       redirect_to event_path(@event)
-    rescue ActiveRecord::RecordInvalid 
+    rescue ActiveRecord::RecordInvalid
       flash[:notice] = "There was a problem saving your event."
       render :new
     end
-
   end
 
   def show
@@ -45,8 +43,8 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    cancellation_update_email(@event) #put in resque
-    Rsvp.where(event_id: @event.id).each {|rsvp| rsvp.destroy}
+    cancellation_update_email(@event) # put in resque
+    Rsvp.where(event_id: @event.id).each { |rsvp| rsvp.destroy }
     @event.destroy
     redirect_to root_path
   end
@@ -83,7 +81,7 @@ class EventsController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def event_params
     params.require(:event).permit(:venue, :time, :description, :name, :date)
@@ -95,14 +93,14 @@ class EventsController < ApplicationController
 
   def require_login
     unless session[:user_id]
-      flash[:notice] = "You must be signed in." 
+      flash[:notice] = "You must be signed in."
       redirect_to root_path
     end
   end
 
   def valid_user
     unless session[:user_id] == @event.host_id
-      flash[:notice] = "You are not authorized to edit this event!" 
+      flash[:notice] = "You are not authorized to edit this event!"
       redirect_to root_path
     end
   end
@@ -110,7 +108,6 @@ class EventsController < ApplicationController
   def set_rsvp
     @rsvp = Rsvp.find_by(user_id: current_user.id, event_id: @event.id)
   end
-
 
   def cancellation_update_email(event)
     User.set_recipients("event_cancellation").each do |recipient|
@@ -130,5 +127,4 @@ class EventsController < ApplicationController
       Resque.enqueue(RsvpJob, event.id, recipient.id)
     end
   end
-
 end

@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-
   def create
     auth_hash = request.env['omniauth.auth']
     if auth_hash[:uid]
@@ -22,5 +21,4 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_path
   end
-
 end

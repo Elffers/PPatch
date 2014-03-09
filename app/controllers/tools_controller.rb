@@ -1,7 +1,7 @@
 class ToolsController < ApplicationController
   before_action :current_user
   before_action :require_login, except: [:show, :index]
-  before_action :require_admin, only: [:new, :create, :destroy] #need edit, update
+  before_action :require_admin, only: [:new, :create, :destroy] # need edit, update
   before_action :set_tool, only: [:show, :update, :destroy, :borrow, :return]
 
   def index
@@ -36,9 +36,9 @@ class ToolsController < ApplicationController
   def destroy
     @tool.destroy
     respond_to do |format|
-        format.html { redirect_to :back }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to :back }
+      format.json { head :no_content }
+    end
   end
 
   def borrow
