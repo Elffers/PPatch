@@ -1,7 +1,7 @@
 Pea Patch Planner
 =================
 
-##ADA Week 14-15 Project
+##[ADA Week 14-15 Project](https://github.com/Ada-Developers-Academy/daily-curriculum/blob/master/week14/p_patch_planner.md)
 
 ## Goals
 - Successful pair programming experience
