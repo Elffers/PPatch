@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
   def update_email_settings
     if @user.email
-      @user.update_email_preferences(email_settings)
+      # @user.update_email_preferences(email_settings)
       flash.now.notice = "Email preferences saved!"
       render :show
     else
